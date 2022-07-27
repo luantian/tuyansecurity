@@ -1,27 +1,17 @@
 <template>
   <el-header class="align-center header">
     <div class="flex1 align-center animate__animated animate__fadeInDown">
-      <div class="logo" :style="`background: url(${$bus.user.dr_unit_logo}) center no-repeat;background-size: contain;`"></div>
+      <div class="logo"
+           :style="`background: url(${$bus.user.dr_unit_logo}) center no-repeat;background-size: contain;`"></div>
       <div class="f18 ">{{$bus.user.dr_unit_platform_name || '智慧消防平台'}}</div>
-<!--      <div class="f18 ">{{ $map.data_types[$store.state.dr_data_type] }}</div>-->
-      <!--            <div class="ml10 center">-->
-      <!--                <i class="el-icon-setting bw set-btn" title="设置" @click="showDia = true"></i>-->
-      <!--                &lt;!&ndash;  <el-button slot="reference" icon="el-icon-setting" type="text" style="color: #fff;" class="animate__animated animate__fadeInDown"> </el-button> &ndash;&gt;-->
-      <!--            </div>-->
     </div>
     <div class="right-menu align-center">
-      <!-- <el-popover width="200" trigger="hover">
-        <div>
-          <img src="@/assets/img/erv.png" alt="" style="max-width: 200px">
-          <div class="mt10 tx-center">联系方式：<span class="blue">15588667442</span></div>
-        </div>
-        <el-button slot="reference" icon="el-icon-phone-outline" type="text" style="color: #fff;"
-                   class="animate__animated animate__fadeInDown">咨询
-        </el-button>
-      </el-popover> -->
-      <el-button type="primary" size="small" @click="$router.push($bus.user.dr_is_admin=='commonly'?'/alert':'/home')">返回首页</el-button>
-      
-      <div v-show="weather.temperature" class="main_weather animate__animated animate__fadeInDown ml20"
+      <el-button type="primary"
+                 size="small"
+                 @click="$router.push($bus.user.dr_is_admin=='commonly'?'/alert':'/home')">返回首页</el-button>
+
+      <div v-show="weather.temperature"
+           class="main_weather animate__animated animate__fadeInDown ml20"
            style="margin-right: 20px;">
         <template>
           <div class="flex">
@@ -32,7 +22,8 @@
               <div class="ssd">
                 {{ weather.weather }}
               </div>
-              <div class="tq" style="margin-left: 3px">
+              <div class="tq"
+                   style="margin-left: 3px">
                 {{ weather.temperature }} ℃
               </div>
             </div>
@@ -47,54 +38,100 @@
           </div>
         </template>
       </div>
-      <div style="margin-right: 50px;width: 175px" class="f14 ml20 animate__animated animate__fadeInRight">{{ nowTime }}
+      <div style="margin-right: 50px;width: 175px"
+           class="f14 ml20 animate__animated animate__fadeInRight">{{ nowTime }}
       </div>
       <!--      <div class="ml20">{{ $store.state.userInfo.dr_user_name || 'Admin' }}</div>-->
-      <el-dropdown class="avatar-container" trigger="hover" @command="clickDown">
+      <el-dropdown class="avatar-container"
+                   trigger="hover"
+                   @command="clickDown">
         <div class="avatar-wrapper align-center cursor">
-          <i class="el-icon-user-solid" style="color:#fff;font-size:16px"></i>
+          <i class="el-icon-user-solid"
+             style="color:#fff;font-size:16px"></i>
           <span class="c-f ml5">{{ $bus.user.dr_user_name||'' }}</span>
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
+        <el-dropdown-menu slot="dropdown"
+                          class="user-dropdown">
           <el-dropdown-item command="1">修改密码</el-dropdown-item>
           <el-dropdown-item command="2">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
 
-    <el-dialog :close-on-click-modal="false" title="修改密码" :visible.sync="showDia1" width="500px" :append-to-body="true">
-      <el-form ref="sform" :model="sform" label-width="80px" :rules="rules">
-        <el-form-item label="密码" prop="dr_login_pass">
-          <el-input v-model="sform.dr_login_pass" size="small" type="password" clearable></el-input>
+    <el-dialog :close-on-click-modal="false"
+               title="修改密码"
+               :visible.sync="showDia1"
+               width="500px"
+               :append-to-body="true">
+      <el-form ref="sform"
+               :model="sform"
+               label-width="80px"
+               :rules="rules">
+        <el-form-item label="密码"
+                      prop="dr_login_pass">
+          <el-input v-model="sform.dr_login_pass"
+                    size="small"
+                    type="password"
+                    clearable></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="dr_login_pass_">
-          <el-input v-model="sform.dr_login_pass_" size="small" type="password" clearable></el-input>
+        <el-form-item label="确认密码"
+                      prop="dr_login_pass_">
+          <el-input v-model="sform.dr_login_pass_"
+                    size="small"
+                    type="password"
+                    clearable></el-input>
         </el-form-item>
       </el-form>
       <div class="center mt20">
-        <el-button type="primary" @click="Submit" size="small">保存</el-button>
-        <el-button @click="showDia1 = false" size="small">取消</el-button>
+        <el-button type="primary"
+                   @click="Submit"
+                   size="small">保存</el-button>
+        <el-button @click="showDia1 = false"
+                   size="small">取消</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog :close-on-click-modal="false" title="系统配置" :visible.sync="showDia" width="500px" :append-to-body="true">
-      <el-form ref="sform" :model="sform" label-width="110px" :rules="rules">
-        <el-form-item label="系统名称" prop="name">
-          <el-input placeholder="请输入" v-model="sform.name" maxlength="12" show-word-limit size="small"></el-input>
+    <el-dialog :close-on-click-modal="false"
+               title="系统配置"
+               :visible.sync="showDia"
+               width="500px"
+               :append-to-body="true">
+      <el-form ref="sform"
+               :model="sform"
+               label-width="110px"
+               :rules="rules">
+        <el-form-item label="系统名称"
+                      prop="name">
+          <el-input placeholder="请输入"
+                    v-model="sform.name"
+                    maxlength="12"
+                    show-word-limit
+                    size="small"></el-input>
         </el-form-item>
-        <el-form-item label="系统Logo" prop="logo">
+        <el-form-item label="系统Logo"
+                      prop="logo">
           <!-- <el-input placeholder="系统Logo" v-model="sform.logo"></el-input> -->
-          <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/"
-                     :headers="{'token':$store.state.token}" :show-file-list="false" :on-success="handleAvatarSuccess"
+          <el-upload class="avatar-uploader"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :headers="{'token':$store.state.token}"
+                     :show-file-list="false"
+                     :on-success="handleAvatarSuccess"
                      accept="image/*">
-            <img v-if="sform.logo" :src="sform.logo" class="avatar" title="点击更换logo">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <img v-if="sform.logo"
+                 :src="sform.logo"
+                 class="avatar"
+                 title="点击更换logo">
+            <i v-else
+               class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
       </el-form>
       <div class="center mt20">
-        <el-button type="primary" @click="Submit" size="small">保存</el-button>
-        <el-button @click="showDia = false" size="small">取消</el-button>
+        <el-button type="primary"
+                   @click="Submit"
+                   size="small">保存</el-button>
+        <el-button @click="showDia = false"
+                   size="small">取消</el-button>
       </div>
     </el-dialog>
 
@@ -102,11 +139,11 @@
   </el-header>
 </template>
 <script>
-import {getTime, getWeather} from '../api/common.js'
+import { getTime, getWeather } from '../api/common.js'
 
 export default {
   components: {},
-  data() {
+  data () {
     return {
       showDia: false,
       showDia1: false,
@@ -120,30 +157,30 @@ export default {
         dr_login_pass_: ''
       },
       rules: {
-        dr_login_pass: [{required: true, message: '不能为空', trigger: 'blur'}],
-        dr_login_pass_: [{required: true, message: '不能为空', trigger: 'blur'}]
+        dr_login_pass: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        dr_login_pass_: [{ required: true, message: '不能为空', trigger: 'blur' }]
       },
     }
   },
-  created() {
+  created () {
     this.setTime()
     this.setWeather();
 
   },
   methods: {
-    changeSys(value) {
+    changeSys (value) {
       window.location.href = `/?data_type=${value}#/home?reload=1`
       //window.location.reload()
     },
-    clickDown(name) {
+    clickDown (name) {
       if (name == 1) {
         this.showDia1 = true
       }
-      else if(name==2){
+      else if (name == 2) {
         this.logout()
       }
     },
-    setTime() {
+    setTime () {
       let timeLine = Date.now()
       this.nowTime = new Date(timeLine).Format('yy年MM月dd日 hh:mm:ss')
 
@@ -153,7 +190,7 @@ export default {
       }, 1000)
 
     },
-    setWeather() {
+    setWeather () {
       getWeather({
         key: 'c2033986fe11749475852e35030fe835',
         city: '370200',
@@ -165,7 +202,7 @@ export default {
         this.winddirectionIcon = this.getwind(this.weather.winddirection)
       })
     },
-    getweatherName(text) { //获取天气ICON名
+    getweatherName (text) { //获取天气ICON名
       var map = {
         "雨": 'rain',
         '晴': 'day-sunny',
@@ -185,7 +222,7 @@ export default {
       }
       return null
     },
-    getwind(text) { //获取风向
+    getwind (text) { //获取风向
       var map = {
         '东': 'e',
         '南': 's',
@@ -198,19 +235,19 @@ export default {
       }
       return str.split('').reverse().join('')
     },
-    showForm() {
+    showForm () {
       this.showDia = true
       this.$nextTick(() => {
         this.$refs.sform.resetFields()
       })
     },
-    Submit() {
+    Submit () {
       let _this = this
       this.$refs.sform.validate((valid) => {
         if (valid) {
           if (this.sform.dr_login_pass === this.sform.dr_login_pass_) {
             this.showDia1 = false
-            this.$post('/v1/dr/update-user', {dr_login_pass: this.sform.dr_login_pass,dr_user_uuid:this.$bus.user.dr_user_uuid}).then(res => {
+            this.$post('/v1/dr/update-user', { dr_login_pass: this.sform.dr_login_pass, dr_user_uuid: this.$bus.user.dr_user_uuid }).then(res => {
               this.$message.success('修改成功')
               this.sform = {
                 dr_login_pass: '',
@@ -229,10 +266,10 @@ export default {
       })
 
     },
-    handleAvatarSuccess(res, file) {
+    handleAvatarSuccess (res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
-    logout() {
+    logout () {
       //this.$post('/dr/v1/logout')
       //this.$store.commit('clearUser')
       this.$db.remove('user')
@@ -252,12 +289,10 @@ export default {
   height: 30px;
   background: url('~@/assets/img/out.png') center no-repeat;
   background-size: contain;
-
 }
 
-
 .avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
+  border-color: #409eff;
 }
 
 .avatar-uploader-icon {
@@ -320,7 +355,7 @@ export default {
 
 .header {
   border-bottom: 1px solid #ddd;
-  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
   z-index: 6;
 }
 
@@ -339,10 +374,10 @@ export default {
 
     &.hover-effect {
       cursor: pointer;
-      transition: background .3s;
+      transition: background 0.3s;
 
       &:hover {
-        background: rgba(0, 0, 0, .025)
+        background: rgba(0, 0, 0, 0.025);
       }
     }
   }
@@ -358,7 +393,6 @@ export default {
         height: 20px;
         border-radius: 50%;
       }
-
     }
   }
 }
