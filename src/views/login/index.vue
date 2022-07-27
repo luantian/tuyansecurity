@@ -68,7 +68,6 @@ export default {
     }
   },
   mounted() {
-
   },
   created() {
     if (this.$db.get('token')) {
