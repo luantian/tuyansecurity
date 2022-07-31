@@ -64,7 +64,8 @@ export default {
         dr_sort: 4
       }]
       this.$get('/v1/dr/get-menu').then(res => {
-        
+        console.log('res')
+        console.log(res)
         this.menu = res.data
         this.setMenu()
         this.noAccess = false

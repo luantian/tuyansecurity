@@ -391,20 +391,18 @@ export default {
         this.logout()
       }
     },
-    /**
-     * 登出
-     */
     logout() {
+      //this.$post('/dr/v1/logout')
+      //this.$store.commit('clearUser')
       this.$db.remove('user')
       this.$db.remove('token')
       this.$bus.user = {}
       this.$router.replace({
         path: '/login'
       });
+      // window.location.href = 'https://sso.tuyanplat.com/#/choose'
+      
     },
-    /**
-     * 修改密码提交操作
-     */
     Submit() {
       let _this = this
       this.$refs.sform.validate((valid) => {
@@ -535,7 +533,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./index.scss";
+@import "./index.css";
 
 .home-root .home-container {
   padding-top: 80px;
@@ -545,4 +543,12 @@ export default {
 .home-wrapper {
   height: calc(100vh - 80px);
 }
+
+// .home-root .home-container{
+//   padding-top: 0px;
+//   background: rgb(27, 32, 51);
+// }
+// .home-wrapper{
+//   height: calc(100vh - 6vw);
+// }
 </style>
