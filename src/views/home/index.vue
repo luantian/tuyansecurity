@@ -1,94 +1,6 @@
 <template>
 <div class="home-root" id="gss">
   <div>
-    <!-- <bheader></bheader> -->
-    <div class="app-header-container is-fixed" style="left: 0px;">
-      <div class="app-header-content">
-        <div class="header-logo-title">
-          <div class="app-logo-container"><img :src="$bus.user.dr_unit_logo" class="logo-img">
-            <div class="logo-name">{{$bus.user.dr_unit_platform_name || '智慧消防平台'}}</div>
-          </div>
-          <div class="user-handler-help-wrap">
-            <a href="/#/monitorCenter" target="_blank">
-              <div class="go-monitor-center-btn">大屏监控</div>
-            </a>
-            <div id=localtime class="ml10" style="font-size:12px;width:170px;margin-right:10px" v-html="time"></div>
-            <el-dropdown class="avatar-container" trigger="hover" @command="clickDown">
-              <div class="avatar-wrapper align-center cursor">
-                <i class="el-icon-user-solid" style="color:#fff;font-size:18px"></i>
-                <span class="c-f ml5">{{ $bus.user.dr_user_name||'' }}</span>
-              </div>
-              <el-dropdown-menu slot="dropdown" class="user-dropdown">
-                <el-dropdown-item command="1">修改密码</el-dropdown-item>
-                <el-dropdown-item command="2">退出登录</el-dropdown-item>
-                <!-- <el-dropdown-item command="2">返回系统选取页</el-dropdown-item> -->
-              </el-dropdown-menu>
-            </el-dropdown>
-            <el-dialog :close-on-click-modal="false" title="修改密码" :visible.sync="showDia1" width="500px" :append-to-body="true">
-              <el-form ref="sform" :model="sform" label-width="80px" :rules="rules">
-                <el-form-item label="密码" prop="dr_login_pass">
-                  <el-input v-model="sform.dr_login_pass" size="small" type="password" clearable></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="dr_login_pass_">
-                  <el-input v-model="sform.dr_login_pass_" size="small" type="password" clearable></el-input>
-                </el-form-item>
-              </el-form>
-              <div class="center mt20">
-                <el-button type="primary" @click="Submit" size="small">保存</el-button>
-                <el-button @click="showDia1 = false" size="small">取消</el-button>
-              </div>
-            </el-dialog>
-          </div>
-        </div>
-        <div class="header-menu-list">
-          <div class="app-header-nav">
-            <div class="nav-item active">
-              <div data-index="0" class="nav-item-title">
-                首页
-              </div>
-            </div>
-            <div class="nav-item" @click="open('/#/alarm')">
-              <div data-index="2" class="nav-item-title">
-                数据监测
-              </div>
-            </div>
-            <div class="nav-item" @click="$router.push('/area/areaManagement')">
-              <div data-index="5" class="nav-item-title">
-                单位管理
-              </div>
-            </div>
-            <div class="nav-item" @click="$router.push('/check')">
-              <div data-index="5" class="nav-item-title">
-                日常检查
-              </div>
-            </div>
-            <!-- <div class="nav-item">
-              <div data-index="7" class="nav-item-title">
-                数据中心
-                <i class="el-icon-arrow-down"></i></div>
-              <div data-index="7" class="sub-nav">
-                <div class="sub-nav-item">
-                  报警信息
-                </div>
-                <div class="sub-nav-item">
-                  隐患信息
-                </div>
-                <div class="sub-nav-item">
-                  报警统计
-                </div>
-                <div class="sub-nav-item">
-                  设备统计
-                </div>
-                <div class="sub-nav-item">
-                  运营报表
-                </div>
-              </div>
-            </div> -->
-            
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="home-container">
       <div class="home-wrapper">
         <cmap ref="map" @warn="newWarn" @showDetail="showDetail"></cmap>
@@ -491,7 +403,10 @@ export default {
         page: 1,
         dr_notice_status: 1
       }).then(res => {
-        this.$bus.warnInfo = res.data.list.slice(0, 4)
+        console.log('res', res.data.list, res.data.list.length)
+        this.$bus.warnInfo = res.data.list;
+        // this.$bus.warnInfo = res.data.list.slice(0, 4);
+        console.log(this.$bus.warnInfo.length)
       })
     },
     showDetail(it) {
@@ -543,7 +458,6 @@ export default {
 @import "./index.scss";
 
 .home-root .home-container {
-  padding-top: 80px;
   background: rgb(27, 32, 51);
 }
 

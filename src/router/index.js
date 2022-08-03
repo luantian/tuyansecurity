@@ -53,7 +53,7 @@ export const constantRoutes = [{
         name: 'home1',
         component: () =>
             import ('@/views/home/index'),
-        meta: { noNav: true, hidden: true }
+        // meta: { noNav: true, hidden: true }
     },
     {
         path: '/',
@@ -143,7 +143,8 @@ export const constantRoutes = [{
         name: 'check',
         component: () =>
             import ('@/views/home/check'),
-        meta: { title: '日常检查', noNav: true, hidden: true }
+        // meta: { title: '日常检查', noNav: true, hidden: true }
+        meta: { title: '日常检查' }
     },
     {
         path: '/area/areaManagement',
@@ -178,32 +179,32 @@ export const constantRoutes = [{
         component: () =>
             import ('@/views/alert/index'),
         name: 'alert',
-        hidden: true,
-        meta: { noNav: true, hidden: true }
+        // hidden: true,
+        meta: { noNav: true, hidden: false }
     },
     {
         path: '/monitorCenter',
         component: () =>
             import ('@/views/monitorCenter/index'),
         name: 'monitorCenter',
-        hidden: true,
-        meta: { noNav: true, hidden: true }
+        // hidden: true,
+        meta: { noNav: true, hidden: false }
     },
     {
         path: '/wulian',
         component: () =>
             import ('@/views/wulian/index'),
         name: 'wulian',
-        hidden: true,
-        meta: { noNav: true, hidden: true }
+        // hidden: true,
+        meta: { noNav: true, hidden: false }
     },
     {
         path: '/alarm',
         component: () =>
             import ('@/views/alarm/index'),
         name: 'alarm',
-        hidden: true,
-        meta: { noNav: true, hidden: true }
+        // hidden: true,
+        meta: { noNav: true, hidden: false }
     },
     
     {

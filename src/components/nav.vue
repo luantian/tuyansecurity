@@ -56,6 +56,40 @@ export default {
       this.navList = [{
         dr_level: 1,
         dr_parent_key: "",
+        dr_power_href: "/home",
+        dr_power_icon: "el-icon-notebook-2",
+        dr_power_name: "首页",
+        dr_self_key: "3fa19b14fc224206bc123ab64c368017",
+        dr_son: [],
+        dr_sort: 4
+      },
+      {
+        dr_level: 1,
+        dr_parent_key: "",
+        dr_power_href: "/alarm",
+        dr_power_icon: "el-icon-notebook-2",
+        dr_power_name: "数据检测",
+        dr_self_key: "3fa19b14fc224206bc123ab64c368017",
+        dr_son: [
+          
+        ],
+        dr_sort: 4
+      },
+      {
+        dr_level: 1,
+        dr_parent_key: "",
+        dr_power_href: "/check",
+        dr_power_icon: "el-icon-notebook-2",
+        dr_power_name: "日常检查",
+        dr_self_key: "3fa19b14fc224206bc123ab64c368317",
+        dr_son: [
+          
+        ],
+        dr_sort: 4
+      },
+      {
+        dr_level: 1,
+        dr_parent_key: "",
         dr_power_href: "/area/areaManagement",
         dr_power_icon: "el-icon-notebook-2",
         dr_power_name: "单位管理",

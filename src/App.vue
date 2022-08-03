@@ -1,35 +1,44 @@
 <template>
-<div id="app">
-  <el-container id="dark" v-if="!page.meta.noNav&&page.name">
-    <v-header></v-header>
-    <el-container :style="{ height: pageSize.height - 60 + 'px' }">
-      <v-nav></v-nav>
-      <div class="flex1" :style="{ width: pageSize.width - 230 + 'px' }">
-        <el-scrollbar :style="{ height: pageSize.height - 60 + 'px' }" class="el-scroll">
-          <el-main>
-            <el-card shadow="always" :style="{ minHeight: pageSize.height - 100 + 'px' }" :body-style="{ padding: '0px'}">
-              <keep-alive>
-                <router-view :key="page.fullPath" v-if="page.meta.keepAlive && isRouterAlive"></router-view>
-              </keep-alive>
-              <transition mode="out-in">
-                <router-view :key="page.fullPath" v-if="!page.meta.keepAlive && isRouterAlive"></router-view>
-              </transition>
-            </el-card>
+  <div id="app">
+    <el-container id="dark"
+                  v-if="!page.meta.noNav&&page.name">
+      <v-header></v-header>
 
-            <!-- <keep-alive>
+      <el-container :style="{ height: pageSize.height - 60 + 'px' }">
+        <v-nav></v-nav>
+        <div class="flex1"
+             :style="{ width: pageSize.width - 230 + 'px' }">
+          <el-scrollbar :style="{ height: pageSize.height - 60 + 'px' }"
+                        class="el-scroll">
+            <el-main>
+              <el-card shadow="always"
+                       :style="{ minHeight: pageSize.height - 100 + 'px' }"
+                       :body-style="{ padding: '0px'}">
+                <keep-alive>
+                  <router-view :key="page.fullPath"
+                               v-if="page.meta.keepAlive && isRouterAlive"></router-view>
+                </keep-alive>
+                <transition mode="out-in">
+                  <router-view :key="page.fullPath"
+                               v-if="!page.meta.keepAlive && isRouterAlive"></router-view>
+                </transition>
+              </el-card>
+
+              <!-- <keep-alive>
                 <router-view :key="page.fullPath" v-if="page.meta.keepAlive&&isRouterAlive"></router-view>
               </keep-alive>
               <transition mode="out-in">
                 <router-view :key="page.fullPath" v-if="!page.meta.keepAlive&&isRouterAlive"></router-view>
               </transition> -->
-          </el-main>
-        </el-scrollbar>
-      </div>
+            </el-main>
+          </el-scrollbar>
+        </div>
+      </el-container>
+      <!-- <Message v-if="!page.hidden" :type="'def'" /> -->
     </el-container>
-    <!-- <Message v-if="!page.hidden" :type="'def'" /> -->
-  </el-container>
-  <router-view :key="page.fullPath" v-if="page.meta.noNav" />
-</div>
+    <router-view :key="page.fullPath"
+                 v-if="page.meta.noNav" />
+  </div>
 </template>
 
 <script>
@@ -43,7 +52,7 @@ export default {
     vNav,
     Message
   },
-  data() {
+  data () {
     return {
       pageSize: {},
       isRouterAlive: true,
@@ -52,18 +61,18 @@ export default {
       }
     };
   },
-  provide() {
+  provide () {
     return {
       reload: this.reload,
     };
   },
   watch: {
-    '$route'(val) {
+    '$route' (val) {
       this.page = val
       console.log(this.page);
     }
   },
-  created() {
+  created () {
     //console.log(this.$route);
     this.pageSize = {
       //页面宽高
@@ -72,7 +81,7 @@ export default {
     };
   },
 
-  mounted() {
+  mounted () {
     this.$video.addLanguage('zh-CN', {
       "Play": "播放",
       "Pause": "暂停",
@@ -164,7 +173,7 @@ export default {
     });
   },
   methods: {
-    reload() {
+    reload () {
       this.isRouterAlive = false;
       this.$nextTick(function () {
         this.isRouterAlive = true;
@@ -175,8 +184,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./assets/weather-icons/css/weather-icons.min.css";
-@import "./assets/weather-icons/css/weather-icons-wind.css";
+@import './assets/weather-icons/css/weather-icons.min.css';
+@import './assets/weather-icons/css/weather-icons-wind.css';
 //@import "./styles/dark.scss";
 #dark {
   flex-direction: column;
