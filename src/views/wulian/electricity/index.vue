@@ -111,13 +111,16 @@ var color = ["#74FFF3", "#5E8FFF"],
   ];
 import moment from "moment";
 export default {
-  props: ["unit"],
+  // props: ["unit"],
   data() {
     return {
       active: 1,
       chart: null,
       lineData: [],
       info: {},
+      unit: {
+        dr_unit_id: ''
+      }
     };
   },
   watch: {
@@ -150,7 +153,11 @@ export default {
       );
     },
   },
-  mounted() {},
+  mounted() {
+    setTimeout(() => {
+      this.unit.dr_unit_id = '120034'
+    },1000)
+  },
   methods: {
     setLine(type, name, unit) {
       this.active = type;
@@ -540,6 +547,8 @@ export default {
 }
 
 .bt-box {
+  width: 100%;
+  height: 100%;
   flex-direction: column;
 }
 

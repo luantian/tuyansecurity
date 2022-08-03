@@ -174,14 +174,14 @@ export const constantRoutes = [{
             import ('@/views/roles/menuManagement/index'),
         meta: { title: '菜单管理', icon: 'table' }
     },
-    {
-        path: '/alert',
-        component: () =>
-            import ('@/views/alert/index'),
-        name: 'alert',
-        // hidden: true,
-        meta: { noNav: true, hidden: false }
-    },
+    // {
+    //     path: '/alert',
+    //     component: () =>
+    //         import ('@/views/alert/index'),
+    //     name: 'alert',
+    //     // hidden: true,
+    //     meta: { noNav: true, hidden: false }
+    // },
     {
         path: '/monitorCenter',
         component: () =>
@@ -191,12 +191,28 @@ export const constantRoutes = [{
         meta: { noNav: true, hidden: false }
     },
     {
-        path: '/wulian',
+        path: '/electricity',
         component: () =>
-            import ('@/views/wulian/index'),
-        name: 'wulian',
+            import ('@/views/wulian/electricity/index'),
+        name: 'electricity',
         // hidden: true,
-        meta: { noNav: true, hidden: false }
+        // meta: { noNav: true, hidden: false }
+    },
+    {
+        path: '/water',
+        component: () =>
+            import ('@/views/wulian/water/index'),
+        name: 'water',
+        // hidden: true,
+        // meta: { noNav: true, hidden: false }
+    },
+    {
+        path: '/video',
+        component: () =>
+            import ('@/views/alert/video'),
+        name: 'video',
+        // hidden: true,
+        // meta: { noNav: true, hidden: false }
     },
     {
         path: '/alarm',
@@ -204,7 +220,7 @@ export const constantRoutes = [{
             import ('@/views/alarm/index'),
         name: 'alarm',
         // hidden: true,
-        meta: { noNav: true, hidden: false }
+        // meta: { noNav: true, hidden: false }
     },
     
     {

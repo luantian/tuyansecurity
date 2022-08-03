@@ -38,9 +38,6 @@
           </div>
         </template>
       </div>
-      <div style="margin-right: 50px;width: 175px"
-           class="f14 ml20 animate__animated animate__fadeInRight">{{ nowTime }}
-      </div>
       <!--      <div class="ml20">{{ $store.state.userInfo.dr_user_name || 'Admin' }}</div>-->
       <el-dropdown class="avatar-container"
                    trigger="hover"
@@ -139,15 +136,12 @@
   </el-header>
 </template>
 <script>
-import { getTime, getWeather } from '../api/common.js'
-
 export default {
   components: {},
   data () {
     return {
       showDia: false,
       showDia1: false,
-      nowTime: '',
       weather: {},
       timer: null,
       weatherIcon: '',
@@ -163,15 +157,8 @@ export default {
     }
   },
   created () {
-    this.setTime()
-    this.setWeather();
-
   },
   methods: {
-    changeSys (value) {
-      window.location.href = `/?data_type=${value}#/home?reload=1`
-      //window.location.reload()
-    },
     clickDown (name) {
       if (name == 1) {
         this.showDia1 = true
@@ -179,61 +166,6 @@ export default {
       else if (name == 2) {
         this.logout()
       }
-    },
-    setTime () {
-      let timeLine = Date.now()
-      this.nowTime = new Date(timeLine).Format('yy年MM月dd日 hh:mm:ss')
-
-      this.timer = setInterval(() => {
-        let timeLine = Date.now()
-        this.nowTime = new Date(timeLine).Format('yy年MM月dd日 hh:mm:ss')
-      }, 1000)
-
-    },
-    setWeather () {
-      getWeather({
-        key: 'c2033986fe11749475852e35030fe835',
-        city: '370200',
-        extensions: 'base'
-      }).then(data => {
-        this.weather = data.lives[0];
-        console.log(this.weather);
-        this.weatherIcon = this.getweatherName(this.weather.weather);
-        this.winddirectionIcon = this.getwind(this.weather.winddirection)
-      })
-    },
-    getweatherName (text) { //获取天气ICON名
-      var map = {
-        "雨": 'rain',
-        '晴': 'day-sunny',
-        '雪': 'snow',
-        '风': 'wind',
-        '云': 'cloudy',
-        '雾': 'fog',
-        '雷': 'thunderstorm',
-        '尘': 'day-haze',
-        '霾': 'day-haze',
-        '沙': 'day-haze'
-      };
-      for (var key in map) {
-        if (text.indexOf(key) !== -1) {
-          return map[key]
-        }
-      }
-      return null
-    },
-    getwind (text) { //获取风向
-      var map = {
-        '东': 'e',
-        '南': 's',
-        '西': 'w',
-        '北': 'n'
-      };
-      var str = '';
-      for (var key in text) {
-        str += map[text[key]]
-      }
-      return str.split('').reverse().join('')
     },
     showForm () {
       this.showDia = true

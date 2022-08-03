@@ -1,6 +1,5 @@
 <template>
   <div id="gss">
-    <bheader></bheader>
     <div class="alarm-box">
       <div class="system-list-wrap">
         <div class="system-list-content">
@@ -129,12 +128,10 @@
 </template>
 
 <script>
-import bheader from '../alert/header.vue'
 import detect from './detect'
 
 export default {
   components: {
-    bheader,
     detect,
   },
   watch: {},

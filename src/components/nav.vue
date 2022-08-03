@@ -1,17 +1,26 @@
 <template>
-  <el-aside width="220px" class="animate__animated animate__fadeInLeft" v-if="!noAccess">
-    <el-menu :default-openeds="open" class="nav-wrap el-menu--dark">
-      <el-scrollbar style="height:100%" class="el-scroll">
+  <el-aside width="220px"
+            class="animate__animated animate__fadeInLeft"
+            v-if="!noAccess">
+    <el-menu :default-openeds="open"
+             class="nav-wrap el-menu--dark">
+      <el-scrollbar style="height:100%"
+                    class="el-scroll">
         <template v-for="(item,index) in navList">
-          <el-submenu :index="item.dr_self_key" v-if="item.dr_son&&item.dr_son.length" :default-openeds="openeds">
+          <el-submenu :index="item.dr_self_key"
+                      v-if="item.dr_son&&item.dr_son.length"
+                      :default-openeds="openeds">
             <template slot="title"><i :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"></i>{{ item.dr_power_name }}</template>
             <el-menu-item-group>
-              <router-link :to="child.dr_power_href||''" v-for="child in item.dr_son" v-if="child.dr_power_href">
+              <router-link :to="child.dr_power_href||''"
+                           v-for="child in item.dr_son"
+                           v-if="child.dr_power_href">
                 <el-menu-item>{{ child.dr_power_name }}</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
-          <router-link :to="item.dr_power_href||''" v-if="!item.dr_son||!item.dr_son.length">
+          <router-link :to="item.dr_power_href||''"
+                       v-if="!item.dr_son||!item.dr_son.length">
             <el-menu-item :index="item.dr_power_href">
               <i :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"></i>
               <span slot="title">{{ item.dr_power_name }}</span>
@@ -33,7 +42,7 @@
 
 export default {
   components: {},
-  data() {
+  data () {
     return {
       openeds: [],
       navList: [],
@@ -47,12 +56,12 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     this.getMenu()
     this.noAccess = false
   },
   methods: {
-    getMenu() {
+    getMenu () {
       this.navList = [{
         dr_level: 1,
         dr_parent_key: "",
@@ -66,12 +75,59 @@ export default {
       {
         dr_level: 1,
         dr_parent_key: "",
-        dr_power_href: "/alarm",
+        // dr_power_href: "/alarm",
         dr_power_icon: "el-icon-notebook-2",
         dr_power_name: "数据检测",
         dr_self_key: "3fa19b14fc224206bc123ab64c368017",
         dr_son: [
-          
+          {
+            dr_level: 2,
+            dr_parent_key: "",
+            dr_power_href: "/alarm",
+            dr_power_icon: "el-icon-notebook-2",
+            dr_power_name: "报警系统",
+            dr_self_key: "3fa19b14fc224206bc123ab64c368318",
+            dr_son: [
+
+            ],
+            dr_sort: 4
+          },
+          {
+            dr_level: 2,
+            dr_parent_key: "",
+            dr_power_href: "/electricity",
+            dr_power_icon: "el-icon-notebook-2",
+            dr_power_name: "智慧用电",
+            dr_self_key: "3fa19b14fc224206bc123ab64c368317",
+            dr_son: [
+
+            ],
+            dr_sort: 4
+          },
+          {
+            dr_level: 2,
+            dr_parent_key: "",
+            dr_power_href: "/water",
+            dr_power_icon: "el-icon-notebook-2",
+            dr_power_name: "消防水系统",
+            dr_self_key: "3fa19b14fc224206bc123ab64c368317",
+            dr_son: [
+
+            ],
+            dr_sort: 4
+          },
+          {
+            dr_level: 2,
+            dr_parent_key: "",
+            dr_power_href: "/video",
+            dr_power_icon: "el-icon-notebook-2",
+            dr_power_name: "视频监控",
+            dr_self_key: "3fa19b14fc224206bc123ab64c368317",
+            dr_son: [
+
+            ],
+            dr_sort: 4
+          },
         ],
         dr_sort: 4
       },
@@ -83,7 +139,7 @@ export default {
         dr_power_name: "日常检查",
         dr_self_key: "3fa19b14fc224206bc123ab64c368317",
         dr_son: [
-          
+
         ],
         dr_sort: 4
       },
@@ -109,7 +165,7 @@ export default {
         this.noAccess = true
       })
     },
-    setMenu() {
+    setMenu () {
       let dr_menu = this.menu
 
       for (let key in dr_menu) {
@@ -122,10 +178,10 @@ export default {
         this.navList[key].dr_son = Object.values(this.navList[key].dr_son)
         this.navList[key].dr_son && this.navList[key].dr_son.forEach(menu => {
           //log(menu.dr_power_href)
-          if(menu.dr_power_href){
+          if (menu.dr_power_href) {
             this.menuList.push(menu.dr_power_href.split('?')[0])
           }
-          
+
           if (menu.dr_power_href == this.$route.path) {
             this.open = [this.navList[key].dr_self_key]
           }
@@ -155,13 +211,13 @@ export default {
         } else {
           return this.$router.replace(this.navList[0].dr_son[0].dr_power_href)
         }
-      }else{
+      } else {
 
       }
-      
+
 
     },
-    steps() {
+    steps () {
       this.driver = new this.$driver({
         closeBtnText: '关闭',
         doneBtnText: "完成", //结束按钮的文字
@@ -188,15 +244,15 @@ export default {
       }, 500)
 
     },
-    checkRouter(val) {
-       return
+    checkRouter (val) {
+      return
       if (this.$store.state.isDev) {
         return
       }
-      if(val=='/chart'||val=='/chart1'){
+      if (val == '/chart' || val == '/chart1') {
         return
       }
-      log(this.menuList,val)
+      log(this.menuList, val)
       if (this.menuList.indexOf(val) === -1) {
         if (this.$route.path !== '/404') {
           this.$router.replace('/404')
@@ -205,7 +261,7 @@ export default {
     }
   },
   watch: {
-    '$route.path'(val, old) {
+    '$route.path' (val, old) {
       if (this.menuList.length > 1) {
         this.checkRouter(val)
       }
@@ -214,7 +270,6 @@ export default {
 }
 </script>
 <style lang="scss">
-
 // .el-menu-item-group__title {
 //   padding: 0
 // }
@@ -234,7 +289,6 @@ export default {
 //   color: #fff !important;
 
 // }
-
 
 // .el-menu-item:hover, .el-menu-item:focus, .el-submenu__title:hover {
 //   outline: none;
@@ -260,7 +314,6 @@ export default {
 //     margin-right: 8px;
 //     font-size: 18px;
 //   }
-
 
 //   .is-horizontal {
 //     display: none;
@@ -289,7 +342,6 @@ export default {
 //     border-radius: 4px;
 //     transform: translateX(0) !important;
 //   }
-
 
 //   .el-menu-item, span {
 //     color: #fff;

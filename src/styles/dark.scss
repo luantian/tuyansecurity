@@ -9593,7 +9593,9 @@
     border-bottom: 1px solid #353b41;
   }
   .el-card__body {
-    padding: 20px;
+    // padding: 20px;
+    width: 100%;
+    height: 100%;
   }
   .el-rate {
     height: 20px;
