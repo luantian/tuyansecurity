@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-07-29 01:02:33
+ * @LastEditTime: 2022-07-31 23:13:46
  * @LastEditors: your name
  * @Description: 
 -->
@@ -71,6 +71,7 @@
               </div>
             </div>
           </div>
+          <line-chart class="line_area" graphNameId="wl" title="近30天物联接入趋势"></line-chart>
         </div>
         <div class="screen_left_bottom screen_left_item">
           <div class="screen_little_title">
@@ -129,8 +130,30 @@
       <!-- 地图 start -->
       <div class="screen_map">
         <el-amap class="amap-box"
+                  v-if="show"
+                 :resizeEnable="true"
+                 :center="[123.472188,41.706918]"
+                 :position="[123.472188,41.706918]"
                  :vid="'amap-vue'"
-                 :mapStyle="'amap://styles/darkblue'"></el-amap>
+                 zoom="18"
+                 :mapStyle="'amap://styles/darkblue'">
+          <el-amap-marker vid="component-marker"
+                          :position="[123.472188,41.7069185]"
+                          :icon="icon"
+                          :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
+          <el-amap-marker vid="component-marker"
+                          :position="[123.472188,41.708]"
+                          :icon="icon"
+                          :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
+          <el-amap-marker vid="component-marker"
+                          :position="[123.462188,41.71]"
+                          :icon="icon"
+                          :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
+          <el-amap-marker vid="component-marker"
+                          :position="[123.483,41.71]"
+                          :icon="icon"
+                          :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
+        </el-amap>
       </div>
       <!-- 地图 end -->
 
@@ -226,6 +249,7 @@
               </div>
             </div>
           </div>
+          <line-chart class="line_area" graphNameId="wl" title="近30天报警趋势"></line-chart>
         </div>
         <div class="screen_right_bottom screen_right_item">
           <div class="screen_little_title">
@@ -243,6 +267,7 @@
 import centerMap from "./map";
 import lineChart from "./lineChart.vue";
 import PieChart from "./PieChart";
+import icon from './img/lvdian.png'
 export default {
   components: {
     centerMap,
@@ -251,9 +276,17 @@ export default {
   },
   data () {
     return {
-      height: document.body.clientHeight / 1080
+      height: document.body.clientHeight / 1080,
+      icon: icon,
+      show:false
     }
   },
+  mounted () {
+    console.log(icon);
+    setTimeout(() => {
+      this.show = true
+    },2000)
+  }
 }
 </script>
 

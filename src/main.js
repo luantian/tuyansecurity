@@ -28,6 +28,7 @@ VueAMap.initAMapApiLoader({ //高德地图
     plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.DistrictSearch', 'AMap.MapType', ],
     v: '1.4.4'
 });
+import 'echarts-liquidfill'
 Vue.use(VueAMap);
 
 //import echarts from 'echarts'
