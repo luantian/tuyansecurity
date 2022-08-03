@@ -20,7 +20,14 @@ service.interceptors.request.use(
         if (token && (config.url != 'https://restapi.amap.com/v3/weather/weatherInfo')) {
             config.headers['token'] = token
         }
-        config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+      
+        // if (config.url.indexOf('/v1/dr/in-big-screen-count') > -1) {
+        //   console.log('/v1/dr/in-big-screen-count')
+        //   config.headers['Content-Type'] = 'application/json'
+        // } else {
+          config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+        // }
+        
         return config
     },
     error => {

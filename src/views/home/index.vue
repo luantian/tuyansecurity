@@ -369,6 +369,11 @@ export default {
     this.tick()
     this.getAlarmList()
     this.getInfo()
+    this.$get('/v1/dr/in-big-screen-count').then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
   },
   methods: {
     getCount(){

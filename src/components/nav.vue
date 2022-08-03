@@ -1,5 +1,5 @@
 <template>
-  <el-aside width="230px" class="animate__animated animate__fadeInLeft" v-if="!noAccess">
+  <el-aside width="220px" class="animate__animated animate__fadeInLeft" v-if="!noAccess">
     <el-menu :default-openeds="open" class="nav-wrap el-menu--dark">
       <el-scrollbar style="height:100%" class="el-scroll">
         <template v-for="(item,index) in navList">
