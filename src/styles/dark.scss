@@ -529,12 +529,14 @@
   .el-menu--dark .el-menu-item.is-active {
     //background-color: #2b6de5;
     color: hsla(0, 0%, 100%, 0.8) !important;
+    background-color: inherit;
   }
   .el-menu--dark .el-menu-item.is-disabled {
     color: hsla(0, 0%, 100%, 0.8);
   }
   .el-menu--dark .el-submenu.is-opened {
-    background-color: transparent;
+    // background-color: transparent;
+    background-color: inherit;
   }
   .el-menu--dark .el-submenu.is-opened > .el-submenu__title {
     background-color: initial;

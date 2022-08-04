@@ -66,7 +66,7 @@ export default {
         dr_level: 1,
         dr_parent_key: "",
         dr_power_href: "/home",
-        dr_power_icon: "el-icon-notebook-2",
+        dr_power_icon: "home",
         dr_power_name: "首页",
         dr_self_key: "3fa19b14fc224206bc123ab64c368017",
         dr_son: [],
@@ -75,8 +75,7 @@ export default {
       {
         dr_level: 1,
         dr_parent_key: "",
-        // dr_power_href: "/alarm",
-        dr_power_icon: "el-icon-notebook-2",
+        dr_power_icon: "dataTest",
         dr_power_name: "数据检测",
         dr_self_key: "3fa19b14fc224206bc123ab64c368017",
         dr_son: [
@@ -84,7 +83,7 @@ export default {
             dr_level: 2,
             dr_parent_key: "",
             dr_power_href: "/alarm",
-            dr_power_icon: "el-icon-notebook-2",
+            // dr_power_icon: "el-icon-notebook-2",
             dr_power_name: "报警系统",
             dr_self_key: "3fa19b14fc224206bc123ab64c368318",
             dr_son: [
@@ -96,7 +95,7 @@ export default {
             dr_level: 2,
             dr_parent_key: "",
             dr_power_href: "/electricity",
-            dr_power_icon: "el-icon-notebook-2",
+            // dr_power_icon: "el-icon-notebook-2",
             dr_power_name: "智慧用电",
             dr_self_key: "3fa19b14fc224206bc123ab64c368317",
             dr_son: [
@@ -108,7 +107,7 @@ export default {
             dr_level: 2,
             dr_parent_key: "",
             dr_power_href: "/water",
-            dr_power_icon: "el-icon-notebook-2",
+            // dr_power_icon: "el-icon-notebook-2",
             dr_power_name: "消防水系统",
             dr_self_key: "3fa19b14fc224206bc123ab64c368317",
             dr_son: [
@@ -120,7 +119,7 @@ export default {
             dr_level: 2,
             dr_parent_key: "",
             dr_power_href: "/video",
-            dr_power_icon: "el-icon-notebook-2",
+            // dr_power_icon: "el-icon-notebook-2",
             dr_power_name: "视频监控",
             dr_self_key: "3fa19b14fc224206bc123ab64c368317",
             dr_son: [
@@ -135,7 +134,7 @@ export default {
         dr_level: 1,
         dr_parent_key: "",
         dr_power_href: "/check",
-        dr_power_icon: "el-icon-notebook-2",
+        dr_power_icon: "dailyTest",
         dr_power_name: "日常检查",
         dr_self_key: "3fa19b14fc224206bc123ab64c368317",
         dr_son: [
@@ -147,7 +146,7 @@ export default {
         dr_level: 1,
         dr_parent_key: "",
         dr_power_href: "/area/areaManagement",
-        dr_power_icon: "el-icon-notebook-2",
+        dr_power_icon: "company",
         dr_power_name: "单位管理",
         dr_self_key: "3fa19b14fc224206bc123ab64c3680b7",
         dr_son: [],
