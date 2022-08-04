@@ -1,9 +1,12 @@
 <template>
   <el-header class="align-center header">
     <div class="flex1 align-center animate__animated animate__fadeInDown">
-      <div class="logo"
+      <div 
+           :style="`width: 270px;height:34px;background: url(${LogoPng}) center no-repeat;background-size: contain;`"></div>
+      <!-- <div class="f18 ">{{$bus.user.dr_unit_platform_name || '智慧消防平台'}}</div> -->
+      <!-- <div class="logo"
            :style="`background: url(${$bus.user.dr_unit_logo}) center no-repeat;background-size: contain;`"></div>
-      <div class="f18 ">{{$bus.user.dr_unit_platform_name || '智慧消防平台'}}</div>
+      <div class="f18 ">{{$bus.user.dr_unit_platform_name || '智慧消防平台'}}</div> -->
     </div>
     <div class="right-menu align-center">
       <a href="/#/monitorCenter"
@@ -114,10 +117,12 @@
   </el-header>
 </template>
 <script>
+import LogoPng from '@/assets/home-image/logo.png'
 export default {
   components: {},
   data () {
     return {
+      LogoPng: LogoPng,
       showDia: false,
       showDia1: false,
       weather: {},

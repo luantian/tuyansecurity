@@ -6,12 +6,12 @@
       <el-container style="display:flex;flex-direction:column">
         <v-header></v-header>
         <div class="flex1" >
-          <el-scrollbar :style="{ height: pageSize.height - 60 + 'px' }"
-                        class="el-scroll">
-            <el-main>
-              <el-card shadow="always"
+          <!-- <el-scrollbar :style="{ height: pageSize.height - 60 + 'px' }"
+                        class="el-scroll"> -->
+            <el-main style="width:100%;height:100%">
+              <!-- <el-card shadow="always"
                        :style="{ minHeight: pageSize.height - 100 + 'px' }"
-                       :body-style="{ padding: '0px'}">
+                       :body-style="{ padding: '0px'}"> -->
                 <keep-alive>
                   <router-view :key="page.fullPath"
                                v-if="page.meta.keepAlive && isRouterAlive"></router-view>
@@ -20,7 +20,7 @@
                   <router-view :key="page.fullPath"
                                v-if="!page.meta.keepAlive && isRouterAlive"></router-view>
                 </transition>
-              </el-card>
+              <!-- </el-card> -->
 
               <!-- <keep-alive>
                 <router-view :key="page.fullPath" v-if="page.meta.keepAlive&&isRouterAlive"></router-view>
@@ -29,7 +29,7 @@
                 <router-view :key="page.fullPath" v-if="!page.meta.keepAlive&&isRouterAlive"></router-view>
               </transition> -->
             </el-main>
-          </el-scrollbar>
+          <!-- </el-scrollbar> -->
         </div>
       </el-container>
     </el-container>
