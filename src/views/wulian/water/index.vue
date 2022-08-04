@@ -2,12 +2,47 @@
   <div class="water_main">
     <!--机构 start-->
     <div class="left">
+      <el-input placeholder="输入关键字进行过滤"
+                v-model="filterText">
+      </el-input>
 
+      <el-tree class="filter-tree"
+               :data="data"
+               :props="defaultProps"
+               default-expand-all
+               :filter-node-method="filterNode"
+               ref="tree">
+      </el-tree>
     </div>
     <!--机构 end-->
     <!-- 图表 start -->
     <div class="right">
+      <!-- 图表 start -->
+      <div class="right">
+        <div class="right_top">
+          <template v-for="(info,index) in list">
+            <div class="right_top_item"
+                 :key="index">
+              <div class="item_title">
+                {{info.sy.dr_device_name}}
+              </div>
+              <div class="item_content">
+                <div class="item_content_line"></div>
+              </div>
+            </div>
+          </template>
 
+        </div>
+        <!-- 折线图 start -->
+        <div class="right_bottom">
+          <div class="right_bottom_line"></div>
+          <div id="lineChart"
+               class="line_Chart"
+               v-show="info.length"></div>
+        </div>
+        <!-- 折线图 end -->
+      </div>
+      <!-- 图表 end -->
     </div>
     <!-- 图表 end -->
   </div>
@@ -39,7 +74,7 @@ var color = ["#74FFF3", "#5E8FFF"],
   ];
 import moment from "moment";
 export default {
-  props: ["unit"],
+  // props: ["unit"],
   data () {
     return {
       active: 1,
@@ -51,37 +86,46 @@ export default {
         1: "sw",
         2: "sy",
       },
-      showChart: false
+      showChart: false,
+      unit: {
+        dr_unit_id: ''
+      },
     };
   },
   watch: {
-    unit (val) {
-      this.$get(`/v1/dr/get-water-device/${val.dr_unit_id}`).then((res) => {
-        this.info = {};
-        this.list = []
-        if (res.data) {
-          res.data.map(i => {
-            let obj = {}
-            i.map(j => {
-              obj[j.dr_model_type] = j;
-            })
-            this.list.push(obj)
+    unit: {
+      handler (val) {
+        this.$get(`/v1/dr/get-water-device/${val.dr_unit_id}`).then((res) => {
+          this.info = {};
+          this.list = []
+          if (res.data) {
+            res.data.map(i => {
+              let obj = {}
+              i.map(j => {
+                obj[j.dr_model_type] = j;
+              })
+              this.list.push(obj)
 
-          })
-          this.info = this.list[0]
-          this.$nextTick(() => {
-            this.init();
-            this.showChart = true
-          });
-        } else {
-          this.showChart = false
-          this.$message.info(res.msg);
-        }
-      });
+            })
+            this.info = this.list[0]
+            this.$nextTick(() => {
+              this.init();
+              this.showChart = true
+            });
+          } else {
+            this.showChart = false
+            this.$message.info(res.msg);
+          }
+        });
+      },
+      deep: true
     },
   },
   mounted () {
     //this.init();
+    setTimeout(() => {
+      this.unit.dr_unit_id = '120034'
+    }, 1000)
   },
   methods: {
     init () {
@@ -476,10 +520,73 @@ export default {
     flex-shrink: 0;
     background: #000c12;
     border-right: 1px solid rgba(0, 138, 207, 0.66);
-    
   }
   .right {
     flex: 1;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .right_top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .right_top_item {
+        // margin-right: 25px;
+        margin-bottom: 25px;
+        flex-shrink: 0;
+        .item_title {
+          text-align: center;
+          font-size: 18px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          color: #ffffff;
+          margin-bottom: 12px;
+        }
+        .item_content {
+          position: relative;
+          flex-shrink: 0;
+          width: 440px;
+          height: 208px;
+          background: #011a2a;
+          border: 1px solid #004a70;
+          box-shadow: inset -2px -2px 4px 0px #004a70,
+            inset 2px 2px 4px 0px #004a70;
+          border-radius: 3px;
+          .item_content_line {
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 143px;
+            height: 4px;
+            background: #43c6d9;
+          }
+        }
+
+        // &:nth-child(3n) {
+        //   margin-right: 0;
+        // }
+      }
+    }
+    .right_bottom {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      background: #000c14;
+      border-radius: 3px;
+      border: 1px solid #0f2937;
+      box-shadow: inset -2px -2px 4px 0px #0f2937, inset 2px 2px 4px 0px #0f2937;
+      .right_bottom_line {
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 146px;
+        height: 4px;
+        background: #43c6d9;
+      }
+    }
   }
 }
 </style>

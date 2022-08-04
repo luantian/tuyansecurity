@@ -17,7 +17,30 @@
     <!--机构 end-->
     <!-- 图表 start -->
     <div class="right">
+      <div class="right_top">
+        <template v-for="(item, index) in info">
+          <div class="right_top_item"
+               :class="`boxcontent normalData ${active == index ? 'active' : ''}`"
+               @click="setLine(index, '电流', 'mA')"
+               :key="item.dr_id">
+            <div class="item_title">
+              {{item.dr_device_name}}
+            </div>
+            <div class="item_content">
+              <div class="item_content_line"></div>
+            </div>
+          </div>
+        </template>
 
+      </div>
+      <!-- 折线图 start -->
+      <div class="right_bottom">
+        <div class="right_bottom_line"></div>
+        <div id="lineChart"
+             class="line_Chart"
+             v-show="info.length"></div>
+      </div>
+      <!-- 折线图 end -->
     </div>
     <!-- 图表 end -->
   </div>
@@ -524,6 +547,63 @@ export default {
   }
   .right {
     flex: 1;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .right_top {
+      display: flex;
+      .right_top_item {
+        flex-shrink: 0;
+        .item_title {
+          text-align: center;
+          font-size: 18px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          color: #ffffff;
+          margin-bottom: 12px;
+        }
+        .item_content {
+          position: relative;
+          flex-shrink: 0;
+          width: 323px;
+          height: 418px;
+          background: #011a2a;
+          border: 1px solid #004a70;
+          box-shadow: inset -2px -2px 4px 0px #004a70,
+            inset 2px 2px 4px 0px #004a70;
+          border-radius: 3px;
+          margin-right: 25px;
+          .item_content_line {
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 143px;
+            height: 4px;
+            background: #43c6d9;
+          }
+        }
+      }
+    }
+    .right_bottom {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      background: #000c14;
+      border-radius: 3px;
+      border: 1px solid #0f2937;
+      box-shadow: inset -2px -2px 4px 0px #0f2937, inset 2px 2px 4px 0px #0f2937;
+      .right_bottom_line {
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 146px;
+        height: 4px;
+        background: #43c6d9;
+      }
+    }
   }
 }
 </style>

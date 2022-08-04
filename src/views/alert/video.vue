@@ -105,13 +105,6 @@
           </div>
         </div>
 
-        <!-- <div class="center">
-        <div class="video-wrap flex">
-          <div class="vitem" v-for="item in 9">
-            <video src="@/assets/vs.mp4" controls="controls"></video>
-          </div>
-        </div>
-      </div> -->
       </div>
     </div>
   </div>

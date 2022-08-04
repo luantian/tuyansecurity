@@ -1,124 +1,100 @@
 <template>
-  <div class="alarm_main">
-    <div class="system-list-content">
-      <div @click="changeTab(item)"
-           v-for="item in tabList"
-           :key="item.id"
-           :class="`system-item ${active == item.id && 'active'}`">
-        <span class="label">
-          {{ item.title }}
-        </span>
-      </div>
-    </div>
-    <div class="content"
-         v-if="active !== 4">
-      <div class="content_left">
-        <div class="left_can can_fitst">
-          <p class="can_text"> <span class="line"></span> 报警类型</p>
-          <p class="text_box">
-            <span class="dot_box">
-              <span class="dot dot1"></span>
-              <span>
-                <p>在线</p>
-                <p>39%</p>
-              </span>
+  <div id="gss">
+    <div class="alarm-box">
+      <div class="system-list-wrap">
+        <div class="system-list-content">
+          <div
+            @click="changeTab(item)"
+            v-for="item in tabList"
+            :key="item.id"
+            :class="`system-item ${active == item.id && 'active'}`"
+          >
+            <span class="label">
+              {{ item.title }}
             </span>
-            <span class="dot_box">
-              <span class="dot dot2"></span>
-              <span>
-                <p>在线</p>
-                <p>39%</p>
-              </span>
-            </span>
-            <span class="dot_box">
-              <span class="dot dot3"></span>
-              <span>
-                <p>在线</p>
-                <p>39%</p>
-              </span>
-            </span>
-            <span class="dot_box">
-              <span class="dot dot4"></span>
-              <span>
-                <p>在线</p>
-                <p>39%</p>
-              </span>
-            </span>
-          </p>
-        </div>
-        <div class="left_can">
-          <p class="can_text"> <span class="line"></span> 报警类型</p>
-          <p class="text_box">
-            <span class="dot_box">
-              <span class="dot dot2"></span>
-              <span>
-                <p>未报过警的设备</p>
-                <p>39%</p>
-              </span>
-            </span>
-            <span class="dot_box">
-              <span class="dot dot3"></span>
-              <span>
-                <p>报过警的设备</p>
-                <p>39%</p>
-              </span>
-            </span>
-          </p>
+          </div>
         </div>
       </div>
-      <div class="content_right">
+      <div v-if="active !== 4">
+        <el-row :gutter="0" style="padding: 10px 100px 0 100px">
+          <el-col :span="12" :offset="0" class="chart-box">
+            <div id="chart1" class="charts"></div>
+            <div class="pie-title">报警类型统计</div>
+          </el-col>
+          <el-col :span="12" :offset="0" class="chart-box">
+            <div id="chart2" class="charts"></div>
+            <div class="pie-title">报警类型统计</div>
+          </el-col>
+        </el-row>
         <div class="search_box">
-          <el-form :model="params"
-                   ref="form"
-                   label-width="80px"
-                   :inline="true"
-                   label-position="top"
-                   size="small">
-            <el-form-item>
-              <label for="">所属区域</label>
-              <el-input class="iner"
-                        placeholder="请输入所属区域"
-                        v-model="params.dr_unit_name"></el-input>
+          <el-form
+            :model="params"
+            class="flex"
+            ref="form"
+            label-width="80px"
+            :inline="true"
+            label-position="top"
+            size="small"
+          >
+            <el-form-item label="所属区域">
+              <el-input
+                placeholder="请输入所属区域"
+                v-model="params.dr_unit_name"
+              ></el-input>
             </el-form-item>
-            <el-form-item>
-              <label for="">设备名称</label>
-              <el-input class="iner"
-                        placeholder="请输入设备名称"
-                        v-model="params.dr_device_name"></el-input>
+            <el-form-item label="设备名称">
+              <el-input
+                placeholder="请输入设备名称"
+                v-model="params.dr_device_name"
+              ></el-input>
             </el-form-item>
-            <el-form-item>
-              <label for="">序列号</label>
-              <el-input class="iner"
-                        placeholder="请输入序列号"
-                        v-model="params.dr_device"></el-input>
+            <el-form-item label="序列号">
+              <el-input
+                placeholder="请输入序列号"
+                v-model="params.dr_device"
+              ></el-input>
             </el-form-item>
-            <el-form-item>
-              <label for="">设备状态</label>
-              <el-select class="iner"
-                         v-model="params.dr_online_status"
-                         placeholder="请选择设备状态"
-                         clearable>
-                <el-option v-for="(item, key) in options"
-                           :key="key"
-                           :label="item"
-                           :value="key">
+            <el-form-item label="设备状态">
+              <el-select
+                v-model="params.dr_online_status"
+                placeholder="请选择设备状态"
+                clearable
+              >
+                <el-option
+                  v-for="(item, key) in options"
+                  :key="key"
+                  :label="item"
+                  :value="key"
+                >
                 </el-option>
               </el-select>
             </el-form-item>
-            <div class="btn_box"
-                 @click="onSearch">查询
+            <div class="btn_box">
+              <el-button size="small" type="primary" @click="onSearch"
+                >查询</el-button
+              >
+              <el-button size="small" @click="reset">重置</el-button>
             </div>
           </el-form>
+        </div>
+
+        <div class="list-wrap">
+          <div>
+            <el-button type="text" icon="el-icon-refresh" @click="reset"
+              >刷新</el-button
+            >
+          </div>
           <ul class="alarm-list">
-            <li class="alarm-item "
-                v-for="item in list"
-                :key="item.dr_notice_uuid">
-              <div class="top"></div>
-              <div class=" ch f14 ml20">
-                <div class="info-tx">
-                  <div class="cfff">{{ item.dr_device_name }} <span class="tag">异常</span></div>
-                  <div class="text">
-                    <i class="iconfont icon-time"></i>
+            <li
+              class="alarm-item flex"
+              v-for="item in list"
+              :key="item.dr_notice_uuid"
+            >
+              <div class="tag">异常</div>
+              <div class="flex1 ch f14 ml20">
+                <div class="flex info-tx">
+                  <div class="cfff">{{ item.dr_device_name }}</div>
+                  <div>
                     {{
                       new Date(item.dr_create_time * 1000).Format(
                         'yy-MM-dd hh:mm:ss'
@@ -126,18 +102,28 @@
                     }}
                   </div>
                 </div>
-                <div class="text"><i class="iconfont icon-address"></i>{{ item.dr_unit_name }}</div>
-                <div class="text"> <i class="iconfont icon-listNumber"></i>{{ item.dr_device_serial }}发生报警
-                  <span style="float:right"><span class="dot"></span>{{ options[item.dr_online_status] }} </span>
+                <div class="flex info-tx">
+                  <div>序列号: {{ item.dr_device_serial }}</div>
+                  <div>所属单位: {{ item.dr_unit_name }}</div>
+                  <div>设备状态：{{ options[item.dr_online_status] }}</div>
                 </div>
               </div>
             </li>
           </ul>
         </div>
+        <div class="pagination-wrapper">
+          <el-pagination
+            @current-change="getList"
+            :current-page.sync="params.page"
+            :page-size="20"
+            layout="total, prev, pager, next"
+            :total="total"
+          >
+          </el-pagination>
+        </div>
       </div>
+      <detect v-else/>
     </div>
-
-    <detect v-else />
   </div>
 </template>
 
@@ -149,7 +135,7 @@ export default {
     detect,
   },
   watch: {},
-  data () {
+  data() {
     return {
       options: {
         1: '在线',
@@ -199,11 +185,11 @@ export default {
       chartData: {},
     }
   },
-  mounted () {
+  mounted() {
     this.init()
   },
   methods: {
-    init () {
+    init() {
       this.list = []
       this.params = {
         page: 1,
@@ -216,10 +202,10 @@ export default {
       this.getData()
       this.getList()
     },
-    reset () {
+    reset() {
       this.init()
     },
-    getData () {
+    getData() {
       let logading = this.$loading({
         background: 'rgba(0, 0, 0, 0.6)',
       })
@@ -264,18 +250,18 @@ export default {
           logading.close()
         })
     },
-    changeTab (it) {
+    changeTab(it) {
       this.active = it.id
       if (this.active !== 4) {
         this.init()
       }
     },
-    onSearch () {
+    onSearch() {
       this.list = []
       this.params.page = 1
       this.getList()
     },
-    getList () {
+    getList() {
       let params = {
         ...this.params,
       }
@@ -290,7 +276,7 @@ export default {
         this.total = res.data.count
       })
     },
-    makeChart (id, data) {
+    makeChart(id, data) {
       let chartDom = document.getElementById(id)
       let myChart = this.$echarts.init(chartDom, 'dark')
       let options = {
@@ -464,60 +450,22 @@ export default {
   }
 }
 
-.alarm_main {
-  padding: 20px 28px 28px 32px;
+.alarm-box {
+  padding: 0 15px;
   overflow-y: auto;
-  .system-list-content {
-    display: flex;
-
-    margin-bottom: 20px;
-    .system-item {
-      height: 34px;
-      padding: 0px 20px;
-      line-height: 34px;
-      text-align: center;
-      font-size: 16px;
-      &.active {
-        background: #09425e;
-        border-radius: 3px;
-      }
-    }
-  }
   .alarm-list {
-    display: flex;
-    flex-wrap: wrap;
-    height: 720px;
-    overflow-y: scroll;
-    padding: 24px 33px 0px 33px;
-    // justify-content: space-between;
-    gap: 21px;
+    height: calc(100vh - 6vh - 46px - 190px - 123px - 40px);
+    overflow-y: auto;
+    padding-bottom: 70px;
+
     .alarm-item {
+      margin-bottom: 25px;
+      padding: 8px 20px;
+      height: 72px;
+      background-color: #323d60;
       position: relative;
-      width: 376px;
-      height: 172px;
-      background: #011c2d;
-      border: 1px solid #004a70;
-      box-shadow: inset -2px -2px 4px 0px #004a70, inset 2px 2px 4px 0px #004a70;
-      border-radius: 3px;
-      flex-shrink: 0;
-      padding: 23px;
-      .top {
-        position: absolute;
-        left: 50%;
-        top: -1px;
-        margin-left: -72px;
-        width: 143px;
-        height: 4px;
-        background: #43c6d9;
-      }
-      .dot {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background: #15e3c4;
-        border-radius: 50%;
-        margin-right: 5px;
-      }
+      border-radius: 2px;
+      animation: glow2 0.8s ease-out infinite alternate;
     }
 
     .info-tx {
@@ -526,23 +474,7 @@ export default {
     }
 
     .cfff {
-      font-size: 16px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      color: #ffffff;
-      margin-bottom: 5px;
-    }
-    .text {
-      i {
-        color: #129ce0;
-        opacity: 0.64;
-      }
-      margin-top: 16px;
-      font-size: 13px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      color: #ffffff;
-      opacity: 0.8;
+      color: #fff;
     }
 
     .ch {
@@ -550,19 +482,17 @@ export default {
     }
 
     .tag {
-      display: inline-block;
-      width: 40px;
+      background-color: rgb(255, 149, 44);
+      padding: 0 5px;
+      width: 54px;
       height: 20px;
       line-height: 20px;
       text-align: center;
-      background: #fd5042;
-      border-radius: 10px;
+      color: #2b344e;
+      border-radius: 2px;
       font-size: 14px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      color: #010101;
-      margin-top: 2px;
-      float: right;
+      padding: 0 5px;
+      margin-top: 5px;
     }
   }
 
@@ -590,33 +520,21 @@ export default {
   }
 
   .search_box {
+    padding: 12px;
     background: #1f263c;
-    label {
-      padding: 0px 8px 0px 30px;
-    }
-    .iner {
-      width: 180px !important;
-      height: 32px;
-      background: #00080b;
-      border: 1px solid #145677;
-      border-radius: 2px;
-    }
+    margin: 15px 0 0 0;
+
     .el-form-item {
       margin-bottom: 0;
-      margin-right: 0px !important;
-      // width: 19%;
+      margin-right: 20px !important;
+      width: 19%;
     }
 
     .btn_box {
-      display: inline-block;
-      text-align: center;
-      line-height: 32px;
-      width: 78px;
-      height: 32px;
-      background: linear-gradient(90deg, #1b81b5, #43a6d9);
-      border-radius: 2px;
-      margin-left: 22px;
-      cursor: pointer;
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+      align-items: flex-end;
     }
 
     .el-form-item__label {
@@ -635,76 +553,150 @@ export default {
       border-radius: 2px;
     }
   }
-  .content {
-    width: 100%;
-    display: flex;
-    .content_left {
-      margin-right: 20px;
-      .left_can {
-        width: 380px;
-        height: 384px;
-        background: #000b10;
-        border: 1px solid rgba(0, 138, 207, 0.66);
-        box-shadow: inset -5px -5px 6px 0px #0f2937,
-          inset 5px 6px 6px 0px #0f2937;
-        // opacity: 0.9;
-        padding: 25px 30px;
-        .line {
-          display: inline-block;
-          width: 6px;
-          height: 18px;
-          background: #12cfe0;
-          border-radius: 2px;
-          vertical-align: middle;
-          margin-right: 10px;
-        }
-        .text_box {
-          margin-top: 25px;
-          .dot_box {
-            display: flex;
-            align-items: baseline;
-          }
-          display: flex;
-          justify-content: space-around;
-          .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            margin-right: 5px;
-          }
-          .dot1 {
-            background: linear-gradient(180deg, #0fd0d0, #0e9696);
-          }
-          .dot2 {
-            background: linear-gradient(180deg, #0f70d1, #0e5296);
-          }
-          .dot3 {
-            background: linear-gradient(180deg, #d14f0f, #963b0e);
-          }
-          .dot4 {
-            background: linear-gradient(180deg, #096796, #023954);
-          }
-        }
-      }
-      .can_fitst {
-        margin-bottom: 20px;
-      }
-    }
-    .content_right {
-      width: 1240px;
-      height: 787px;
-      background: #000b10;
-      border: 1px solid rgba(0, 138, 207, 0.66);
-      box-shadow: inset -5px -5px 6px 0px #0f2937, inset 5px 6px 6px 0px #0f2937;
-      opacity: 0.9;
-      .search_box {
-        width: 100%;
-        height: 58px;
-        background: rgba(0, 77, 116, 0);
-        box-shadow: 0px 1px 0px 0px rgba(13, 98, 140, 0.38);
-        // border-bottom: ;
-      }
-    }
+}
+
+.system-list-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.system-list-wrap .system-list-content {
+  position: relative;
+  width: 100%;
+  padding-top: 5px;
+  border-bottom: 1px solid #000;
+  white-space: nowrap;
+}
+
+.system-list-wrap .system-list-content .system-item {
+  padding: 10px 20px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.system-list-wrap .system-list-content .system-item .label {
+  font-size: 14px;
+  color: hsla(0, 0%, 100%, 0.7);
+  position: relative;
+}
+
+.system-list-wrap .system-list-content .system-item.active {
+  border-bottom: 2px solid #6c6ece;
+}
+
+.system-list-wrap .system-list-content .system-item.active .label {
+  color: #6c6ece;
+}
+
+@-webkit-keyframes glow1 {
+  0% {
+    border-color: rgba(250, 50, 57, 0.8);
+    -webkit-box-shadow: inset 0 0 15px rgba(250, 50, 57, 0.1),
+      inset 0 0 15px rgba(250, 50, 57, 0.1),
+      inset 0 0 15px rgba(250, 50, 57, 0.1);
+    box-shadow: inset 0 0 15px rgba(250, 50, 57, 0.1),
+      inset 0 0 15px rgba(250, 50, 57, 0.1),
+      inset 0 0 15px rgba(250, 50, 57, 0.1);
+  }
+
+  to {
+    border-color: rgba(250, 50, 57, 0.8);
+    -webkit-box-shadow: inset 0 0 20px rgba(250, 50, 57, 0.4),
+      inset 0 0 20px rgba(250, 50, 57, 0.4),
+      inset 0 0 20px rgba(250, 50, 57, 0.4);
+    box-shadow: inset 0 0 20px rgba(250, 50, 57, 0.4),
+      inset 0 0 20px rgba(250, 50, 57, 0.4),
+      inset 0 0 20px rgba(250, 50, 57, 0.4);
+  }
+}
+
+@keyframes glow1 {
+  0% {
+    border-color: rgba(250, 50, 57, 0.8);
+    -webkit-box-shadow: inset 0 0 15px rgba(250, 50, 57, 0.1),
+      inset 0 0 15px rgba(250, 50, 57, 0.1),
+      inset 0 0 15px rgba(250, 50, 57, 0.1);
+    box-shadow: inset 0 0 15px rgba(250, 50, 57, 0.1),
+      inset 0 0 15px rgba(250, 50, 57, 0.1),
+      inset 0 0 15px rgba(250, 50, 57, 0.1);
+  }
+
+  to {
+    border-color: rgba(250, 50, 57, 0.8);
+    -webkit-box-shadow: inset 0 0 20px rgba(250, 50, 57, 0.4),
+      inset 0 0 20px rgba(250, 50, 57, 0.4),
+      inset 0 0 20px rgba(250, 50, 57, 0.4);
+    box-shadow: inset 0 0 20px rgba(250, 50, 57, 0.4),
+      inset 0 0 20px rgba(250, 50, 57, 0.4),
+      inset 0 0 20px rgba(250, 50, 57, 0.4);
+  }
+}
+
+@-webkit-keyframes glow2 {
+  0% {
+    border-color: #ff952c;
+    -webkit-box-shadow: inset 0 0 15px rgba(255, 149, 44, 0.1),
+      inset 0 0 15px rgba(255, 149, 44, 0.1), inset 0 0 15px #ff952c;
+    box-shadow: inset 0 0 15px rgba(255, 149, 44, 0.1),
+      inset 0 0 15px rgba(255, 149, 44, 0.1), inset 0 0 15px #ff952c;
+  }
+
+  to {
+    border-color: #ff952c;
+    -webkit-box-shadow: inset 0 0 20px rgba(255, 149, 44, 0.4),
+      inset 0 0 20px rgba(255, 149, 44, 0.4), inset 0 0 20px #ff952c;
+    box-shadow: inset 0 0 20px rgba(255, 149, 44, 0.4),
+      inset 0 0 20px rgba(255, 149, 44, 0.4), inset 0 0 20px #ff952c;
+  }
+}
+
+@keyframes glow2 {
+  0% {
+    border-color: #ff952c;
+    -webkit-box-shadow: inset 0 0 15px rgba(255, 149, 44, 0.1),
+      inset 0 0 15px rgba(255, 149, 44, 0.1), inset 0 0 15px #ff952c;
+    box-shadow: inset 0 0 15px rgba(255, 149, 44, 0.1),
+      inset 0 0 15px rgba(255, 149, 44, 0.1), inset 0 0 15px #ff952c;
+  }
+
+  to {
+    border-color: #ff952c;
+    -webkit-box-shadow: inset 0 0 20px rgba(255, 149, 44, 0.4),
+      inset 0 0 20px rgba(255, 149, 44, 0.4), inset 0 0 20px #ff952c;
+    box-shadow: inset 0 0 20px rgba(255, 149, 44, 0.4),
+      inset 0 0 20px rgba(255, 149, 44, 0.4), inset 0 0 20px #ff952c;
+  }
+}
+
+@-webkit-keyframes opacityChange {
+  0% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes opacityChange {
+  0% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 </style>
