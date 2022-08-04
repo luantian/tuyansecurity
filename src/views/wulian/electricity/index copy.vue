@@ -1,15 +1,87 @@
 <template>
-  <div class="water_main">
-    <!--机构 start-->
-    <div class="left">
+  <div class="flex bt-box">
+    <div class="sj-box">
+      <div
+        v-for="(item, index) in info"
+        :key="item.dr_id"
+        class="wrap_sysDiv"
+        style="position: relative; height: 300px; width: 360px"
+      >
+        <div class="title fontSize16"><span class="">{{item.dr_device_name}}</span></div>
+        <div
+          :class="`boxcontent normalData ${active == index ? 'active' : ''}`"
+          @click="setLine(index, '电流', 'mA')"
+        >
+          <div class="flex" style="height: 170px">
+            <div class="flex1 relative">
+              <div class="eqName" title="剩余电流">漏电电流</div>
+              <div class="chartDiv" :id="`yali${index}`"></div>
+              <div class="cankao fontSize14">参考值 : 0.0 - 500.0mA</div>
+            </div>
+            <div class="flex1 relative">
+              <div class="eqName" title="配电箱温度">配电箱温度</div>
+              <div class="humCont">
+                <div class="tempdiv" style="height: 100%; bottom: 15%">
+                  <div class="tempbar">
+                    <div
+                      class="tempData"
+                      :style="`height: ${item.dr_temperature}%;`"
+                    ></div>
+                    <div
+                      class="msg msgblue"
+                      :style="`bottom: ${item.dr_temperature}%;`"
+                    >
+                      <span class="tempNumber">{{ item.dr_temperature }}</span
+                      >℃
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cankao fontSize14">温度参考值 : 0.0 - 60.0℃</div>
+            </div>
+          </div>
+          <div class="flex bt-tx">
+            <div class="flex1" style="color: #3b7dd2">
+              <div>电压</div>
+              <div class="mt5">UA {{ item.dr_ua }}V</div>
+              <div class="mt5">UB {{ item.dr_ub }}V</div>
+              <div class="mt5">UC {{ item.dr_uc }}V</div>
+            </div>
+            <div class="flex1" style="color: #b88b16">
+              <div>电流</div>
+              <div class="mt5">IA {{ item.dr_ia }}A</div>
+              <div class="mt5">IB {{ item.dr_ib }}A</div>
+              <div class="mt5">IC {{ item.dr_ic }}A</div>
+            </div>
+            <div class="flex1" style="color: #b3454f">
+              <div>温度</div>
+              <div class="mt5">WA {{ item.dr_wa }}°C</div>
+              <div class="mt5">WB {{ item.dr_wb }}°C</div>
+              <div class="mt5">WC {{ item.dr_wc }}°C</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    </div>
-    <!--机构 end-->
-    <!-- 图表 start -->
-    <div class="right">
+      <!-- <div class="wrap_sysDiv" style="position: relative; height: calc(202px); width: 192px;">
+      <div class="title fontSize16"><span class="">配电箱温度</span></div>
+      <div :class="`boxcontent normalData ${active==2?'active':''}`" @click="setLine(2,'温度','℃')">
 
+        <div class="eqName" title="配电箱温度">配电箱温度</div>
+        <div class="humCont">
+          <div class="tempdiv" style="height: 100%;bottom: 15%;">
+            <div class="tempbar">
+              <div class="tempData " style="height: 34.8%;"></div>
+              <div class="msg msgblue" style="bottom: 34.8%;"><span class="tempNumber">34.8</span>℃ </div>
+            </div>
+          </div>
+        </div>
+        <div class="cankaodata fontSize14">参考值 : 0.0 - 50.0℃</div>
+      </div>
+    </div>  -->
     </div>
-    <!-- 图表 end -->
+
+    <div id="lineChart" class="line_Chart" v-show="info.length"></div>
   </div>
 </template>
 
@@ -39,86 +111,74 @@ var color = ["#74FFF3", "#5E8FFF"],
   ];
 import moment from "moment";
 export default {
-  props: ["unit"],
-  data () {
+  // props: ["unit"],
+  data() {
     return {
       active: 1,
       chart: null,
       lineData: [],
-      list: [],
       info: {},
-      type_map: {
-        1: "sw",
-        2: "sy",
-      },
-      showChart: false
+      unit: {
+        dr_unit_id: ''
+      }
     };
   },
   watch: {
-    unit (val) {
-      this.$get(`/v1/dr/get-water-device/${val.dr_unit_id}`).then((res) => {
-        this.info = {};
-        this.list = []
-        if (res.data) {
-          res.data.map(i => {
-            let obj = {}
-            i.map(j => {
-              obj[j.dr_model_type] = j;
-            })
-            this.list.push(obj)
-
-          })
-          this.info = this.list[0]
+    unit : {
+     handler () {
+ this.info = []
+      this.$get(`/v1/dr/get-electricity-device/${this.unit.dr_unit_id}`).then(
+        (res) => {
+          this.info = res.data;
           this.$nextTick(() => {
-            this.init();
-            this.showChart = true
+            this.info.map((it, index) => {
+              this.getHFCChart(
+                {
+                  id: "yali" + index,
+                  data: {
+                    currentValue: it.dr_electric_leakage,
+                    analogdown: 200,
+                    analogup: 800,
+                    analogWarningUp: 800,
+                    analogWarningDown: 0,
+                    analogUnit: "mA",
+                  },
+                },
+                0
+              );
+            });
+
+            this.setLine(0, "电流", "mA");
           });
-        } else {
-          this.showChart = false
-          this.$message.info(res.msg);
         }
-      });
+      );
+     },
+     deep: true
     },
   },
-  mounted () {
-    //this.init();
+  mounted() {
+    setTimeout(() => {
+      this.unit.dr_unit_id = '120034'
+    },1000)
   },
   methods: {
-    init () {
-      this.active = '1-0';
-      this.list.map((it, index) => {
-        if (it.sy) {
-          this.getHFCChart(
-            {
-              id: "yali" + index,
-              data: {
-                currentValue: it.sy.dr_value,
-                analogdown: 0,
-                max: 80,
-                analogUnit: "Kpa",
-              },
-            },
-            0
-          );
-        }
-      })
-
-      this.setLine('1-0', "水位", "cm");
-    },
-    setLine (type, name, unit) {
+    setLine(type, name, unit) {
       this.active = type;
-      let index = type.split('-')[1]
-      let key = type.split('-')[0]
       this.$get(
-        `/v1/dr/get-water-device-monitor/${this.list[index][this.type_map[key]].dr_device_id
-        }`
+        "/v1/dr/get-electricity-device-diagram/" + this.info[type].dr_device_id
       ).then((res) => {
         let x_arr = [];
-        let y_arr = [];
-        res.data.map(it => {
-          x_arr.push(moment(it.dr_create_time * 1000).format("MM-DD HH:mm:ss"))
-          y_arr.push(it.dr_value)
-        })
+        let y_arr = [
+          { name: "IA", data: [] },
+          { name: "IB", data: [] },
+          { name: "IC", data: [] },
+        ];
+        res.data.map((it) => {
+          x_arr.push(moment(it.dr_create_time * 1000).format("MM-DD HH:mm:ss"));
+          y_arr[0].data.push(it.dr_ia);
+          y_arr[1].data.push(it.dr_ib);
+          y_arr[2].data.push(it.dr_ic);
+        });
         this.lineData = {
           x: x_arr,
           y: y_arr,
@@ -126,7 +186,7 @@ export default {
         this.lineChart(this.lineData, name, unit);
       });
     },
-    getHFCChart (obj, color) {
+    getHFCChart(obj, color) {
       var data = obj.data;
       var CO2Chart = this.$echarts.init(document.getElementById(obj.id));
       CO2Chart.title = "压力";
@@ -158,11 +218,12 @@ export default {
       // var axisSplit1 = parseFloat(data.analogdown * 0.2 / (data.analogup * 1.2 - data.analogdown * 0.8)).toFixed(0,2);
       // var axisSplit2 = parseFloat((data.analogup - data.analogdown * 0.8) / (data.analogup * 1.2 - data.analogdown * 0.8)).toFixed(0,2);
 
-      var minValue = 0;
-      var maxValue = data.max;
+      var minValue = data.analogdown - (data.analogup - data.analogdown) * 0.2;
+      var maxValue =
+        parseFloat(data.analogup) + (data.analogup - data.analogdown) * 0.2;
 
-      var axisSplit1 = 0.2//data.analogWarningUp; //(data.analogdown - minValue) / (maxValue - minValue);
-      var axisSplit2 = 0.8 //(data.analogup - minValue) / (maxValue - minValue);
+      var axisSplit1 = (data.analogdown - minValue) / (maxValue - minValue);
+      var axisSplit2 = (data.analogup - minValue) / (maxValue - minValue);
 
       var option = {
         grid: {
@@ -216,8 +277,8 @@ export default {
             endAngle: 0,
             center: ["50%", "65%"], //整体的位置设置
             z: 3,
-            min: minValue,
-            max: maxValue,
+            min: 0,
+            max: 500,
             splitNumber: 1,
             radius: "95%",
             axisLine: {
@@ -342,7 +403,56 @@ export default {
         CO2Chart.resize();
       });
     },
-    lineChart (data, name, unit) {
+    lineChart(data, name, unit) {
+      let serve = {
+        name: "",
+        type: "line",
+        areaStyle: {
+          color: {
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: "red",
+              },
+              {
+                offset: 1,
+                color: "blue",
+              },
+            ],
+          },
+        },
+        areaStyle: {
+          color: new this.$echarts["graphic"].LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            ecolor[1]
+          ),
+        },
+        itemStyle: {
+          normal: {
+            color: color[0],
+            lineStyle: {
+              color: color[0],
+            },
+          },
+        },
+        data: [],
+        smooth: !0,
+      };
+      let servers = []
+      data.y.map(it=>{
+        let obj = {...serve}
+        obj.name = it.name;
+        obj.data = it.data
+        servers.push(obj)
+      })
       let option = {
         tooltip: {
           trigger: "axis",
@@ -411,50 +521,7 @@ export default {
             },
           },
         ],
-        series: [
-          {
-            name: name,
-            type: "line",
-            areaStyle: {
-              color: {
-                type: "linear",
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  {
-                    offset: 0,
-                    color: "red",
-                  },
-                  {
-                    offset: 1,
-                    color: "blue",
-                  },
-                ],
-              },
-            },
-            areaStyle: {
-              color: new this.$echarts["graphic"].LinearGradient(
-                0,
-                0,
-                0,
-                1,
-                ecolor[1]
-              ),
-            },
-            itemStyle: {
-              normal: {
-                color: color[0],
-                lineStyle: {
-                  color: color[0],
-                },
-              },
-            },
-            data: data.y,
-            smooth: !0,
-          },
-        ],
+        series: servers,
         color: color,
       };
 
@@ -466,20 +533,44 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.water_main {
+.boxcontent {
+}
+.bt-tx {
+  text-align: center;
+  font-size: 14px;
+}
+.sj-box {
+  height: 50%;
+  overflow-y: auto;
+  border-bottom: 1px solid #064278;
+}
+
+.line_Chart {
+  height: 50%;
+}
+
+.bt-box {
   width: 100%;
   height: 100%;
-  display: flex;
-  .left {
-    height: 100%;
-    width: 270px;
-    flex-shrink: 0;
-    background: #000c12;
-    border-right: 1px solid rgba(0, 138, 207, 0.66);
-    
-  }
-  .right {
-    flex: 1;
-  }
+  flex-direction: column;
+}
+
+.title {
+  width: 100%;
+  height: 22px;
+  /*line-height: 30px;*/
+  text-align: center;
+  color: #fff;
+}
+.relative {
+  position: relative;
+}
+.cankao {
+  text-align: center;
+  font-size: 12px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
 }
 </style>

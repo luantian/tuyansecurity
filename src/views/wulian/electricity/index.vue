@@ -1,87 +1,25 @@
 <template>
-  <div class="flex bt-box">
-    <div class="sj-box">
-      <div
-        v-for="(item, index) in info"
-        :key="item.dr_id"
-        class="wrap_sysDiv"
-        style="position: relative; height: 300px; width: 360px"
-      >
-        <div class="title fontSize16"><span class="">{{item.dr_device_name}}</span></div>
-        <div
-          :class="`boxcontent normalData ${active == index ? 'active' : ''}`"
-          @click="setLine(index, '电流', 'mA')"
-        >
-          <div class="flex" style="height: 170px">
-            <div class="flex1 relative">
-              <div class="eqName" title="剩余电流">漏电电流</div>
-              <div class="chartDiv" :id="`yali${index}`"></div>
-              <div class="cankao fontSize14">参考值 : 0.0 - 500.0mA</div>
-            </div>
-            <div class="flex1 relative">
-              <div class="eqName" title="配电箱温度">配电箱温度</div>
-              <div class="humCont">
-                <div class="tempdiv" style="height: 100%; bottom: 15%">
-                  <div class="tempbar">
-                    <div
-                      class="tempData"
-                      :style="`height: ${item.dr_temperature}%;`"
-                    ></div>
-                    <div
-                      class="msg msgblue"
-                      :style="`bottom: ${item.dr_temperature}%;`"
-                    >
-                      <span class="tempNumber">{{ item.dr_temperature }}</span
-                      >℃
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="cankao fontSize14">温度参考值 : 0.0 - 60.0℃</div>
-            </div>
-          </div>
-          <div class="flex bt-tx">
-            <div class="flex1" style="color: #3b7dd2">
-              <div>电压</div>
-              <div class="mt5">UA {{ item.dr_ua }}V</div>
-              <div class="mt5">UB {{ item.dr_ub }}V</div>
-              <div class="mt5">UC {{ item.dr_uc }}V</div>
-            </div>
-            <div class="flex1" style="color: #b88b16">
-              <div>电流</div>
-              <div class="mt5">IA {{ item.dr_ia }}A</div>
-              <div class="mt5">IB {{ item.dr_ib }}A</div>
-              <div class="mt5">IC {{ item.dr_ic }}A</div>
-            </div>
-            <div class="flex1" style="color: #b3454f">
-              <div>温度</div>
-              <div class="mt5">WA {{ item.dr_wa }}°C</div>
-              <div class="mt5">WB {{ item.dr_wb }}°C</div>
-              <div class="mt5">WC {{ item.dr_wc }}°C</div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="electricity_main">
+    <!--机构 start-->
+    <div class="left">
+      <el-input placeholder="输入关键字进行过滤"
+                v-model="filterText">
+      </el-input>
 
-      <!-- <div class="wrap_sysDiv" style="position: relative; height: calc(202px); width: 192px;">
-      <div class="title fontSize16"><span class="">配电箱温度</span></div>
-      <div :class="`boxcontent normalData ${active==2?'active':''}`" @click="setLine(2,'温度','℃')">
-
-        <div class="eqName" title="配电箱温度">配电箱温度</div>
-        <div class="humCont">
-          <div class="tempdiv" style="height: 100%;bottom: 15%;">
-            <div class="tempbar">
-              <div class="tempData " style="height: 34.8%;"></div>
-              <div class="msg msgblue" style="bottom: 34.8%;"><span class="tempNumber">34.8</span>℃ </div>
-            </div>
-          </div>
-        </div>
-        <div class="cankaodata fontSize14">参考值 : 0.0 - 50.0℃</div>
-      </div>
-    </div>  -->
+      <el-tree class="filter-tree"
+               :data="data"
+               :props="defaultProps"
+               default-expand-all
+               :filter-node-method="filterNode"
+               ref="tree">
+      </el-tree>
     </div>
+    <!--机构 end-->
+    <!-- 图表 start -->
+    <div class="right">
 
-    <div id="lineChart" class="line_Chart" v-show="info.length"></div>
+    </div>
+    <!-- 图表 end -->
   </div>
 </template>
 
@@ -112,7 +50,7 @@ var color = ["#74FFF3", "#5E8FFF"],
 import moment from "moment";
 export default {
   // props: ["unit"],
-  data() {
+  data () {
     return {
       active: 1,
       chart: null,
@@ -120,49 +58,89 @@ export default {
       info: {},
       unit: {
         dr_unit_id: ''
+      },
+      filterText: '',
+      data: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
+          children: [{
+            id: 9,
+            label: '三级 1-1-1'
+          }, {
+            id: 10,
+            label: '三级 1-1-2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1'
+        }, {
+          id: 6,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1'
+        }, {
+          id: 8,
+          label: '二级 3-2'
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
       }
     };
   },
   watch: {
-    unit : {
-     handler () {
- this.info = []
-      this.$get(`/v1/dr/get-electricity-device/${this.unit.dr_unit_id}`).then(
-        (res) => {
-          this.info = res.data;
-          this.$nextTick(() => {
-            this.info.map((it, index) => {
-              this.getHFCChart(
-                {
-                  id: "yali" + index,
-                  data: {
-                    currentValue: it.dr_electric_leakage,
-                    analogdown: 200,
-                    analogup: 800,
-                    analogWarningUp: 800,
-                    analogWarningDown: 0,
-                    analogUnit: "mA",
+    unit: {
+      handler () {
+        this.info = []
+        this.$get(`/v1/dr/get-electricity-device/${this.unit.dr_unit_id}`).then(
+          (res) => {
+            this.info = res.data;
+            this.$nextTick(() => {
+              this.info.map((it, index) => {
+                this.getHFCChart(
+                  {
+                    id: "yali" + index,
+                    data: {
+                      currentValue: it.dr_electric_leakage,
+                      analogdown: 200,
+                      analogup: 800,
+                      analogWarningUp: 800,
+                      analogWarningDown: 0,
+                      analogUnit: "mA",
+                    },
                   },
-                },
-                0
-              );
-            });
+                  0
+                );
+              });
 
-            this.setLine(0, "电流", "mA");
-          });
-        }
-      );
-     },
-     deep: true
+              this.setLine(0, "电流", "mA");
+            });
+          }
+        );
+      },
+      deep: true
     },
   },
-  mounted() {
+  mounted () {
     setTimeout(() => {
       this.unit.dr_unit_id = '120034'
-    },1000)
+    }, 1000)
   },
   methods: {
-    setLine(type, name, unit) {
+    setLine (type, name, unit) {
       this.active = type;
       this.$get(
         "/v1/dr/get-electricity-device-diagram/" + this.info[type].dr_device_id
@@ -186,7 +164,7 @@ export default {
         this.lineChart(this.lineData, name, unit);
       });
     },
-    getHFCChart(obj, color) {
+    getHFCChart (obj, color) {
       var data = obj.data;
       var CO2Chart = this.$echarts.init(document.getElementById(obj.id));
       CO2Chart.title = "压力";
@@ -403,7 +381,7 @@ export default {
         CO2Chart.resize();
       });
     },
-    lineChart(data, name, unit) {
+    lineChart (data, name, unit) {
       let serve = {
         name: "",
         type: "line",
@@ -447,8 +425,8 @@ export default {
         smooth: !0,
       };
       let servers = []
-      data.y.map(it=>{
-        let obj = {...serve}
+      data.y.map(it => {
+        let obj = { ...serve }
         obj.name = it.name;
         obj.data = it.data
         servers.push(obj)
@@ -533,44 +511,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.boxcontent {
-}
-.bt-tx {
-  text-align: center;
-  font-size: 14px;
-}
-.sj-box {
-  height: 50%;
-  overflow-y: auto;
-  border-bottom: 1px solid #064278;
-}
-
-.line_Chart {
-  height: 50%;
-}
-
-.bt-box {
+.electricity_main {
   width: 100%;
   height: 100%;
-  flex-direction: column;
-}
-
-.title {
-  width: 100%;
-  height: 22px;
-  /*line-height: 30px;*/
-  text-align: center;
-  color: #fff;
-}
-.relative {
-  position: relative;
-}
-.cankao {
-  text-align: center;
-  font-size: 12px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 20px;
+  display: flex;
+  .left {
+    height: 100%;
+    width: 270px;
+    flex-shrink: 0;
+    background: #000c12;
+    border-right: 1px solid rgba(0, 138, 207, 0.66);
+  }
+  .right {
+    flex: 1;
+  }
 }
 </style>

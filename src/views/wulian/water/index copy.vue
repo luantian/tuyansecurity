@@ -1,15 +1,100 @@
 <template>
-  <div class="water_main">
-    <!--机构 start-->
-    <div class="left">
+  <div class="flex bt-box">
+    <div class="sj-box">
+      <div v-for="(info,index) in list" class="dev-wrap">
+        <div
+        class="wrap_sysDiv box1_water"
+        style="height: calc(202px); width: 192px"
+        v-if="info.sw"
+      >
+        <div class="title f16 center"><span class=""></span></div>
+        <div
+          :class="`anmiteBox boxcontent normalData ${
+            active == `1-${index}` ? 'active' : ''
+          }`"
+          @click="setLine(`1-${index}`, '水位', 'cm')"
+        >
+          <div class="eqName" title="水位">水位</div>
+          <div class="box">
+            <img src="@/assets/wulian/waterBox.png" />
+            <div class="btword"></div>
+          </div>
+          <div class="bo">
+            <div>
+              <img src="@/assets/wulian/bo1.png" class="bo1" /><img
+                src="@/assets/wulian/bo2.png"
+                class="bo2"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="word currentWord yaliword1">{{ info.sw.dr_value }}cm</div>
+        <div class="shuiweidata fontSize14">参考值: 20.0 - 300.0cm</div>
+      </div>
 
-    </div>
-    <!--机构 end-->
-    <!-- 图表 start -->
-    <div class="right">
+      <div
+        class="wrap_sysDiv"
+        style="position: relative; height: calc(202px); width: 192px"
+        v-if="info.sy"
+      >
+        <div class="title f16 center"><span class=""></span></div>
+        <div
+          :class="`boxcontent normalData ${active == `2-${index}` ? 'active' : ''}`"
+          @click="setLine(`2-${index}`, '水压', 'Kpa')"
+        >
+          <div class="eqName" title="水压">水压</div>
+          <div class="chartDiv" :id="'yali'+index"></div>
+          <div class="cankaodata fontSize14">参考值 : 20 - 80Kpa</div>
+        </div>
+      </div>
+      <div class="mt10 center dev-name">{{info.sy.dr_device_name}}</div>
+      </div>
+      
 
+      <!-- <div
+        class="wrap_sysDiv"
+        style="position: relative; height: calc(202px); width: 192px"
+      >
+        <div class="title fontSize16"><span class=""></span></div>
+        <div
+          :class="`boxcontent normalData ${active == 3 ? 'active' : ''}`"
+          @click="setLine(3, '温度', '℃')"
+        >
+          <div class="eqName" title="泵房温度">泵房温度</div>
+          <div class="humCont">
+            <div class="tempdiv" style="height: 100%; bottom: 15%">
+              <div class="tempbar">
+                <div class="tempData" style="height: 34.8%"></div>
+                <div class="msg msgblue" style="bottom: 34.8%">
+                  <span class="tempNumber">34.8</span>℃
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cankaodata fontSize14">参考值 : 0.0 - 50.0℃</div>
+        </div>
+      </div> -->
+
+      <!-- <div
+        class="wrap_sysDiv"
+        style="position: relative; height: calc(202px); width: 192px"
+      >
+        <div class="title fontSize16"><span class=""></span></div>
+        <div
+          :class="`boxcontent normalData ${active == 4 ? 'active' : ''}`"
+          @click="setLine(4, '湿度', '%RH')"
+        >
+          <div class="eqName" title="泵房湿度">泵房湿度</div>
+          <div class="chartDiv contentimg">
+            <img src="@/assets/wulian/shidu.png" />
+          </div>
+          <div class="yaliword1">19.83%RH</div>
+          <div class="cankaodata fontSize14">参考值 : 0.0 - 90.0%RH</div>
+        </div>
+      </div> -->
     </div>
-    <!-- 图表 end -->
+
+    <div id="lineChart" class="line_Chart" v-if="showChart"></div>
   </div>
 </template>
 
@@ -37,32 +122,32 @@ var color = ["#74FFF3", "#5E8FFF"],
       },
     ],
   ];
-import moment from "moment";
+  import moment from "moment";
 export default {
   props: ["unit"],
-  data () {
+  data() {
     return {
       active: 1,
       chart: null,
       lineData: [],
-      list: [],
+      list:[],
       info: {},
       type_map: {
         1: "sw",
         2: "sy",
       },
-      showChart: false
+      showChart:false
     };
   },
   watch: {
-    unit (val) {
+    unit(val) {
       this.$get(`/v1/dr/get-water-device/${val.dr_unit_id}`).then((res) => {
         this.info = {};
         this.list = []
         if (res.data) {
-          res.data.map(i => {
+          res.data.map(i=>{
             let obj = {}
-            i.map(j => {
+            i.map(j=>{
               obj[j.dr_model_type] = j;
             })
             this.list.push(obj)
@@ -80,42 +165,43 @@ export default {
       });
     },
   },
-  mounted () {
+  mounted() {
     //this.init();
   },
   methods: {
-    init () {
+    init() {
       this.active = '1-0';
-      this.list.map((it, index) => {
-        if (it.sy) {
+      this.list.map((it,index)=>{
+        if(it.sy){
           this.getHFCChart(
-            {
-              id: "yali" + index,
-              data: {
-                currentValue: it.sy.dr_value,
-                analogdown: 0,
-                max: 80,
-                analogUnit: "Kpa",
-              },
+          {
+            id: "yali"+index,
+            data: {
+              currentValue: it.sy.dr_value,
+              analogdown: 0,
+              max: 80,
+              analogUnit: "Kpa",
             },
-            0
-          );
+          },
+          0
+        );
         }
       })
 
       this.setLine('1-0', "水位", "cm");
     },
-    setLine (type, name, unit) {
+    setLine(type, name, unit) {
       this.active = type;
       let index = type.split('-')[1]
       let key = type.split('-')[0]
       this.$get(
-        `/v1/dr/get-water-device-monitor/${this.list[index][this.type_map[key]].dr_device_id
+        `/v1/dr/get-water-device-monitor/${
+          this.list[index][this.type_map[key]].dr_device_id
         }`
       ).then((res) => {
         let x_arr = [];
         let y_arr = [];
-        res.data.map(it => {
+        res.data.map(it=>{
           x_arr.push(moment(it.dr_create_time * 1000).format("MM-DD HH:mm:ss"))
           y_arr.push(it.dr_value)
         })
@@ -126,7 +212,7 @@ export default {
         this.lineChart(this.lineData, name, unit);
       });
     },
-    getHFCChart (obj, color) {
+    getHFCChart(obj, color) {
       var data = obj.data;
       var CO2Chart = this.$echarts.init(document.getElementById(obj.id));
       CO2Chart.title = "压力";
@@ -342,7 +428,7 @@ export default {
         CO2Chart.resize();
       });
     },
-    lineChart (data, name, unit) {
+    lineChart(data, name, unit) {
       let option = {
         tooltip: {
           trigger: "axis",
@@ -466,20 +552,41 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.water_main {
+.sj-box {
+  height: 50%;
+  overflow-y: auto;
+  border-bottom: 1px solid #064278;
+}
+.dev-wrap{
+  border: 1px solid #064278;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0 15px 30px 15px;
+  position: relative;
+  float: left;
+  width: 427px;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  .dev-name{
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+  }
+}
+.line_Chart {
+  height: 50%;
+}
+
+.bt-box {
+  flex-direction: column;
+}
+
+.title {
   width: 100%;
-  height: 100%;
-  display: flex;
-  .left {
-    height: 100%;
-    width: 270px;
-    flex-shrink: 0;
-    background: #000c12;
-    border-right: 1px solid rgba(0, 138, 207, 0.66);
-    
-  }
-  .right {
-    flex: 1;
-  }
+  height: 22px;
+  /*line-height: 30px;*/
+  text-align: center;
+  color: #fff;
 }
 </style>
