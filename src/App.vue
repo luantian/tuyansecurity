@@ -2,18 +2,16 @@
   <div id="app">
     <el-container id="dark"
                   v-if="!page.meta.noNav&&page.name">
-      <v-header></v-header>
-
-      <el-container :style="{ height: pageSize.height - 60 + 'px' }">
-        <v-nav></v-nav>
-        <div class="flex1"
-             :style="{ width: pageSize.width - 230 + 'px' }">
+      <v-nav></v-nav>
+      <el-container style="display:flex;flex-direction:column">
+        <v-header></v-header>
+        <div class="flex1" >
           <el-scrollbar :style="{ height: pageSize.height - 60 + 'px' }"
                         class="el-scroll">
-            <!-- <el-main>
+            <el-main>
               <el-card shadow="always"
                        :style="{ minHeight: pageSize.height - 100 + 'px' }"
-                       :body-style="{ padding: '0px'}"> -->
+                       :body-style="{ padding: '0px'}">
                 <keep-alive>
                   <router-view :key="page.fullPath"
                                v-if="page.meta.keepAlive && isRouterAlive"></router-view>
@@ -22,15 +20,19 @@
                   <router-view :key="page.fullPath"
                                v-if="!page.meta.keepAlive && isRouterAlive"></router-view>
                 </transition>
-              <!-- </el-card>
-            </el-main> -->
+              </el-card>
+
+              <!-- <keep-alive>
+                <router-view :key="page.fullPath" v-if="page.meta.keepAlive&&isRouterAlive"></router-view>
+              </keep-alive>
+              <transition mode="out-in">
+                <router-view :key="page.fullPath" v-if="!page.meta.keepAlive&&isRouterAlive"></router-view>
+              </transition> -->
+            </el-main>
           </el-scrollbar>
         </div>
       </el-container>
-      <!-- <Message v-if="!page.hidden" :type="'def'" /> -->
     </el-container>
-    <router-view :key="page.fullPath"
-                 v-if="page.meta.noNav" />
   </div>
 </template>
 
@@ -46,9 +48,15 @@ export default {
     Message
   },
   data () {
+    const item = {
+      date: '2016-05-02',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1518 弄'
+    };
     return {
       pageSize: {},
       isRouterAlive: true,
+      tableData: Array(20).fill(item),
       page: {
         meta: {}
       }
@@ -180,15 +188,14 @@ export default {
 @import './assets/weather-icons/css/weather-icons.min.css';
 @import './assets/weather-icons/css/weather-icons-wind.css';
 //@import "./styles/dark.scss";
-#dark {
-  flex-direction: column;
-}
-
 html,
 body,
 #app,
 .el-menu,
 #dark {
   height: 100%;
+  .el-main {
+    padding: 0px !important;
+  }
 }
 </style>

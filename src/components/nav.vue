@@ -1,5 +1,6 @@
 <template>
   <el-aside width="220px"
+            style="height:100%"
             class="animate__animated animate__fadeInLeft"
             v-if="!noAccess">
     <el-menu :default-openeds="open"
