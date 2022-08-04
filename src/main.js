@@ -22,7 +22,7 @@ import "./assets/css/animate.min.css";
 import VueAMap from 'vue-amap'; // 高德
 import Video from 'video.js';
 import 'video.js/dist/video-js.css';
-import "./styles/dark.scss";
+import "./styles/dark.scss"; // 主题色
 VueAMap.initAMapApiLoader({ //高德地图
     key: '620026d422fce709e901b1614fbda344',
     plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.DistrictSearch', 'AMap.MapType', ],

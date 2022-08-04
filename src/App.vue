@@ -10,10 +10,10 @@
              :style="{ width: pageSize.width - 230 + 'px' }">
           <el-scrollbar :style="{ height: pageSize.height - 60 + 'px' }"
                         class="el-scroll">
-            <el-main>
+            <!-- <el-main>
               <el-card shadow="always"
                        :style="{ minHeight: pageSize.height - 100 + 'px' }"
-                       :body-style="{ padding: '0px'}">
+                       :body-style="{ padding: '0px'}"> -->
                 <keep-alive>
                   <router-view :key="page.fullPath"
                                v-if="page.meta.keepAlive && isRouterAlive"></router-view>
@@ -22,15 +22,8 @@
                   <router-view :key="page.fullPath"
                                v-if="!page.meta.keepAlive && isRouterAlive"></router-view>
                 </transition>
-              </el-card>
-
-              <!-- <keep-alive>
-                <router-view :key="page.fullPath" v-if="page.meta.keepAlive&&isRouterAlive"></router-view>
-              </keep-alive>
-              <transition mode="out-in">
-                <router-view :key="page.fullPath" v-if="!page.meta.keepAlive&&isRouterAlive"></router-view>
-              </transition> -->
-            </el-main>
+              <!-- </el-card>
+            </el-main> -->
           </el-scrollbar>
         </div>
       </el-container>

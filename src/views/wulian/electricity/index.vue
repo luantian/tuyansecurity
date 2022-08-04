@@ -124,8 +124,9 @@ export default {
     };
   },
   watch: {
-    unit(val) {
-      this.info = []
+    unit : {
+     handler () {
+ this.info = []
       this.$get(`/v1/dr/get-electricity-device/${this.unit.dr_unit_id}`).then(
         (res) => {
           this.info = res.data;
@@ -151,6 +152,8 @@ export default {
           });
         }
       );
+     },
+     deep: true
     },
   },
   mounted() {

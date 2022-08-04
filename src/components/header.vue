@@ -6,53 +6,31 @@
       <div class="f18 ">{{$bus.user.dr_unit_platform_name || '智慧消防平台'}}</div>
     </div>
     <div class="right-menu align-center">
-      <el-button type="primary"
+      <a href="/#/monitorCenter"
+         target="_blank">
+        <div class="header_btn">大屏监控</div>
+      </a>
+      <!-- <el-button type="primary"
                  size="small"
-                 @click="$router.push($bus.user.dr_is_admin=='commonly'?'/alert':'/home')">返回首页</el-button>
-
-      <div v-show="weather.temperature"
-           class="main_weather animate__animated animate__fadeInDown ml20"
-           style="margin-right: 20px;">
-        <template>
-          <div class="flex">
-            <div class="weather">
-              <i :class="'wi wi-' + weatherIcon"></i>
-            </div>
-            <div class="wd flex">
-              <div class="ssd">
-                {{ weather.weather }}
-              </div>
-              <div class="tq"
-                   style="margin-left: 3px">
-                {{ weather.temperature }} ℃
-              </div>
-            </div>
-          </div>
-          <div class="wind flex">
-            <div class="w-x">
-              <i :class="'wi wi-wind wi-towards-'+winddirectionIcon"></i>
-            </div>
-            <div class="w-level">
-              {{ weather.winddirection }}风{{ weather.windpower }}级
-            </div>
-          </div>
-        </template>
-      </div>
-      <!--      <div class="ml20">{{ $store.state.userInfo.dr_user_name || 'Admin' }}</div>-->
+                 @click="$router.push($bus.user.dr_is_admin=='commonly'?'/alert':'/monitorCenter')">大屏监控</el-button> -->
       <el-dropdown class="avatar-container"
                    trigger="hover"
                    @command="clickDown">
         <div class="avatar-wrapper align-center cursor">
-          <i class="el-icon-user-solid"
-             style="color:#fff;font-size:16px"></i>
+          <i class="iconfont icon-userHeader" style="font-size:18px;"></i>
           <span class="c-f ml5">{{ $bus.user.dr_user_name||'' }}</span>
+          <i class="el-icon-arrow-down"
+             style="color: #E1EFFE;font-size:14px;margin-left:14px"></i>
         </div>
         <el-dropdown-menu slot="dropdown"
                           class="user-dropdown">
           <el-dropdown-item command="1">修改密码</el-dropdown-item>
-          <el-dropdown-item command="2">退出登录</el-dropdown-item>
+          <!-- <el-dropdown-item command="2">退出登录</el-dropdown-item> -->
         </el-dropdown-menu>
       </el-dropdown>
+      <i class="iconfont icon-logOut cursor"
+         @click="logout()"></i>
+
     </div>
 
     <el-dialog :close-on-click-modal="false"
@@ -295,6 +273,18 @@ export default {
   &:focus {
     outline: none;
   }
+  .header_btn {
+    width: 139px;
+    height: 44px;
+    background-image: url('../assets/header-image/header_btn.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    text-align: center;
+    line-height: 44px;
+    font-size: 18px;
+    // margin-right: 57px;
+    cursor: pointer;
+  }
 
   .right-menu-item {
     display: inline-block;
@@ -315,16 +305,12 @@ export default {
   }
 
   .avatar-container {
-    margin-right: 20px;
-
+    margin-left: 56px;
+    margin-right: 24px;
     .avatar-wrapper {
       position: relative;
-
-      .user-avatar {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-      }
+      font-size: 18px;
+      color: #e1effe;
     }
   }
 }
