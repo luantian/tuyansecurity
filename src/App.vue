@@ -33,6 +33,8 @@
         </div>
       </el-container>
     </el-container>
+    <router-view :key="page.fullPath"
+                 v-if="page.meta.noNav" />
   </div>
 </template>
 
