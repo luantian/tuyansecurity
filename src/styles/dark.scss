@@ -516,19 +516,25 @@
   //     background-color: #161b1f
   // }
   .el-menu--dark .el-menu-item {
-    color: hsla(0, 0%, 100%, 0.8);
+    // color: hsla(0, 0%, 100%, 0.8);
+    color: #fff;
   }
   .el-menu--dark .el-menu-item:hover {
-    background-color: #3e4850;
-    color: hsla(0, 0%, 100%, 0.8);
+    // background-color: #3e4850;
+    background: inherit;
+    // color: hsla(0, 0%, 100%, 0.8);
+    color: #fff;
   }
   .el-menu--dark .el-menu-item:active {
-    background-color: hsla(0, 0%, 100%, 0.08);
-    color: hsla(0, 0%, 100%, 0.8);
+    // background-color: hsla(0, 0%, 100%, 0.08);
+    background-color: inherit;
+    // color: hsla(0, 0%, 100%, 0.8);
+    color: #fff;
   }
   .el-menu--dark .el-menu-item.is-active {
     //background-color: #2b6de5;
-    color: hsla(0, 0%, 100%, 0.8) !important;
+    // color: hsla(0, 0%, 100%, 0.8) !important;
+    color: #fff;
     background-color: inherit;
   }
   .el-menu--dark .el-menu-item.is-disabled {
@@ -543,7 +549,9 @@
     // background-color: #2a333a
   }
   .el-menu--dark .el-submenu.is-active > .el-submenu__title {
-    color: hsla(0, 0%, 100%, 0.8);
+    // color: hsla(0, 0%, 100%, 0.8);
+    background-color: inherit;
+    color: #fff;
   }
   .el-menu--dark .el-submenu .el-menu {
     // background-color: #2a333a
@@ -553,24 +561,24 @@
     // border-radius: 3px;
   }
   .el-menu--dark .el-submenu .el-menu .el-menu-item:hover {
-    background-color: #3e4850;
-    color: hsla(0, 0%, 100%, 0.8);
+    // background-color: #3e4850;
+    // color: hsla(0, 0%, 100%, 0.8);
   }
   .el-menu--dark .el-submenu .el-menu .el-menu-item:active {
-    background-color: hsla(0, 0%, 100%, 0.08);
-    color: hsla(0, 0%, 100%, 0.8);
+    // background-color: hsla(0, 0%, 100%, 0.08);
+    // color: hsla(0, 0%, 100%, 0.8);
   }
   .el-menu--dark .el-submenu.is-disabled .el-submenu__title,
   .el-menu--dark .el-submenu__title {
-    color: hsla(0, 0%, 100%, 0.8);
+    // color: hsla(0, 0%, 100%, 0.8);
   }
   .el-menu--dark .el-submenu__title:hover {
-    background-color: #3e4850;
-    color: hsla(0, 0%, 100%, 0.8);
+    // background-color: #3e4850;
+    // color: hsla(0, 0%, 100%, 0.8);
   }
   .el-menu--dark .el-submenu__title:active {
-    background-color: hsla(0, 0%, 100%, 0.08);
-    color: hsla(0, 0%, 100%, 0.8);
+    // background-color: hsla(0, 0%, 100%, 0.08);
+    // color: hsla(0, 0%, 100%, 0.8);
   }
   .el-menu--dark.el-menu--collapse > .el-menu-item.is-active,
   .el-menu--dark.el-menu--collapse
@@ -578,7 +586,7 @@
     > .el-submenu__title,
   .el-menu--dark .el-submenu.is-active:not(.is-opened) > .el-submenu__title {
     //background-color: #2b6de5;
-    color: hsla(0, 0%, 100%, 0.8);
+    // color: hsla(0, 0%, 100%, 0.8);
     font-weight: 400;
   }
   .el-menu--dark.el-menu--collapse > .el-menu-item.is-active:before,
@@ -596,7 +604,7 @@
     .el-submenu.is-active:not(.is-opened)
     > .el-submenu__title {
     //background-color: #2b6de5;
-    color: hsla(0, 0%, 100%, 0.8);
+    // color: hsla(0, 0%, 100%, 0.8);
     font-weight: 700;
   }
   .el-menu--dark.el-menu--collapse .el-submenu .el-menu {
@@ -850,7 +858,8 @@
     transition: all 0.3s linear;
   }
   .el-menu-item.is-active {
-    background-color: #353b41;
+    // background-color: #353b41;
+    background: inherit;
     color: hsla(0, 0%, 100%, 0.85);
   }
   .el-menu-item.is-active:before {
@@ -914,7 +923,7 @@
     line-height: 48px;
   }
   .el-submenu .el-menu-item:hover {
-    color: hsla(0, 0%, 100%, 0.85);
+    // color: hsla(0, 0%, 100%, 0.85);
   }
   .el-submenu__icon-arrow {
     position: absolute;
@@ -944,8 +953,9 @@
     transition: all 0.3s linear;
   }
   .el-submenu.is-active:not(.is-opened) > .el-submenu__title {
-    background-color: #353b41;
-    color: hsla(0, 0%, 100%, 0.85);
+    // background-color: #353b41;
+    background-color: inherit;
+    // color: hsla(0, 0%, 100%, 0.85);
   }
   .el-submenu.is-active:not(.is-opened) > .el-submenu__title:before {
     -webkit-transform: scaleY(1);
@@ -955,7 +965,7 @@
     background-color: #353b41;
   }
   .el-submenu.is-disabled .el-submenu__title {
-    color: hsla(0, 0%, 100%, 0.65);
+    // color: hsla(0, 0%, 100%, 0.65);
     cursor: not-allowed;
     opacity: 0.5;
   }
@@ -1016,7 +1026,7 @@
     position: relative;
     height: 48px;
     padding: 0 20px;
-    color: hsla(0, 0%, 100%, 0.8);
+    // color: hsla(0, 0%, 100%, 0.8);
     font-size: 14px;
     line-height: 48px;
   }

@@ -8,18 +8,23 @@
                     class="el-scroll">
         <template v-for="(item,index) in navList">
           <el-submenu :index="item.dr_self_key"
+                      :key="index"
                       v-if="item.dr_son&&item.dr_son.length"
                       :default-openeds="openeds">
             <template slot="title"><i :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"></i>{{ item.dr_power_name }}</template>
             <el-menu-item-group>
-              <router-link :to="child.dr_power_href||''"
-                           v-for="child in item.dr_son"
-                           v-if="child.dr_power_href">
-                <el-menu-item>{{ child.dr_power_name }}</el-menu-item>
-              </router-link>
+              <template v-for="child in item.dr_son">
+                <router-link :to="child.dr_power_href||''"
+                             :key="child.dr_power_name"
+                             v-if="child.dr_power_href">
+                  <el-menu-item>{{ child.dr_power_name }}</el-menu-item>
+                </router-link>
+              </template>
+
             </el-menu-item-group>
           </el-submenu>
-          <router-link :to="item.dr_power_href||''"
+          <router-link :key="index"
+                       :to="item.dr_power_href||''"
                        v-if="!item.dr_son||!item.dr_son.length">
             <el-menu-item :index="item.dr_power_href">
               <i :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"></i>
