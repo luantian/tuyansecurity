@@ -158,7 +158,7 @@ export default {
         this.$get(`/v1/dr/get-electricity-device/${this.unit.dr_unit_id}`).then(
           (res) => {
             if (res.msg !== '获取用电设备成功') {
-              this.$message.info('没有对应数据');
+              this.$message.info(res.msg);
               return
             }
 
@@ -252,6 +252,7 @@ export default {
         },
         series: [{
           name: '业务指标',
+          radius: '94%',
           type: 'gauge',
           detail: {
             show: false,
@@ -714,25 +715,25 @@ export default {
             .chartDiv {
               flex: 1;
               display: flex;
-              justify-content: start;
+              // justify-content: start;
               // width: 120%;
             }
             .item_content_top_left {
               display: flex;
               flex-direction: column;
               justify-content: space-between;
-              // flex: 1;
+              flex: 1;
               flex-shrink: 0;
-              width: 60%;
+              // width: 60%;
               overflow: hidden;
             }
             .item_content_top_right {
               display: flex;
               flex-direction: column;
               justify-content: space-between;
-              // flex: 1;
-              width: 40%;
-              // flex-shrink: 0;
+              flex: 1;
+              // width: 40%;
+              flex-shrink: 0;
               overflow: hidden;
             }
           }

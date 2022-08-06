@@ -29,6 +29,21 @@
             </div>
             <div class="item_content">
               <div class="item_content_line"></div>
+              <div class="item_content_left">
+                <div class="eqName"
+                     title="水位">水位</div>
+                <div class="chartDiv"
+                     :id="`sw${index}`"></div>
+                <div class="cankao fontSize14">参考值 : 20.0 - 300.0cm</div>
+              </div>
+              <div class="item_content_right">
+                <div class="eqName"
+                     title="水压">水压</div>
+                <div class="chartDiv"
+                     :id="`sy${index}`"></div>
+                <div class="cankao fontSize14">参考值 : 0.0 - 60.0Kpa</div>
+              </div>
+
             </div>
             <!-- 图标区 start -->
 
@@ -38,11 +53,14 @@
 
       </div>
       <!-- 折线图 start -->
-      <div class="right_bottom">
+      <div class="right_bottom"
+           v-if="list.length">
         <div class="right_bottom_line"></div>
         <div id="lineChart"
+             class="line_Chart"></div>
+        <!-- <div id="lineChart"
              class="line_Chart"
-             v-show="info.length"></div>
+             v-show="info.length"></div> -->
       </div>
       <!-- 折线图 end -->
     </div>
@@ -94,7 +112,14 @@ export default {
       },
       showChart: false,
       unit: {
-        dr_unit_id: ''
+        dr_unit_id: '',
+        dr_level: 3,
+        dr_parent_key: "",
+        dr_self_key: "",
+        dr_sort: 0,
+        dr_unit_id: 0,
+        dr_unit_name: "",
+        id: 0
       },
     };
   },
@@ -129,18 +154,21 @@ export default {
   },
   mounted () {
     //this.init();
-    setTimeout(() => {
-      this.unit.dr_unit_id = '120034'
-    }, 1000)
   },
   methods: {
+    handleSelectArea (val) {
+      console.log(val);
+      for (let key in val) {
+        this.$set(this.unit, key, val[key])
+      }
+    },
     init () {
       this.active = '1-0';
       this.list.map((it, index) => {
         if (it.sy) {
           this.getHFCChart(
             {
-              id: "yali" + index,
+              id:  index,
               data: {
                 currentValue: it.sy.dr_value,
                 analogdown: 0,
@@ -178,218 +206,161 @@ export default {
     },
     getHFCChart (obj, color) {
       var data = obj.data;
-      var CO2Chart = this.$echarts.init(document.getElementById(obj.id));
-      CO2Chart.title = "压力";
-
-      var wordColor = ""; //数据显示颜色
-      var barColor = ""; //仪表盘颜色显示
-      var arrowColor = ""; //指针颜色
-      var axisLabelSize = null;
-      var detailSize = 20;
-      if (window.innerWidth <= 1366) {
-        axisLabelSize = 8;
-        detailSize = 14;
-      }
-
-      if (color == 0) {
-        wordColor = "#43eec9";
-        barColor = "#03b7c9";
-        arrowColor = "#43eec9";
-      } else {
-        wordColor = "#f4704d";
-        barColor = "#f4704d";
-        arrowColor = "#f4704d";
-      }
-
-      //data.analogup = 55,data.analogdown = 42.5,data.analogWarningUp = 80,data.analogWarningDown=30;
-
-      // var axisSplit1 = (data.analogdown - data.analogWarningDown)/(data.analogWarningUp - data.analogWarningDown);
-      // var axisSplit2 = (data.analogup - data.analogWarningDown)/(data.analogWarningUp - data.analogWarningDown);
-      // var axisSplit1 = parseFloat(data.analogdown * 0.2 / (data.analogup * 1.2 - data.analogdown * 0.8)).toFixed(0,2);
-      // var axisSplit2 = parseFloat((data.analogup - data.analogdown * 0.8) / (data.analogup * 1.2 - data.analogdown * 0.8)).toFixed(0,2);
-
-      var minValue = 0;
-      var maxValue = data.max;
-
-      var axisSplit1 = 0.2//data.analogWarningUp; //(data.analogdown - minValue) / (maxValue - minValue);
-      var axisSplit2 = 0.8 //(data.analogup - minValue) / (maxValue - minValue);
-
-      var option = {
-        grid: {
-          z: 1, //grid作为柱状图的坐标系，其层级要和仪表图层级不同，同时隐藏
-          show: false,
-          left: "0%",
-          right: "0%",
-          top: "5%",
-          containLabel: true,
-          splitLine: {
-            show: false, //隐藏分割线
-          },
-        },
-        xAxis: [
-          //这里有很多的show，必须都设置成不显
-          {
-            type: "category",
-            data: [],
-            axisLine: {
-              show: false,
+      var swChart = this.$echarts.init(document.getElementById(`sw${obj.id}`));
+      var syChart = this.$echarts.init(document.getElementById(`sy${obj.id}`));
+      var value = data.currentValue || 0;
+      let option = {
+        series: [{
+          type: 'liquidFill',
+          // radius: '47%',
+          radius: '94%',
+          color: [{
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [{
+              offset: 0,
+              color: '#446bf5',
             },
-            splitLine: {
-              show: false,
+            {
+              offset: 1,
+              color: '#2ca3e2',
             },
-            splitArea: {
-              interval: "auto",
-              show: false,
-            },
-          },
-        ],
-        yAxis: [
-          //这里有很多的show，必须都设置成不显示
-          {
-            type: "value",
-            axisLine: {
-              show: false,
-            },
-            splitLine: {
-              show: false,
-            },
-          },
-        ],
-        toolbox: {
-          show: false,
-        },
-        series: [
-          {
-            name: "刻度盘",
-            type: "gauge",
-            startAngle: 180,
-            endAngle: 0,
-            center: ["50%", "65%"], //整体的位置设置
-            z: 3,
-            min: minValue,
-            max: maxValue,
-            splitNumber: 1,
-            radius: "95%",
-            axisLine: {
-              // 坐标轴线
-              lineStyle: {
-                // 属性lineStyle控制线条样式
-                width: 10,
-                color: [
-                  [axisSplit1, "#f4704d"],
-                  [axisSplit2, "#03b7c9"],
-                  [1, "#f4704d"],
-                ],
-              },
-            },
-            axisTick: {
-              // 坐标轴小标记
-              length: 5, // 属性length控制线长
-              splitNumber: 10,
-              lineStyle: {
-                // 属性lineStyle控制线条样式
-                color: "#4375AA",
-              },
-            },
-            splitLine: {
-              // 分隔线
-              length: 15, // 属性length控制线长
-              lineStyle: {
-                // 属性lineStyle（详见lineStyle）控制线条样式
-                color: "#4375AA",
-              },
-            },
-            axisLabel: {
-              textStyle: {
-                fontSize: axisLabelSize,
-                color: "#03b7c9",
-              },
-            },
-            pointer: {
-              show: true,
-              length: "70%",
-              width: 2,
-            },
-            itemStyle: {
-              normal: {
-                color: arrowColor,
-                borderWidth: 0,
-              },
-            },
-            title: {
-              //仪表盘标题
-              show: false,
-              offsetCenter: ["0", "20"],
-              textStyle: {
-                color: "#03b7c9",
-                fontSize: 12,
-                fontFamily: "Microsoft YaHei",
-              },
-            },
-            // detail:{
-            //     show: false
-            // },
-            detail: {
-              textStyle: {
-                fontSize: 12,
-                color: wordColor,
-              },
-              offsetCenter: ["0%", "45%"],
-              formatter: "{value}" + data.analogUnit,
-            },
-            data: [
-              {
-                value: data.currentValue || 0,
-                name: "",
-              },
             ],
+            globalCoord: false,
+          },],
+          data: [0.45, 0.42], // data个数代表波浪数
+          backgroundStyle: {
+
+            color: 'RGBA(29, 64, 90, 0.9)',
           },
-          {
-            name: "灰色内圈",
-            type: "gauge",
-            z: 2,
-            radius: "95%",
-            startAngle: 180,
-            endAngle: 0,
-            center: ["50%", "65%"], //整体的位置设置
-            splitNumber: 4,
-            axisLine: {
-              // 坐标轴线
-              lineStyle: {
-                // 属性lineStyle控制线条样式
-                color: [[1, "#4375AA"]],
-                width: 12,
-                opacity: 1,
+          label: {
+
+            normal: {
+              show: true,
+              formatter: val => {
+                console.log('val~', val)
+                return `${value}cm`
               },
-            },
-            splitLine: {
-              //分隔线样式
-              show: false,
-            },
-            axisLabel: {
-              //刻度标签
-              show: false,
-            },
-            axisTick: {
-              //刻度样式
-              show: false,
-            },
-            detail: {
-              show: false,
               textStyle: {
-                // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                //fontWeight: 'bolder',
-                fontSize: 10,
+                fontSize: 18,
+                color: '#fff',
               },
             },
           },
+          outline: {
+            borderDistance: 0,
+            itemStyle: {
+              borderWidth: 1,
+              borderColor: '#0e2d45',
+            },
+          },
+        },
+
+
+
         ],
       };
+      // ==============压力值 ==============
+       let option1 = {
+        color: ["#37A2DA", "#32C5E9", "#67E0E3"],
+        title: {
+          text: `${data.currentValue}A`,
+          x: 'center',
+          // y: '43%',
+          bottom: '0%',
+          // bottom: '10%',
+          textStyle: {
+            color: '#00FFDE',
+            fontSize: '18px'
+          }
 
-      CO2Chart.setOption(option);
+        },
+        series: [{
+          name: '业务指标',
+          radius: '94%',
+          type: 'gauge',
+          detail: {
+            show: false,
+            // formatter: `${data.currentValue}A`,
+            // offsetCenter: [0, 42],
+            // textStyle: {
+            //     padding: [0, 0, 0, 0],
+            //     fontSize: 28,
+            //     fontWeight: '700',
+            // }
+          },
+          title: { //标题
+            show: false,
+            offsetCenter: [0, 46], // x, y，单位px
+            textStyle: {
+              color: "#999",
+            }
+          },
+          startAngle: 230,
+          endAngle: -50,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              width: 8,
+              shadowBlur: 0,
+              color: [
+                [0.3, '#e67f33'],
+                [0.7, '#32d7c2'],
+                [1, '#e67f33']
+              ]
+            }
+          },
+          axisLabel: {
+            show: true,
+            color: 'rgba(255,255,255,0.5)',
+            distance: 30,
+            formatter: function (v) {
+              switch (v + '') {
+                case '0':
+                  return '0';
+                case '30':
+                  return '30';
+                case '70':
+                  return '70';
+                case '100':
+                  return '100';
+              }
+            }
+          },
+
+          axisTick: {
+            show: true,
+            splitNumber: 2,
+            lineStyle: {
+              color: '#011b29', //用颜色渐变函数不起作用
+              width: 1,
+            },
+            length: -15
+          }, //刻度样式
+          splitLine: {
+            show: true,
+            length: -20,
+            lineStyle: {
+              color: '#011b29', //用颜色渐变函数不起作用
+              width: 1,
+            }
+          },
+          data: [{
+            value: data.currentValue || 0,
+            name: '完成率',
+          }]
+
+        }]
+      };
+      swChart.setOption(option);
+      syChart.setOption(option1);
       window.addEventListener("resize", function () {
         //宽度自适应
-        CO2Chart.resize();
+        swChart.resize();
+        syChart.resize();
       });
     },
     lineChart (data, name, unit) {
@@ -560,6 +531,8 @@ export default {
           box-shadow: inset -2px -2px 4px 0px #004a70,
             inset 2px 2px 4px 0px #004a70;
           border-radius: 3px;
+          display: flex;
+          padding: 18px 0px 22px 0px;
           .item_content_line {
             position: absolute;
             top: 0px;
@@ -568,6 +541,41 @@ export default {
             width: 143px;
             height: 4px;
             background: #43c6d9;
+          }
+          .eqName {
+            flex-shrink: 0;
+            font-size: 16px;
+            color: #ffffff;
+          }
+          .cankao {
+            flex-shrink: 0;
+            font-size: 14px;
+            color: #ebe8f0;
+          }
+          .chartDiv {
+            flex: 1;
+            width: 100%;
+          }
+          .item_content_left {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            flex-shrink: 0;
+            // width: 60%;
+            overflow: hidden;
+            align-items: center;
+          }
+          .item_content_right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            // width: 40%;
+            flex-shrink: 0;
+            overflow: hidden;
+            align-items: center;
           }
         }
 
