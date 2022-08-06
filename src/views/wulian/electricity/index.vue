@@ -22,8 +22,9 @@
     <!-- 图表 start -->
     <div class="right">
       <div class="right_top">
-        <template v-for="(item, index) in info">
+        <template v-if="info.length">
           <div class="right_top_item"
+               v-for="(item, index) in info"
                :class="`boxcontent normalData ${active == index ? 'active' : ''}`"
                @click="setLine(index, '电流', 'mA')"
                :key="item.dr_id">
@@ -32,13 +33,62 @@
             </div>
             <div class="item_content">
               <div class="item_content_line"></div>
+              <div class="item_content_top">
+                <div class="item_content_top_left">
+                  <div class="eqName"
+                       title="剩余电流">漏电电流</div>
+                  <div class="chartDiv"
+                       :id="`yali${index}`"></div>
+                  <div class="cankao fontSize14">参考值 : 0.0 - 500.0</div>
+                </div>
+                <div class="item_content_top_right">
+                  <div class="eqName"
+                       title="配电箱温度">配电箱温度</div>
+                  <div class="chartDiv"
+                       :id="`wendu${index}`"></div>
+                  <div class="cankao fontSize14">参考值 : 0.0 - 60.0</div>
+                </div>
+              </div>
+              <div class="item_content_bottom">
+                <div class="bottom_row">
+                  <div class="mt5">电压</div>
+                  <div class="mt5">电流</div>
+                  <div class="mt5">温度</div>
+
+                </div>
+                <div class="bottom_row odd">
+                  <div class="mt5"
+                       style="color: #EE7B48;">UA {{ item.dr_ua }}V</div>
+                  <div class="mt5"
+                       style="color: #48C1FF;">IA {{ item.dr_ia }}A</div>
+                  <div class="mt5"
+                       style="color: #24F2FF;">WA {{ item.dr_wa }}°C</div>
+
+                </div>
+                <div class="bottom_row">
+                  <div class="mt5"
+                       style="color: #EE7B48;">UB {{ item.dr_ub }}V</div>
+                  <div class="mt5"
+                       style="color: #48C1FF;">IB {{ item.dr_ib }}A</div>
+                  <div class="mt5"
+                       style="color: #24F2FF;">WB {{ item.dr_wb }}°C</div>
+                </div>
+                <div class="bottom_row odd">
+                  <div class="mt5"
+                       style="color: #EE7B48;">UC {{ item.dr_uc }}V</div>
+                  <div class="mt5"
+                       style="color: #48C1FF;">IC {{ item.dr_ic }}A</div>
+                  <div class="mt5"
+                       style="color: #24F2FF;">WC {{ item.dr_wc }}°C</div>
+                </div>
+              </div>
             </div>
           </div>
         </template>
 
       </div>
       <!-- 折线图 start -->
-      <div class="right_bottom">
+      <div class="right_bottom" v-if="info.length">
         <div class="right_bottom_line"></div>
         <div id="lineChart"
              class="line_Chart"
@@ -81,7 +131,7 @@ export default {
   components: {
     TreeData,
   },
-  data() {
+  data () {
     return {
       active: 1,
       chart: null,
@@ -89,76 +139,36 @@ export default {
       info: {},
       unit: {
         dr_unit_id: '',
+        dr_level: 3,
+        dr_parent_key: "",
+        dr_self_key: "",
+        dr_sort: 0,
+        dr_unit_id: 0,
+        dr_unit_name: "",
+        id: 0
       },
       filterText: '',
-      data: [
-        {
-          id: 1,
-          label: '一级 1',
-          children: [
-            {
-              id: 4,
-              label: '二级 1-1',
-              children: [
-                {
-                  id: 9,
-                  label: '三级 1-1-1',
-                },
-                {
-                  id: 10,
-                  label: '三级 1-1-2',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 2,
-          label: '一级 2',
-          children: [
-            {
-              id: 5,
-              label: '二级 2-1',
-            },
-            {
-              id: 6,
-              label: '二级 2-2',
-            },
-          ],
-        },
-        {
-          id: 3,
-          label: '一级 3',
-          children: [
-            {
-              id: 7,
-              label: '二级 3-1',
-            },
-            {
-              id: 8,
-              label: '二级 3-2',
-            },
-          ],
-        },
-      ],
-      defaultProps: {
-        children: 'children',
-        label: 'label',
-      },
     };
   },
   watch: {
     unit: {
-      handler() {
+      handler () {
+        console.log('unit:   ', this.unit)
         this.info = [];
         this.$get(`/v1/dr/get-electricity-device/${this.unit.dr_unit_id}`).then(
           (res) => {
+            if (res.msg !== '获取用电设备成功') {
+              this.$message.info('没有对应数据');
+              return
+            }
+
             this.info = res.data;
             this.$nextTick(() => {
               this.info.map((it, index) => {
+                console.log('温度： ', it.dr_temperature)
                 this.getHFCChart(
                   {
-                    id: 'yali' + index,
+                    id: index,
                     data: {
                       currentValue: it.dr_electric_leakage,
                       analogdown: 200,
@@ -166,13 +176,14 @@ export default {
                       analogWarningUp: 800,
                       analogWarningDown: 0,
                       analogUnit: 'mA',
+                      wd: it.dr_temperature
                     },
                   },
                   0
                 );
               });
 
-              this.setLine(0, '电流', 'mA');
+              // this.setLine(0, '电流', 'mA');
             });
           }
         );
@@ -180,13 +191,22 @@ export default {
       deep: true,
     },
   },
-  mounted() {
-    setTimeout(() => {
-      this.unit.dr_unit_id = '120034';
-    }, 1000);
+  mounted () {
+    // setTimeout(() => {
+    //   this.unit.dr_unit_id = '120034';
+    // }, 1000);
   },
   methods: {
-    setLine(type, name, unit) {
+    // handleSelectArea () {
+
+    // },
+    handleSelectArea (val) {
+      console.log(val);
+      for (let key in val) {
+        this.$set(this.unit, key, val[key])
+      }
+    },
+    setLine (type, name, unit) {
       this.active = type;
       this.$get(
         '/v1/dr/get-electricity-device-diagram/' + this.info[type].dr_device_id
@@ -210,224 +230,289 @@ export default {
         this.lineChart(this.lineData, name, unit);
       });
     },
-    getHFCChart(obj, color) {
+    getHFCChart (obj, color) {
       var data = obj.data;
-      var CO2Chart = this.$echarts.init(document.getElementById(obj.id));
-      CO2Chart.title = '压力';
+      console.log(data)
+      var CO2Chart = this.$echarts.init(document.getElementById(`yali${obj.id}`));
+      var wenduChart = this.$echarts.init(document.getElementById(`wendu${obj.id}`));
+      // CO2Chart.title = '压力';
+      let option = {
+        color: ["#37A2DA", "#32C5E9", "#67E0E3"],
+        title: {
+          text: `${data.currentValue}A`,
+          x: 'center',
+          // y: '43%',
+          bottom: '0%',
+          // bottom: '10%',
+          textStyle: {
+            color: '#00FFDE',
+            fontSize: '18px'
+          }
 
-      var wordColor = ''; //数据显示颜色
-      var barColor = ''; //仪表盘颜色显示
-      var arrowColor = ''; //指针颜色
-      var axisLabelSize = null;
-      var detailSize = 20;
-      if (window.innerWidth <= 1366) {
-        axisLabelSize = 8;
-        detailSize = 14;
-      }
+        },
+        series: [{
+          name: '业务指标',
+          type: 'gauge',
+          detail: {
+            show: false,
+            // formatter: `${data.currentValue}A`,
+            // offsetCenter: [0, 42],
+            // textStyle: {
+            //     padding: [0, 0, 0, 0],
+            //     fontSize: 28,
+            //     fontWeight: '700',
+            // }
+          },
+          title: { //标题
+            show: false,
+            offsetCenter: [0, 46], // x, y，单位px
+            textStyle: {
+              color: "#999",
+            }
+          },
+          startAngle: 230,
+          endAngle: -50,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              width: 8,
+              shadowBlur: 0,
+              color: [
+                [0.3, '#e67f33'],
+                [0.7, '#32d7c2'],
+                [1, '#e67f33']
+              ]
+            }
+          },
+          axisLabel: {
+            show: true,
+            color: 'rgba(255,255,255,0.5)',
+            distance: 30,
+            formatter: function (v) {
+              switch (v + '') {
+                case '0':
+                  return '0';
+                case '30':
+                  return '30';
+                case '70':
+                  return '70';
+                case '100':
+                  return '100';
+              }
+            }
+          },
 
-      if (color == 0) {
-        wordColor = '#43eec9';
-        barColor = '#03b7c9';
-        arrowColor = '#43eec9';
-      } else {
-        wordColor = '#f4704d';
-        barColor = '#f4704d';
-        arrowColor = '#f4704d';
-      }
-
-      //data.analogup = 55,data.analogdown = 42.5,data.analogWarningUp = 80,data.analogWarningDown=30;
-
-      // var axisSplit1 = (data.analogdown - data.analogWarningDown)/(data.analogWarningUp - data.analogWarningDown);
-      // var axisSplit2 = (data.analogup - data.analogWarningDown)/(data.analogWarningUp - data.analogWarningDown);
-      // var axisSplit1 = parseFloat(data.analogdown * 0.2 / (data.analogup * 1.2 - data.analogdown * 0.8)).toFixed(0,2);
-      // var axisSplit2 = parseFloat((data.analogup - data.analogdown * 0.8) / (data.analogup * 1.2 - data.analogdown * 0.8)).toFixed(0,2);
-
-      var minValue = data.analogdown - (data.analogup - data.analogdown) * 0.2;
-      var maxValue =
-        parseFloat(data.analogup) + (data.analogup - data.analogdown) * 0.2;
-
-      var axisSplit1 = (data.analogdown - minValue) / (maxValue - minValue);
-      var axisSplit2 = (data.analogup - minValue) / (maxValue - minValue);
-
-      var option = {
-        grid: {
-          z: 1, //grid作为柱状图的坐标系，其层级要和仪表图层级不同，同时隐藏
-          show: false,
-          left: '0%',
-          right: '0%',
-          top: '5%',
-          containLabel: true,
+          axisTick: {
+            show: true,
+            splitNumber: 2,
+            lineStyle: {
+              color: '#011b29', //用颜色渐变函数不起作用
+              width: 1,
+            },
+            length: -15
+          }, //刻度样式
           splitLine: {
-            show: false, //隐藏分割线
+            show: true,
+            length: -20,
+            lineStyle: {
+              color: '#011b29', //用颜色渐变函数不起作用
+              width: 1,
+            }
           },
+          data: [{
+            value: data.currentValue || 0,
+            name: '完成率',
+          }]
+
+        }]
+      };
+      // ============温度计================
+      var kd = [];
+      for (let i = 0, len = 100; i <= len; i++) {
+        if (i > 100 || i < 0) {
+          kd.push('0')
+        } else {
+          if (i % 25 === 0) {
+            kd.push('2');
+          } else if (i % 5 === 0) {
+            kd.push('1');
+          } else {
+            kd.push('0');
+          }
+        }
+
+      }
+      let option1 = {
+        // backgroundColor: '#000',
+        title: {
+          text: `${data.wd}℃`,
+          x: 'center',
+          // y: '43%',
+          bottom: '0%',
+          textStyle: {
+            color: '#00FFDE',
+            fontSize: '18px'
+          }
+
         },
-        xAxis: [
-          //这里有很多的show，必须都设置成不显
-          {
-            type: 'category',
-            data: [],
-            axisLine: {
-              show: false,
-            },
-            splitLine: {
-              show: false,
-            },
-            splitArea: {
-              interval: 'auto',
-              show: false,
-            },
-          },
-        ],
-        yAxis: [
-          //这里有很多的show，必须都设置成不显示
-          {
-            type: 'value',
-            axisLine: {
-              show: false,
-            },
-            splitLine: {
-              show: false,
-            },
-          },
-        ],
-        toolbox: {
+        grid: {
+          left: '0',
+          right: '0',
+          top: '8%',
+          bottom: '28%',
+          // bottom: '28%',
+        },
+        yAxis: [{
           show: false,
-        },
-        series: [
-          {
-            name: '刻度盘',
-            type: 'gauge',
-            startAngle: 180,
-            endAngle: 0,
-            center: ['50%', '65%'], //整体的位置设置
-            z: 3,
-            min: 0,
-            max: 500,
-            splitNumber: 1,
-            radius: '95%',
-            axisLine: {
-              // 坐标轴线
-              lineStyle: {
-                // 属性lineStyle控制线条样式
-                width: 10,
-                color: [
-                  [axisSplit1, '#f4704d'],
-                  [axisSplit2, '#03b7c9'],
-                  [1, '#f4704d'],
-                ],
-              },
-            },
-            axisTick: {
-              // 坐标轴小标记
-              length: 5, // 属性length控制线长
-              splitNumber: 10,
-              lineStyle: {
-                // 属性lineStyle控制线条样式
-                color: '#4375AA',
-              },
-            },
-            splitLine: {
-              // 分隔线
-              length: 15, // 属性length控制线长
-              lineStyle: {
-                // 属性lineStyle（详见lineStyle）控制线条样式
-                color: '#4375AA',
-              },
-            },
-            axisLabel: {
+          min: 0,
+          max: 108,
+        }, {
+          show: false,
+          data: [],
+          min: -15,
+          max: 110,
+        }],
+        xAxis: [{
+          show: false,
+          data: []
+        }, {
+          show: false,
+          data: []
+        }, {
+          show: false,
+          data: []
+        }, {
+          show: false,
+          min: -30,
+          max: 50,
+
+        }],
+        series: [{
+          name: '条',
+          type: 'bar',
+          // 对应上面XAxis的第一个对象配置
+          xAxisIndex: 0,
+          barWidth: 10,
+          itemStyle: {
+            normal: {
+              color: '#32d6c2',
+              barBorderRadius: 10,
+            }
+          },
+          data: [50],
+          label: {
+            normal: {
+              show: false,
+              position: 'top',
               textStyle: {
-                fontSize: axisLabelSize,
-                color: '#03b7c9',
-              },
-            },
-            pointer: {
+                color: '#ccc',
+                fontSize: '11',
+              }
+            }
+          },
+          z: 2
+        }, {
+          name: '白框',
+          type: 'bar',
+          xAxisIndex: 1,
+          barGap: '-100%',
+          data: [110],
+          barWidth: 18,
+          label: {
+            normal: {
+              show: false,
+              position: 'top',
+              distance: 5,
+              color: '#fff',
+              fontSize: 14,
+              offset: [25, 25],
+              formatter: '°C'
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: '#08496a',
+              barBorderRadius: 50,
+            }
+          },
+          z: 1
+        }, {
+          name: '圆',
+          type: 'scatter',
+          hoverAnimation: false,
+          data: [0],
+          xAxisIndex: 0,
+          symbolSize: 32,
+          itemStyle: {
+            normal: {
+              color: '#32d6c2',
+              opacity: 1,
+            }
+          },
+          z: 2
+        }, {
+          name: '白圆',
+          type: 'scatter',
+          hoverAnimation: false,
+          data: [0],
+          xAxisIndex: 1,
+          symbolSize: 42,
+          itemStyle: {
+            normal: {
+              color: '#08496a',
+              opacity: 1,
+            }
+          },
+          z: 1
+        }, {
+          name: '刻度',
+          type: 'bar',
+          yAxisIndex: 1,
+          xAxisIndex: 3,
+          label: {
+            normal: {
               show: true,
-              length: '70%',
-              width: 2,
-            },
-            itemStyle: {
-              normal: {
-                color: arrowColor,
-                borderWidth: 0,
-              },
-            },
-            title: {
-              //仪表盘标题
-              show: false,
-              offsetCenter: ['0', '20'],
-              textStyle: {
-                color: '#03b7c9',
-                fontSize: 12,
-                fontFamily: 'Microsoft YaHei',
-              },
-            },
-            // detail:{
-            //     show: false
-            // },
-            detail: {
-              textStyle: {
-                fontSize: 12,
-                color: wordColor,
-              },
-              offsetCenter: ['0%', '45%'],
-              formatter: '{value}' + data.analogUnit,
-            },
-            data: [
-              {
-                value: data.currentValue || 0,
-                name: '',
-              },
-            ],
+              position: 'left',
+              distance: 5,
+              color: '#1799db',
+              fontSize: 10,
+              formatter: function (params) {
+                // 因为柱状初始化为0，温度存在负值，所以，原本的0-100，改为0-130，0-30用于表示负值
+                if (params.dataIndex > 120 || params.dataIndex < -30) {
+                  return '';
+                } else {
+                  if (params.dataIndex % 20 === 0) {
+                    return params.dataIndex - 20;
+                  } else {
+                    return '';
+                  }
+                }
+              }
+            }
           },
-          {
-            name: '灰色内圈',
-            type: 'gauge',
-            z: 2,
-            radius: '95%',
-            startAngle: 180,
-            endAngle: 0,
-            center: ['50%', '65%'], //整体的位置设置
-            splitNumber: 4,
-            axisLine: {
-              // 坐标轴线
-              lineStyle: {
-                // 属性lineStyle控制线条样式
-                color: [[1, '#4375AA']],
-                width: 12,
-                opacity: 1,
-              },
-            },
-            splitLine: {
-              //分隔线样式
-              show: false,
-            },
-            axisLabel: {
-              //刻度标签
-              show: false,
-            },
-            axisTick: {
-              //刻度样式
-              show: false,
-            },
-            detail: {
-              show: false,
-              textStyle: {
-                // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                //fontWeight: 'bolder',
-                fontSize: 10,
-              },
-            },
+          barGap: '-100%',
+          barWidth: 0.5,
+          itemStyle: {
+            normal: {
+              color: '#066c9f',
+              barBorderRadius: 1,
+            }
           },
-        ],
+          data: kd,
+          z: 0
+        }]
       };
 
       CO2Chart.setOption(option);
+      wenduChart.setOption(option1);
       window.addEventListener('resize', function () {
         //宽度自适应
         CO2Chart.resize();
+        wenduChart.resize()
       });
+
     },
-    lineChart(data, name, unit) {
+    lineChart (data, name, unit) {
       let serve = {
         name: '',
         type: 'line',
@@ -556,7 +641,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .electricity_main {
   width: 100%;
   height: 100%;
@@ -597,6 +682,10 @@ export default {
             inset 2px 2px 4px 0px #004a70;
           border-radius: 3px;
           margin-right: 25px;
+          padding: 28px 16px 27px 22px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           .item_content_line {
             position: absolute;
             top: 0px;
@@ -605,6 +694,78 @@ export default {
             width: 143px;
             height: 4px;
             background: #43c6d9;
+          }
+          .item_content_top {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            flex: 1;
+            margin-bottom: 22px;
+            .eqName {
+              flex-shrink: 0;
+              font-size: 16px;
+              color: #ffffff;
+            }
+            .cankao {
+              flex-shrink: 0;
+              font-size: 14px;
+              color: #ebe8f0;
+            }
+            .chartDiv {
+              flex: 1;
+              display: flex;
+              justify-content: start;
+              // width: 120%;
+            }
+            .item_content_top_left {
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              // flex: 1;
+              flex-shrink: 0;
+              width: 60%;
+              overflow: hidden;
+            }
+            .item_content_top_right {
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              // flex: 1;
+              width: 40%;
+              // flex-shrink: 0;
+              overflow: hidden;
+            }
+          }
+          .item_content_bottom {
+            width: 100%;
+            height: 145px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            border: 1px solid;
+            border-image: linear-gradient(
+                45deg,
+                #042f47,
+                #4eadf5,
+                #ffffff,
+                #61cafb,
+                #09344d
+              )
+              10 10;
+            //  border-image: linear-gradient(45deg, #042E49, #4DA9FA, #FFFFFF, #5FC8FF, #08334F) 10 10;
+            .bottom_row {
+              display: flex;
+              flex: 1;
+              align-items: center;
+              justify-content: center;
+              .mt5 {
+                flex: 1;
+                text-align: center;
+              }
+              &.odd {
+                background: linear-gradient(90deg, rgba(1, 75, 110, 0.99) 48%);
+              }
+            }
           }
         }
       }

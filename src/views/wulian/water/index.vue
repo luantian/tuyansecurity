@@ -2,7 +2,7 @@
   <div class="water_main">
     <!--机构 start-->
     <div class="left">
-      <el-input placeholder="输入关键字进行过滤"
+      <!-- <el-input placeholder="输入关键字进行过滤"
                 v-model="filterText">
       </el-input>
 
@@ -12,35 +12,41 @@
                default-expand-all
                :filter-node-method="filterNode"
                ref="tree">
-      </el-tree>
+      </el-tree> -->
+      <TreeData @handleSelect="handleSelectArea"
+                @ready="handleSelectArea"
+                ref="areaTree"></TreeData>
     </div>
     <!--机构 end-->
-      <!-- 图表 start -->
-      <div class="right">
-        <div class="right_top">
-          <template v-for="(info,index) in list">
-            <div class="right_top_item"
-                 :key="index">
-              <div class="item_title">
-                {{info.sy.dr_device_name}}
-              </div>
-              <div class="item_content">
-                <div class="item_content_line"></div>
-              </div>
+    <!-- 图表 start -->
+    <div class="right">
+      <div class="right_top">
+        <template v-for="(info,index) in list">
+          <div class="right_top_item"
+               :key="index">
+            <div class="item_title">
+              {{info.sy.dr_device_name}}
             </div>
-          </template>
+            <div class="item_content">
+              <div class="item_content_line"></div>
+            </div>
+            <!-- 图标区 start -->
 
-        </div>
-        <!-- 折线图 start -->
-        <div class="right_bottom">
-          <div class="right_bottom_line"></div>
-          <div id="lineChart"
-               class="line_Chart"
-               v-show="info.length"></div>
-        </div>
-        <!-- 折线图 end -->
+            <!-- 图标区 end -->
+          </div>
+        </template>
+
       </div>
-      <!-- 图表 end -->
+      <!-- 折线图 start -->
+      <div class="right_bottom">
+        <div class="right_bottom_line"></div>
+        <div id="lineChart"
+             class="line_Chart"
+             v-show="info.length"></div>
+      </div>
+      <!-- 折线图 end -->
+    </div>
+    <!-- 图表 end -->
   </div>
 </template>
 
@@ -69,8 +75,12 @@ var color = ["#74FFF3", "#5E8FFF"],
     ],
   ];
 import moment from "moment";
+import TreeData from '@/components/TreeData';
 export default {
   // props: ["unit"],
+  components: {
+    TreeData,
+  },
   data () {
     return {
       active: 1,
