@@ -15,8 +15,9 @@
       <div class="content_left">
         <div class="left_can can_fitst">
           <p class="can_text"> <span class="line"></span> 报警类型</p>
-          <p class="text_box">
-            <span class="dot_box">
+          <div class="text_box"
+               id="bjty">
+            <!-- <span class="dot_box">
               <span class="dot dot1"></span>
               <span>
                 <p>在线</p>
@@ -43,13 +44,14 @@
                 <p>在线</p>
                 <p>39%</p>
               </span>
-            </span>
-          </p>
+            </span> -->
+          </div>
         </div>
         <div class="left_can">
           <p class="can_text"> <span class="line"></span> 报警类型</p>
-          <p class="text_box">
-            <span class="dot_box">
+          <div class="text_box"
+               id="bjzb">
+            <!-- <span class="dot_box">
               <span class="dot dot2"></span>
               <span>
                 <p>未报过警的设备</p>
@@ -62,8 +64,8 @@
                 <p>报过警的设备</p>
                 <p>39%</p>
               </span>
-            </span>
-          </p>
+            </span> -->
+          </div>
         </div>
       </div>
       <div class="content_right">
@@ -291,135 +293,304 @@ export default {
       })
     },
     makeChart (id, data) {
-      let chartDom = document.getElementById(id)
-      let myChart = this.$echarts.init(chartDom, 'dark')
+      let bjtyChartDom = document.getElementById('bjty')
+      let bjzbChartDom = document.getElementById('bjzb')
+      // let chartDom = document.getElementById(id)
+      let bjtyChart = this.$echarts.init(bjtyChartDom)
+      let bjzbChart = this.$echarts.init(bjzbChartDom)
+      // let myChart = this.$echarts.init(chartDom, 'dark')
+      var datas = [
+        {
+          value: 126,
+          name: '在线'
+        },
+        {
+          value: 113,
+          name: '低电压'
+        },
+        {
+          value: 102,
+          name: '故障'
+        },
+        {
+          value: 17,
+          name: '不在线'
+        },
+      ];
       let options = {
-        backgroundColor: 'rgba(0,0,0,0)',
-        tooltip: {
-          backgroundColor: '#fff',
-          padding: 8,
-          textStyle: {
-            fontSize: 10,
-            color: '#02092A',
-            fontWeight: 'bold',
-          },
-          formatter: function (e) {
-            return ''.concat(e.data.name, ' ').concat(e.data.value)
-          },
-        },
+        color: ['#0FD0D0', '#2F84D9', '#D14F0F', '#096796'],
         legend: {
-          orient: 'vertical',
-          left: '50%',
-          top: '30%',
-          data: data.data,
-          itemGap: 24,
-          selectedMode: !1,
-          textStyle: {
-            color: '#fff',
+          show: true,
+          orient: 'horizontal',
+          left: 'center',
+          top: '0px',
+          data: datas,
+          formatter: function (name) {
+            let total = 0;
+            let tarValue;
+            for (let index = 0; index < datas.length; index++) {
+              total += datas[index].value;
+              if (name === datas[index].name) {
+                tarValue = datas[index].value
+              }
+            }
+            let num = Math.round((tarValue / total) * 100)
+            return (name + '\n' + num + '%');
+            // return (name +'  ' + num + '%');
           },
-          icon: 'rect',
-          itemWidth: 10,
-          itemHeight: 10,
+          itemWidth: 8,
+          itemHeight: 8,
+          itemGap: 10,
+          textStyle: {
+            color: "#fff",
+            fontSize: "14px",
+            fontFamily: 'PingFang SC',
+
+          },
         },
-        color: [],
         series: [
           {
+            color: ['#0FD0D0', '#2F84D9', '#D14F0F', '#096796'],
             type: 'pie',
-            radius: ['60%', '80%'],
-            center: ['25%', '48%'],
+            radius: [30, 65],
+            center: ['50%', '50%'],
+            hoverAnimation: false,
+            data: [{
+              value: 126,
+              name: '在线'
+            },
+            {
+              value: 113,
+              name: '低电压'
+            },
+            {
+              value: 102,
+              name: '故障'
+            },
+            {
+              value: 17,
+              name: '不在线'
+            },
+            ],
             label: {
               normal: {
-                show: !1,
+                show: true,
+                // formatter: "{c}",
+                formatter: function (params) {
+                  // console.log(params,params.name,'111111');
+                  let style = ''
+                  switch (params.name) {
+                    case '在线':
+                      style = 's1'
+                      break;
+                    case '低电压':
+                      style = 's2'
+                      break;
+                    case '故障':
+                      style = 's3'
+                      break;
+                    case '不在线':
+                      style = 's4'
+                      break;
+                    default:
+                  }
+                  // return `${params.value}` 
+                  return '{' + style + '|' + params.value + '}'
+                },
+                // textStyle: {
+                //     fontSize: 13,
+                // },
+                rich: {
+                  s1: {
+                    fontSize: "16px",
+                    color: "#0FD0D0"
+                  },
+                  s2: {
+                    fontSize: "16px",
+                    color: "#2F84D9"
+                  },
+                  s3: {
+                    fontSize: "16px",
+                    color: "#D14F0F"
+                  },
+                  s4: {
+                    fontSize: "16px",
+                    color: "#096796"
+                  }
+                },
+                position: 'outside'
               },
               emphasis: {
-                show: !1,
-                textStyle: {
-                  fontSize: '30',
-                  fontWeight: 'bold',
-                },
-              },
+                show: false
+              }
             },
-            labelLine: {
-              normal: {
-                show: !1,
-              },
-            },
-            z: 1,
-            hoverAnimation: 1,
-            animation: 1,
+
+          }, {
+            // color: ['#0FD0D0', '#2F84D9', '#D14F0F', '#096796'],
+            type: 'pie', // 阴影
+            radius: [30, 80],
+            center: ['50%', '50%'],
             itemStyle: {
+              opacity: 0.3,
+            },
+            label: {
               normal: {
-                show: !0,
-                position: 'center',
+                show: false,
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            data: [{
+              value: 126,
+              name: '在线'
+            },
+            {
+              value: 113,
+              name: '低电压'
+            },
+            {
+              value: 102,
+              name: '故障'
+            },
+            {
+              value: 17,
+              name: '不在线'
+            },
+            ],
+          },
+
+        ]
+      };
+      // =============报警占比==========
+      let data1 = [
+        {
+          value: 2326,
+          name: '未报过警的设备'
+        },
+        {
+          value: 102,
+          name: '报过警的设备'
+        },
+      ];
+      var options1 = {
+        color: ['#179DE0', '#D14F0F'],
+        legend: {
+          show: true,
+          orient: 'horizontal',
+          left: 'center',
+          top: '0px',
+          data: data1,
+          formatter: function (name) {
+            let total = 0;
+            let tarValue;
+            for (let index = 0; index < data1.length; index++) {
+              total += data1[index].value;
+              if (name === data1[index].name) {
+                tarValue = data1[index].value
+              }
+            }
+            let num = Math.round((tarValue / total) * 100)
+            return (name + '\n' + num + '%');
+          },
+          itemWidth: 8,
+          itemHeight: 8,
+          itemGap: 25,
+          textStyle: {
+            color: "#fff",
+            fontSize: "14px",
+            fontFamily: 'PingFang SC',
+          },
+        },
+        series: [
+          {
+            color: ['#179DE0', '#D14F0F'],
+            type: 'pie',
+            radius: [30, 65],
+            center: ['50%', '50%'],
+            hoverAnimation: false,
+            data: [
+              {
+                value: 2326,
+                name: '未报过警的设备'
+              },
+              {
+                value: 102,
+                name: '报过警的设备'
+              },
+            ],
+            label: {
+              normal: {
+                show: true,
+                // formatter: "{c}",
+                formatter: function (params) {
+                  console.log(params, params.name, '111111');
+                  let style = ''
+                  switch (params.name) {
+                    case '未报过警的设备':
+                      style = 's1'
+                      break;
+                    case '报过警的设备':
+                      style = 's2'
+                      break;
+                    default:
+                  }
+                  // return `${params.value}` 
+                  return '{' + style + '|' + params.value + '}'
+                },
                 textStyle: {
-                  fontSize: '30',
-                  fontWeight: 'bold',
-                  color: '#00C2FF',
+                  fontSize: 13,
                 },
                 rich: {
-                  p: {
-                    color: '#fff',
-                    align: 'center',
+                  s1: {
+                    fontSize: "16px",
+                    color: "#179DE0"
+                  },
+                  s2: {
+                    fontSize: "16px",
+                    color: "#D14F0F"
                   },
                 },
+                position: 'outside'
               },
+              emphasis: {
+                show: false
+              }
             },
-            data: data.data,
-          },
-          {
-            type: 'pie',
-            radius: ['56%', '57%'],
-            center: ['25%', '48%'],
+
+          }, {
+            // color: ['#0FD0D0', '#2F84D9', '#D14F0F', '#096796'],
+            type: 'pie', // 阴影
+            radius: [30, 80],
+            center: ['50%', '50%'],
             itemStyle: {
-              normal: {
-                opacity: 1,
-                label: {
-                  show: !0,
-                  position: 'center',
-                  textStyle: {
-                    fontSize: '24',
-                    fontWeight: 'bold',
-                    color: '#00C2FF',
-                  },
-                  formatter: function (e) {
-                    return '{h|'
-                      .concat(data.center_num, '}\n{p|')
-                      .concat(data.center, '总数}')
-                  },
-                  rich: {
-                    p: {
-                      color: '#fff',
-                      align: 'center',
-                      fontSize: 14,
-                    },
-                    h: {
-                      color: '#fff',
-                      align: 'center',
-                      fontSize: 18,
-                      fontWeight: 'bold',
-                      lineHeight: 30,
-                    },
-                  },
-                },
-                labelLine: {
-                  show: !1,
-                },
-              },
+              opacity: 0.3,
             },
-            z: 1,
-            hoverAnimation: !1,
-            animation: !1,
             label: {
-              show: !1,
+              normal: {
+                show: false,
+              },
+              emphasis: {
+                show: false
+              }
             },
-            tooltip: {
-              show: !1,
-            },
-            data: [1],
+            data: [
+              {
+                value: 2326,
+                name: '未报过警的设备'
+              },
+              {
+                value: 102,
+                name: '报过警的设备'
+              },
+            ]
           },
-        ],
-      }
-      options && myChart.setOption(options, true)
+
+        ]
+      };
+
+      options && bjtyChart.setOption(options, true)
+      options1 && bjzbChart.setOption(options1, true)
     },
   },
 }
@@ -649,6 +820,8 @@ export default {
           inset 5px 6px 6px 0px #0f2937;
         // opacity: 0.9;
         padding: 25px 30px;
+        display: flex;
+        flex-direction: column;
         .line {
           display: inline-block;
           width: 6px;
@@ -659,31 +832,33 @@ export default {
           margin-right: 10px;
         }
         .text_box {
+          flex: 1;
           margin-top: 25px;
-          .dot_box {
-            display: flex;
-            align-items: baseline;
-          }
-          display: flex;
-          justify-content: space-around;
-          .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            margin-right: 5px;
-          }
-          .dot1 {
-            background: linear-gradient(180deg, #0fd0d0, #0e9696);
-          }
-          .dot2 {
-            background: linear-gradient(180deg, #0f70d1, #0e5296);
-          }
-          .dot3 {
-            background: linear-gradient(180deg, #d14f0f, #963b0e);
-          }
-          .dot4 {
-            background: linear-gradient(180deg, #096796, #023954);
-          }
+          width: 100%;
+          // .dot_box {
+          //   display: flex;
+          //   align-items: baseline;
+          // }
+          // display: flex;
+          // justify-content: space-around;
+          // .dot {
+          //   display: inline-block;
+          //   width: 8px;
+          //   height: 8px;
+          //   margin-right: 5px;
+          // }
+          // .dot1 {
+          //   background: linear-gradient(180deg, #0fd0d0, #0e9696);
+          // }
+          // .dot2 {
+          //   background: linear-gradient(180deg, #0f70d1, #0e5296);
+          // }
+          // .dot3 {
+          //   background: linear-gradient(180deg, #d14f0f, #963b0e);
+          // }
+          // .dot4 {
+          //   background: linear-gradient(180deg, #096796, #023954);
+          // }
         }
       }
       .can_fitst {
