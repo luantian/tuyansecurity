@@ -15,8 +15,6 @@
       </el-tree>
     </div>
     <!--机构 end-->
-    <!-- 图表 start -->
-    <div class="right">
       <!-- 图表 start -->
       <div class="right">
         <div class="right_top">
@@ -43,8 +41,6 @@
         <!-- 折线图 end -->
       </div>
       <!-- 图表 end -->
-    </div>
-    <!-- 图表 end -->
   </div>
 </template>
 
@@ -523,7 +519,7 @@ export default {
   }
   .right {
     flex: 1;
-    padding: 32px 20px;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -533,7 +529,8 @@ export default {
       justify-content: space-between;
       .right_top_item {
         // margin-right: 25px;
-        margin-bottom: 25px;
+        // margin-bottom: 25px;
+        gap: 25px;
         flex-shrink: 0;
         .item_title {
           text-align: center;

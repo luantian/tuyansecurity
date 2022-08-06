@@ -1,107 +1,187 @@
 <template>
   <div class="v-box">
     <div class="flex">
-      <div class="tree-list" v-show="showList">
-        <AreaSelect
-          @handleSelect="handleSelectArea"
-          @ready="handleSelectArea"
-          ref="areaTree"
-        ></AreaSelect>
+      <div class="tree-list"
+           v-show="showList">
+        <TreeData @handleSelect="handleSelectArea"
+                  @ready="handleSelectArea"
+                  ref="areaTree"></TreeData>
+        <!-- <AreaSelect @handleSelect="handleSelectArea"
+                    @ready="handleSelectArea"
+                    ref="areaTree"></AreaSelect> -->
       </div>
       <div class="flex1 v-right">
-        <div class="align-center topbar">
-          <i
-            :class="`el-icon-s-${showList ? 'fold' : 'unfold'} topbar-icon`"
-            @click="listToggle"
-          ></i>
+        <!-- <div class="align-center topbar">
+          <i :class="`el-icon-s-${showList ? 'fold' : 'unfold'} topbar-icon`"
+             @click="listToggle"></i>
           <div class="flex1"></div>
           <div class="align-center">
-            <i
-              :class="`${
+            <i :class="`${
                 nowV == 'v1' ? 'active' : ''
               } topbar-icon el-icon-monitor`"
-              @click="changeV('v1')"
-            ></i>
-            <i
-              :class="`${
+               @click="changeV('v1')"></i>
+            <i :class="`${
                 nowV == 'v4' ? 'active' : ''
               } topbar-icon el-icon-menu`"
-              @click="changeV('v4')"
-            ></i>
-            <i
-              :class="`${
+               @click="changeV('v4')"></i>
+            <i :class="`${
                 nowV == 'v9' ? 'active' : ''
               } topbar-icon el-icon-s-grid`"
-              @click="changeV('v9')"
-            ></i>
-            <!-- <el-button type="primary" size="mini" @click="closeAll">一键关闭</el-button> -->
-            <i
-              class="topbar-icon el-icon-full-screen"
-              title="全屏"
-              @click="fullScreen"
-            ></i>
+               @click="changeV('v9')"></i>
+            <i class="topbar-icon el-icon-full-screen"
+               title="全屏"
+               @click="fullScreen"></i>
           </div>
-        </div>
-        <div v-if="showVideo" style="height:100%">
-          <div class="v1" id="fulldiv-v1" v-if="nowV == 'v1'">
-            <el-row :gutter="0">
+        </div> -->
+        <div v-if="showVideo"
+             style="height:100%">
+          <div class="v1"
+               id="fulldiv-v1"
+               v-if="nowV == 'v1'">
+            <el-row :gutter="24">
               <el-col :span="24">
-                <video ref="v10" class="video-js video"></video>
+                <video ref="v10"
+                       class="video-js video"></video>
               </el-col>
             </el-row>
           </div>
-          <div class="v4" id="fulldiv-v4" v-if="nowV == 'v4'">
+          <div class="v4"
+               id="fulldiv-v4"
+               v-if="nowV == 'v4'">
             <el-row :gutter="20">
               <el-col :span="12">
-                <video ref="v40" class="video-js video"></video>
+                <video ref="v40"
+                       class="video-js video"></video>
               </el-col>
               <el-col :span="12">
-                <video ref="v41" class="video-js video"></video>
+                <video ref="v41"
+                       class="video-js video"></video>
               </el-col>
             </el-row>
-            <el-row class="mt20" :gutter="20">
+            <el-row class="mt20"
+                    :gutter="20">
               <el-col :span="12">
-                <video ref="v42" class="video-js video"></video>
+                <video ref="v42"
+                       class="video-js video"></video>
               </el-col>
               <el-col :span="12">
-                <video ref="v43" class="video-js video"></video>
+                <video ref="v43"
+                       class="video-js video"></video>
               </el-col>
             </el-row>
           </div>
-          <div class="v9" id="fulldiv-v9" v-if="nowV == 'v9'">
-            <el-row :gutter="20">
-              <el-col :span="8">
-                <video ref="v90" class="video-js video"></video>
+          <div class="v9"
+               id="fulldiv-v9"
+               v-if="nowV == 'v9'">
+            <div class="oneRow">
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+            </div>
+            <div class="oneRow">
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+            </div>
+            <div class="oneRow">
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+              <div class="colDiv">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+              </div>
+            </div>
+            <!-- <el-row :gutter="20"
+                    class="classRow">
+              <el-col :span="8"
+                      class="elCol">
+                <video ref="v90"
+                       class="video-js video classVideo">
+                </video>
+                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
               </el-col>
               <el-col :span="8">
-                <video ref="v91" class="video-js video"></video>
+                <video ref="v91"
+                       class="video-js video"></video>
               </el-col>
               <el-col :span="8">
-                <video ref="v92" class="video-js video"></video>
+                <video ref="v92"
+                       class="video-js video"></video>
               </el-col>
             </el-row>
-            <el-row class="mt20" :gutter="20">
+            <el-row class="mt20"
+                    :gutter="20">
               <el-col :span="8">
-                <video ref="v93" class="video-js video"></video>
+                <video ref="v93"
+                       class="video-js video"></video>
+
               </el-col>
               <el-col :span="8">
-                <video ref="v94" class="video-js video"></video>
+                <video ref="v94"
+                       class="video-js video"></video>
               </el-col>
               <el-col :span="8">
-                <video ref="v95" class="video-js video"></video>
-              </el-col>
-            </el-row>
-            <el-row class="mt20" :gutter="20">
-              <el-col :span="8">
-                <video ref="v96" class="video-js video"></video>
-              </el-col>
-              <el-col :span="8">
-                <video ref="v97" class="video-js video"></video>
-              </el-col>
-              <el-col :span="8">
-                <video ref="v98" class="video-js video"></video>
+                <video ref="v95"
+                       class="video-js video"></video>
               </el-col>
             </el-row>
+            <el-row class="mt20"
+                    :gutter="20">
+              <el-col :span="8">
+                <video ref="v96"
+                       class="video-js video"></video>
+              </el-col>
+              <el-col :span="8">
+                <video ref="v97"
+                       class="video-js video"></video>
+              </el-col>
+              <el-col :span="8">
+                <video ref="v98"
+                       class="video-js video"></video>
+              </el-col>
+            </el-row> -->
           </div>
         </div>
 
@@ -111,21 +191,22 @@
 </template>
 
 <script>
-import AreaSelect from "@/components/AreaSelect";
+import AreaSelect from '@/components/AreaSelect';
+import TreeData from '@/components/TreeData';
 
 export default {
-  components: { AreaSelect },
+  components: { AreaSelect, TreeData },
   data() {
     return {
       params: {
-        dr_unit_id: "",
-        dr_model_type: "camera",
+        dr_unit_id: '',
+        dr_model_type: 'camera',
       },
       showVideo: true,
       fullscreen: false,
-      filterText: "",
+      filterText: '',
       showList: true,
-      nowV: "v1",
+      nowV: 'v9',
       player: null,
       v1: [],
       v4: [],
@@ -133,17 +214,17 @@ export default {
       options: {
         autoplay: true,
         controls: true,
-        language: "zh-CN",
-        src: "",
+        language: 'zh-CN',
+        src: '',
         sources: [
           {
-            src: "",
+            src: '',
           },
         ],
       },
       defaultProps: {
-        children: "children",
-        label: "label",
+        children: 'children',
+        label: 'label',
       },
     };
   },
@@ -152,9 +233,7 @@ export default {
       this.$refs.tree.filter(val);
     },
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     handleSelectArea(data) {
       this.params.dr_unit_id = data.dr_unit_id;
@@ -162,7 +241,7 @@ export default {
     },
     getList() {
       this.showVideo = false;
-      this.$post("/v1/dr/device-list-custom", this.params).then((res) => {
+      this.$post('/v1/dr/device-list-custom', this.params).then((res) => {
         let arr = res.data;
 
         this.showVideo = true;
@@ -171,10 +250,10 @@ export default {
             {
               options: {
                 ...this.options,
-                src: arr[0] ? arr[0].dr_camera_url : "",
+                src: arr[0] ? arr[0].dr_camera_url : '',
                 sources: [
                   {
-                    src: arr[0] ? arr[0].dr_camera_url : "",
+                    src: arr[0] ? arr[0].dr_camera_url : '',
                   },
                 ],
               },
@@ -184,10 +263,10 @@ export default {
             this.v4.push({
               options: {
                 ...this.options,
-                src: arr[i] ? arr[i].dr_camera_url : "",
+                src: arr[i] ? arr[i].dr_camera_url : '',
                 sources: [
                   {
-                    src: arr[i] ? arr[i].dr_camera_url : "",
+                    src: arr[i] ? arr[i].dr_camera_url : '',
                   },
                 ],
               },
@@ -197,10 +276,10 @@ export default {
             this.v9.push({
               options: {
                 ...this.options,
-                src: arr[i] ? arr[i].dr_camera_url : "",
+                src: arr[i] ? arr[i].dr_camera_url : '',
                 sources: [
                   {
-                    src: arr[i] ? arr[i].dr_camera_url : "",
+                    src: arr[i] ? arr[i].dr_camera_url : '',
                   },
                 ],
               },
@@ -222,7 +301,7 @@ export default {
       });
     },
     fullScreen() {
-      let fullarea = document.getElementById("fulldiv-" + this.nowV);
+      let fullarea = document.getElementById('fulldiv-' + this.nowV);
       if (fullarea.requestFullscreen) {
         fullarea.requestFullscreen();
       } else if (fullarea.webkitRequestFullScreen) {
@@ -309,10 +388,33 @@ export default {
 
   .el-row {
     height: 33%;
+    padding-left: 0px !important;
+    .elCol {
+      width: 100%;
+      background: #00293d;
+      border: 1px solid #0875b6;
+      border-image: linear-gradient(0deg, #004a70) 10 10;
+      border-radius: 3px 3px 0px 0px;
+    }
+    .classVideo {
+      padding: 0px;
+    }
   }
 
   .el-col {
-    height: 100%;
+    height: 80%;
+    padding: 0px;
+  }
+  .videoDiv {
+    width: 100%;
+    height: 48px;
+    background: #012233;
+    font-size: 18px;
+    line-height: 48px;
+    text-align: center;
+    border: 1px solid;
+    border-image: linear-gradient(0deg, #004a70) 10 10;
+    border-radius: 3px 3px 0px 0px;
   }
 }
 
@@ -341,15 +443,27 @@ export default {
 }
 
 .v-right {
-  height: 65vh;
+  height: 100%;
+  padding: 29px 30px 0 30px;
+}
+.oneRow {
+  display: flex;
+  justify-content: space-around;
+  margin: 22px 0;
+  .colDiv {
+    min-width: 32%;
+    height: 33%;
+  }
+  // justify-items: center;
 }
 </style>
 
 <style lang="scss">
 .tree-list {
-  width: 170px;
-  margin-right: 20px;
-
+  width: 270px;
+  height: 875px;
+  background: #000c12;
+  border: 1px solid rgba(0, 138, 207, 0.66);
   .el-input__inner {
     background-color: rgba(0, 0, 0, 0) !important;
     color: #fff !important;

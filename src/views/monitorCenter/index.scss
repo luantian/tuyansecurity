@@ -93,6 +93,7 @@
     z-index: 2;
 
     .screen_little_title {
+      flex-shrink: 0;
       width: 370px;
       height: 35px;
       background-image: url('./img/title_bg.png');
@@ -124,8 +125,11 @@
       }
 
       .screen_left_top {
+        display: flex;
+        flex-direction: column;
         .wl_module {
           display: flex;
+          flex-shrink: 0;
           flex-wrap: wrap;
           margin-top: 43px;
 
@@ -158,8 +162,9 @@
           }
         }
         .line_area {
-          height: 200px;
-          width: 100%;
+          flex: 1;
+          // height: 200px;
+          // width: 100%;
         }
       }
 
@@ -167,6 +172,7 @@
         .yw_module {
           margin-top: 36px;
           display: flex;
+          flex-shrink: 0;
           flex-wrap: wrap;
           width: 100%;
           justify-content: space-around;
@@ -226,6 +232,9 @@
               transform: translate(0%, -50%);
             }
           }
+        }
+        .yw_pie {
+          flex: 1;
         }
       }
     }

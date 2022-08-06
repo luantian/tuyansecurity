@@ -68,7 +68,8 @@
                 </div>
                 <div class="list_item_main">
                   <div class="site">
-                    <i class="iconfont icon-address" style="color: #129CE0;margin-right:8px"></i>
+                    <i class="iconfont icon-address"
+                       style="color: #129CE0;margin-right:8px"></i>
                   </div>
                   <div class="specific_site">
                     {{item.dr_address+item.dr_unit_name+item.dr_device_name}}
@@ -76,10 +77,13 @@
                 </div>
                 <div class="list_item_bottom">
                   <div class="device">
-                    <i class="iconfont icon-fireFightObj" style="color: #129CE0;margin-right:8px"></i>
+                    <i class="iconfont icon-fireFightObj"
+                       style="color: #129CE0;margin-right:8px"></i>
                     {{item.dr_device_serial}}发生报警
                   </div>
-                  <div class="history" style="color: #129CE0;opacity: 0.64;">
+                  <div class="history"
+                       @click="goHistoryDetail()"
+                       style="color: #129CE0;opacity: 0.64;">
                     历史报警 >
                   </div>
                 </div>
@@ -97,7 +101,12 @@
       <!-- 右侧列表 end -->
       <!-- 底部提示 start -->
       <div class="home_main_bottom">
-
+        <div class="home_main_bottom_item"
+             id="devicePie"></div>
+        <div class="home_main_bottom_item"
+             id="errDevicePie"></div>
+        <div class="home_main_bottom_item"
+             id="monitorPointPie"></div>
       </div>
       <!-- 底部提示 end -->
     </div>
@@ -157,7 +166,6 @@ export default {
     }
   },
   mounted () {
-    this.tick()
     this.getAlarmList()
     this.getInfo()
     this.$get('/v1/dr/in-big-screen-count').then(res => {
@@ -167,6 +175,9 @@ export default {
     })
   },
   methods: {
+    goHistoryDetail () {
+      this.$router.push({path: '/equipment/noticeList'})
+    },
     getCount () {
       this.$post('/v1/dr/notice-list-count', { dr_notice_status: 1 }).then(res => {
         this.alarm_count = res.data.count
@@ -177,7 +188,8 @@ export default {
     },
     getInfo () {
       this.$get('/v1/dr/in-notice-map-count').then(res => {
-        this.info = res.data
+        this.info = res.data;
+        this.setDevicePie()
       })
     },
     clickDown (name) {
@@ -294,41 +306,139 @@ export default {
       }
       this.showDia = true
     },
-    tick () {
-      var today;
-      today = new Date();
-      this.time = this.showLocale(today);
-      window.setTimeout(this.tick, 1000);
+    /**
+     * 设备饼状图
+     */
+    setDevicePie () {
+      var myCharthc = this.$echarts.init(document.getElementById('devicePie'));
+      var dataing = [{
+        "name": "已完成",
+        "value": 95
+      }, {
+        "name": "2",
+        "value": 5,
+      }]
+      var dataing1 = [{
+        "name": "已完成",
+        "value": 95,
+        itemStyle: {
+          normal: {
+            borderColor: {
+              colorStops: [{
+                offset: 1,
+                color: '#00D7DF' // 0% 处的颜色
+              }, {
+                offset: 1,
+                color: '#1AFFD1 ' // 100% 处的颜色
+              }]
+            },
+          }
+        }
+      }, {
+        "name": "逾期",
+        "value": 5,
+        itemStyle: {
+          normal: {
+            borderWidth: 1,
+            borderColor: '#D06200',
+            color: '#D06200'
+          }
+        }
+      }]
+      let option = {
+        color: ['#00D7DF', "transparent"],
+        // color: ['#00D7DF', "#D06200"],
+        //  backgroundColor: '#000',
+        title: {
+          text: '工单总数',
+          subtext: '12431',
+          textStyle: {
+            color: '#c4cfd2',
+            fontSize: 13,
+            align: 'center',
+            verticalAlign: 'top',
+            fontFamily: 'PingFang SC'
+          },
+          subtextStyle: {
+            fontSize: 20,
+            color: ['#c4cfd2'],
+            align: 'center'
+          },
+          left: 'center',
+          // top: '30%', //top待调整
+          top: 47,
+          itemGap: 3
+        },
+        series: [
+          // 主要展示层的
+          {
+            clockWise: false,
+            // radius: ['40%', '45%'],
+            radius: [40, 53],
+            center: ['50%', '50%'],
+            type: 'pie',
+            hoverAnimation: false,
+            label: {
+              normal: {
+                show: false,
+                formatter: "{a}<br>{b}",
+                textStyle: {
+                  fontSize: 13,
+                },
+                position: 'outside'
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            labelLine: {
+              normal: {
+                show: false,
+                length: 30,
+                length2: 55
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            // name: "在用运输车",
+            data: dataing,
+          },
+          {
+            type: 'pie',
+            clockWise: false, //顺时加载
+            hoverAnimation: false, //鼠标移入变大
+            center: ['50%', '50%'],
+            radius: [40, 43],
+            label: {
+              normal: {
+                show: true,
+                formatter: "{b}<br>{c}%",
+                textStyle: {
+                  fontSize: 13,
+                },
+                position: 'outside'
+              }
+            },
+            data: dataing1,
+          },
+        ]
+      };
+
+      myCharthc.setOption(option);
     },
-    showLocale (objD) {
-      var str, colorhead, colorfoot;
-      var yy = objD.getYear();
-      if (yy < 1900) yy = yy + 1900;
-      var MM = objD.getMonth() + 1;
-      if (MM < 10) MM = '0' + MM;
-      var dd = objD.getDate();
-      if (dd < 10) dd = '0' + dd;
-      var hh = objD.getHours();
-      if (hh < 10) hh = '0' + hh;
-      var mm = objD.getMinutes();
-      if (mm < 10) mm = '0' + mm;
-      var ss = objD.getSeconds();
-      if (ss < 10) ss = '0' + ss;
-      var ww = objD.getDay();
-      if (ww == 0) colorhead = "<font color=\"#ccc\">";
-      if (ww > 0 && ww < 6) colorhead = "<font color=\"#ccc\">";
-      if (ww == 6) colorhead = "<font color=\"#ccc\">";
-      if (ww == 0) ww = "星期日";
-      if (ww == 1) ww = "星期一";
-      if (ww == 2) ww = "星期二";
-      if (ww == 3) ww = "星期三";
-      if (ww == 4) ww = "星期四";
-      if (ww == 5) ww = "星期五";
-      if (ww == 6) ww = "星期六";
-      colorfoot = "</font>"
-      str = colorhead + yy + "-" + MM + "-" + dd + " " + hh + ":" + mm + ":" + ss + "  " + ww + colorfoot;
-      return (str);
+    /**
+     * 异常设备饼状图
+     */
+    setErrDeveicePie () {
+
     },
+    /**
+     * 监控点饼状图
+     */
+    setMonitorPointPie () {
+
+    }
   },
 }
 </script>
@@ -529,10 +639,14 @@ export default {
     bottom: 0px;
     width: 1062px;
     height: 166px;
+    display: flex;
     background-image: url('../../assets/home-image/bottom_area.png');
     background-repeat: no-repeat;
     background-size: 100%;
     z-index: 1;
+    .home_main_bottom_item {
+      flex: 1;
+    }
   }
 }
 </style>

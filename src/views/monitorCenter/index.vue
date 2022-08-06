@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-07-31 23:13:46
+ * @LastEditTime: 2022-08-06 22:06:56
  * @LastEditors: your name
  * @Description: 
 -->
@@ -123,6 +123,7 @@
               </div>
             </div>
           </div>
+          <div class="yw_pie" id="yw_pie"></div>
         </div>
       </div>
       <!-- 大屏左侧 end -->
@@ -279,6 +280,130 @@ export default {
       height: document.body.clientHeight / 1080,
       icon: icon,
       show:false
+    }
+  },
+  methods: {
+    setywPie () {
+        var data = [
+            '电气火灾监控系统',
+            '独立式烟感系统',
+            '视频监控系统',
+            '火灾报警系统',
+            '消防水系统',
+            '可燃气体系统',
+            '其他系统'
+        ]
+        var dat = [{
+            "value": 10
+        }]
+        let option = {
+            title: {
+                subtext: '5780',
+                text: '总数',
+                x: 'center',
+                y: '43%',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'normal',
+                    color: '#FFFFFF',
+                    fontFamily: 'Alibaba PuHuiTi'
+                },
+                subtextStyle: {
+                    fontSize: 28,
+                    fontWeight: 'normal',
+                    align: "center",
+                    color: '#FFFFFF',
+                    fontFamily: 'Roboto Condensed'
+                },
+            },
+            legend: {
+                show: true,
+                orient: 'vertical',
+                left: '80px',
+                top: '120px',
+                icon: 'circle',
+                itemWidth: 20,
+                itemHeight: 12,
+                itemGap: 9,
+                data: data,
+                textStyle: {
+                    color: "#fff",
+                    fontSize: "12px",
+                    fontFamily: 'PingFang SC'
+                },
+            },
+            series: [{
+                    type: 'pie',
+                    radius: [50, 80],
+                    // color: ['#004568'],
+                    center: ['50%', '50%'],
+                    itemStyle: {
+                        color: '#004568',
+                        opacity: 0.6,
+                        borderColor: '#000001'
+                    },
+                    label: {
+                        normal: {
+                            show: false,
+                        },
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    data: dat
+                },
+                {
+                    type: 'pie',
+                    radius: [60, 70],
+                    center: ['50%', '50%'],
+                    color: ['#364EC4', '#1162CD', '#0D6DC6 ', '#149CCF ', '#02BABC', '#07C35E', '#C66C1C'],
+                    itemStyle: {
+                        normal: {
+                            borderWidth: 3,
+                            borderColor: '#000001',
+                            // shadowBlur: 880,
+                            // shadowColor: 'red',
+                        },
+                    },
+                    data: [{
+                            value: 27,
+                            name: '电气火灾监控系统'
+                        },
+                        {
+                            value: 30,
+                            name: '独立式烟感系统'
+                        },
+                        {
+                            value: 24,
+                            name: '视频监控系统'
+                        },
+                        {
+                            value: 27,
+                            name: '火灾报警系统'
+                        },
+                        {
+                            value: 27,
+                            name: '消防水系统'
+                        },
+                        {
+                            value: 27,
+                            name: '可燃气体系统'
+                        },
+                        {
+                            value: 27,
+                            name: '其他系统'
+                        },
+
+                    ],
+                    label: {
+                        normal: {
+                            show: false,
+                        }
+                    }
+                }
+            ]
+        };
+        
     }
   },
   mounted () {

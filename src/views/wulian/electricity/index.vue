@@ -2,7 +2,10 @@
   <div class="electricity_main">
     <!--机构 start-->
     <div class="left">
-      <el-input placeholder="输入关键字进行过滤"
+      <TreeData @handleSelect="handleSelectArea"
+                @ready="handleSelectArea"
+                ref="areaTree"></TreeData>
+      <!-- <el-input placeholder="输入关键字进行过滤"
                 v-model="filterText">
       </el-input>
 
@@ -12,9 +15,10 @@
                default-expand-all
                :filter-node-method="filterNode"
                ref="tree">
-      </el-tree>
+      </el-tree> -->
     </div>
     <!--机构 end-->
+
     <!-- 图表 start -->
     <div class="right">
       <div class="right_top">
@@ -47,87 +51,106 @@
 </template>
 
 <script>
-var color = ["#74FFF3", "#5E8FFF"],
+var color = ['#74FFF3', '#5E8FFF'],
   ecolor = [
     [
       {
         offset: 0,
-        color: "rgba(41,255,206, 0.32)",
+        color: 'rgba(41,255,206, 0.32)',
       },
       {
         offset: 1,
-        color: "rgba(83,255,233,0.00)",
+        color: 'rgba(83,255,233,0.00)',
       },
     ],
     [
       {
         offset: 0,
-        color: "rgba(44,141,254,0.32)",
+        color: 'rgba(44,141,254,0.32)',
       },
       {
         offset: 1,
-        color: "rgba(43,107,255,0.00)",
+        color: 'rgba(43,107,255,0.00)',
       },
     ],
   ];
-import moment from "moment";
+import moment from 'moment';
+import TreeData from '@/components/TreeData';
 export default {
   // props: ["unit"],
-  data () {
+  components: {
+    TreeData,
+  },
+  data() {
     return {
       active: 1,
       chart: null,
       lineData: [],
       info: {},
       unit: {
-        dr_unit_id: ''
+        dr_unit_id: '',
       },
       filterText: '',
-      data: [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }, {
-            id: 10,
-            label: '三级 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
-      }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }],
+      data: [
+        {
+          id: 1,
+          label: '一级 1',
+          children: [
+            {
+              id: 4,
+              label: '二级 1-1',
+              children: [
+                {
+                  id: 9,
+                  label: '三级 1-1-1',
+                },
+                {
+                  id: 10,
+                  label: '三级 1-1-2',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 2,
+          label: '一级 2',
+          children: [
+            {
+              id: 5,
+              label: '二级 2-1',
+            },
+            {
+              id: 6,
+              label: '二级 2-2',
+            },
+          ],
+        },
+        {
+          id: 3,
+          label: '一级 3',
+          children: [
+            {
+              id: 7,
+              label: '二级 3-1',
+            },
+            {
+              id: 8,
+              label: '二级 3-2',
+            },
+          ],
+        },
+      ],
       defaultProps: {
         children: 'children',
-        label: 'label'
-      }
+        label: 'label',
+      },
     };
   },
   watch: {
     unit: {
-      handler () {
-        this.info = []
+      handler() {
+        this.info = [];
         this.$get(`/v1/dr/get-electricity-device/${this.unit.dr_unit_id}`).then(
           (res) => {
             this.info = res.data;
@@ -135,47 +158,47 @@ export default {
               this.info.map((it, index) => {
                 this.getHFCChart(
                   {
-                    id: "yali" + index,
+                    id: 'yali' + index,
                     data: {
                       currentValue: it.dr_electric_leakage,
                       analogdown: 200,
                       analogup: 800,
                       analogWarningUp: 800,
                       analogWarningDown: 0,
-                      analogUnit: "mA",
+                      analogUnit: 'mA',
                     },
                   },
                   0
                 );
               });
 
-              this.setLine(0, "电流", "mA");
+              this.setLine(0, '电流', 'mA');
             });
           }
         );
       },
-      deep: true
+      deep: true,
     },
   },
-  mounted () {
+  mounted() {
     setTimeout(() => {
-      this.unit.dr_unit_id = '120034'
-    }, 1000)
+      this.unit.dr_unit_id = '120034';
+    }, 1000);
   },
   methods: {
-    setLine (type, name, unit) {
+    setLine(type, name, unit) {
       this.active = type;
       this.$get(
-        "/v1/dr/get-electricity-device-diagram/" + this.info[type].dr_device_id
+        '/v1/dr/get-electricity-device-diagram/' + this.info[type].dr_device_id
       ).then((res) => {
         let x_arr = [];
         let y_arr = [
-          { name: "IA", data: [] },
-          { name: "IB", data: [] },
-          { name: "IC", data: [] },
+          { name: 'IA', data: [] },
+          { name: 'IB', data: [] },
+          { name: 'IC', data: [] },
         ];
         res.data.map((it) => {
-          x_arr.push(moment(it.dr_create_time * 1000).format("MM-DD HH:mm:ss"));
+          x_arr.push(moment(it.dr_create_time * 1000).format('MM-DD HH:mm:ss'));
           y_arr[0].data.push(it.dr_ia);
           y_arr[1].data.push(it.dr_ib);
           y_arr[2].data.push(it.dr_ic);
@@ -187,14 +210,14 @@ export default {
         this.lineChart(this.lineData, name, unit);
       });
     },
-    getHFCChart (obj, color) {
+    getHFCChart(obj, color) {
       var data = obj.data;
       var CO2Chart = this.$echarts.init(document.getElementById(obj.id));
-      CO2Chart.title = "压力";
+      CO2Chart.title = '压力';
 
-      var wordColor = ""; //数据显示颜色
-      var barColor = ""; //仪表盘颜色显示
-      var arrowColor = ""; //指针颜色
+      var wordColor = ''; //数据显示颜色
+      var barColor = ''; //仪表盘颜色显示
+      var arrowColor = ''; //指针颜色
       var axisLabelSize = null;
       var detailSize = 20;
       if (window.innerWidth <= 1366) {
@@ -203,13 +226,13 @@ export default {
       }
 
       if (color == 0) {
-        wordColor = "#43eec9";
-        barColor = "#03b7c9";
-        arrowColor = "#43eec9";
+        wordColor = '#43eec9';
+        barColor = '#03b7c9';
+        arrowColor = '#43eec9';
       } else {
-        wordColor = "#f4704d";
-        barColor = "#f4704d";
-        arrowColor = "#f4704d";
+        wordColor = '#f4704d';
+        barColor = '#f4704d';
+        arrowColor = '#f4704d';
       }
 
       //data.analogup = 55,data.analogdown = 42.5,data.analogWarningUp = 80,data.analogWarningDown=30;
@@ -230,9 +253,9 @@ export default {
         grid: {
           z: 1, //grid作为柱状图的坐标系，其层级要和仪表图层级不同，同时隐藏
           show: false,
-          left: "0%",
-          right: "0%",
-          top: "5%",
+          left: '0%',
+          right: '0%',
+          top: '5%',
           containLabel: true,
           splitLine: {
             show: false, //隐藏分割线
@@ -241,7 +264,7 @@ export default {
         xAxis: [
           //这里有很多的show，必须都设置成不显
           {
-            type: "category",
+            type: 'category',
             data: [],
             axisLine: {
               show: false,
@@ -250,7 +273,7 @@ export default {
               show: false,
             },
             splitArea: {
-              interval: "auto",
+              interval: 'auto',
               show: false,
             },
           },
@@ -258,7 +281,7 @@ export default {
         yAxis: [
           //这里有很多的show，必须都设置成不显示
           {
-            type: "value",
+            type: 'value',
             axisLine: {
               show: false,
             },
@@ -272,25 +295,25 @@ export default {
         },
         series: [
           {
-            name: "刻度盘",
-            type: "gauge",
+            name: '刻度盘',
+            type: 'gauge',
             startAngle: 180,
             endAngle: 0,
-            center: ["50%", "65%"], //整体的位置设置
+            center: ['50%', '65%'], //整体的位置设置
             z: 3,
             min: 0,
             max: 500,
             splitNumber: 1,
-            radius: "95%",
+            radius: '95%',
             axisLine: {
               // 坐标轴线
               lineStyle: {
                 // 属性lineStyle控制线条样式
                 width: 10,
                 color: [
-                  [axisSplit1, "#f4704d"],
-                  [axisSplit2, "#03b7c9"],
-                  [1, "#f4704d"],
+                  [axisSplit1, '#f4704d'],
+                  [axisSplit2, '#03b7c9'],
+                  [1, '#f4704d'],
                 ],
               },
             },
@@ -300,7 +323,7 @@ export default {
               splitNumber: 10,
               lineStyle: {
                 // 属性lineStyle控制线条样式
-                color: "#4375AA",
+                color: '#4375AA',
               },
             },
             splitLine: {
@@ -308,18 +331,18 @@ export default {
               length: 15, // 属性length控制线长
               lineStyle: {
                 // 属性lineStyle（详见lineStyle）控制线条样式
-                color: "#4375AA",
+                color: '#4375AA',
               },
             },
             axisLabel: {
               textStyle: {
                 fontSize: axisLabelSize,
-                color: "#03b7c9",
+                color: '#03b7c9',
               },
             },
             pointer: {
               show: true,
-              length: "70%",
+              length: '70%',
               width: 2,
             },
             itemStyle: {
@@ -331,11 +354,11 @@ export default {
             title: {
               //仪表盘标题
               show: false,
-              offsetCenter: ["0", "20"],
+              offsetCenter: ['0', '20'],
               textStyle: {
-                color: "#03b7c9",
+                color: '#03b7c9',
                 fontSize: 12,
-                fontFamily: "Microsoft YaHei",
+                fontFamily: 'Microsoft YaHei',
               },
             },
             // detail:{
@@ -346,30 +369,30 @@ export default {
                 fontSize: 12,
                 color: wordColor,
               },
-              offsetCenter: ["0%", "45%"],
-              formatter: "{value}" + data.analogUnit,
+              offsetCenter: ['0%', '45%'],
+              formatter: '{value}' + data.analogUnit,
             },
             data: [
               {
                 value: data.currentValue || 0,
-                name: "",
+                name: '',
               },
             ],
           },
           {
-            name: "灰色内圈",
-            type: "gauge",
+            name: '灰色内圈',
+            type: 'gauge',
             z: 2,
-            radius: "95%",
+            radius: '95%',
             startAngle: 180,
             endAngle: 0,
-            center: ["50%", "65%"], //整体的位置设置
+            center: ['50%', '65%'], //整体的位置设置
             splitNumber: 4,
             axisLine: {
               // 坐标轴线
               lineStyle: {
                 // 属性lineStyle控制线条样式
-                color: [[1, "#4375AA"]],
+                color: [[1, '#4375AA']],
                 width: 12,
                 opacity: 1,
               },
@@ -399,18 +422,18 @@ export default {
       };
 
       CO2Chart.setOption(option);
-      window.addEventListener("resize", function () {
+      window.addEventListener('resize', function () {
         //宽度自适应
         CO2Chart.resize();
       });
     },
-    lineChart (data, name, unit) {
+    lineChart(data, name, unit) {
       let serve = {
-        name: "",
-        type: "line",
+        name: '',
+        type: 'line',
         areaStyle: {
           color: {
-            type: "linear",
+            type: 'linear',
             x: 0,
             y: 0,
             x2: 0,
@@ -418,17 +441,17 @@ export default {
             colorStops: [
               {
                 offset: 0,
-                color: "red",
+                color: 'red',
               },
               {
                 offset: 1,
-                color: "blue",
+                color: 'blue',
               },
             ],
           },
         },
         areaStyle: {
-          color: new this.$echarts["graphic"].LinearGradient(
+          color: new this.$echarts['graphic'].LinearGradient(
             0,
             0,
             0,
@@ -447,35 +470,35 @@ export default {
         data: [],
         smooth: !0,
       };
-      let servers = []
-      data.y.map(it => {
-        let obj = { ...serve }
+      let servers = [];
+      data.y.map((it) => {
+        let obj = { ...serve };
         obj.name = it.name;
-        obj.data = it.data
-        servers.push(obj)
-      })
+        obj.data = it.data;
+        servers.push(obj);
+      });
       let option = {
         tooltip: {
-          trigger: "axis",
-          backgroundColor: "rgba(0,0,0,0.7)",
-          borderWidth: "0",
+          trigger: 'axis',
+          backgroundColor: 'rgba(0,0,0,0.7)',
+          borderWidth: '0',
           axisPointer: {
-            type: "shadow",
+            type: 'shadow',
           },
           textStyle: {
             fontSize: 14,
-            color: "rgba(255,255,255,0.80)",
+            color: 'rgba(255,255,255,0.80)',
           },
         },
         legend: {
           show: false,
-          icon: "rect",
-          orient: "horizontal",
+          icon: 'rect',
+          orient: 'horizontal',
           right: 0,
           itemWidth: 8,
           itemHeight: 8,
           textStyle: {
-            color: "rgba(255,255,255,0.70)",
+            color: 'rgba(255,255,255,0.70)',
           },
         },
         grid: {
@@ -486,18 +509,18 @@ export default {
           containLabel: true,
         },
         xAxis: {
-          type: "category",
+          type: 'category',
           data: data.x,
           axisLabel: {
             show: !0,
             //interval: 13,
             fontSize: 12,
-            color: "rgba(255,255,255,0.40)",
+            color: 'rgba(255,255,255,0.40)',
           },
         },
         yAxis: [
           {
-            type: "value",
+            type: 'value',
             minInterval: 1,
             min: 0,
             axisTick: {
@@ -516,8 +539,8 @@ export default {
               },
             },
             axisLabel: {
-              formatter: "{value}" + unit,
-              color: "rgba(255,255,255,0.40)",
+              formatter: '{value}' + unit,
+              color: 'rgba(255,255,255,0.40)',
               interval: 2,
             },
           },
@@ -526,7 +549,7 @@ export default {
         color: color,
       };
 
-      this.chart = this.$echarts.init(document.getElementById("lineChart"));
+      this.chart = this.$echarts.init(document.getElementById('lineChart'));
       this.chart.setOption(option, !0);
     },
   },
