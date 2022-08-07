@@ -156,6 +156,76 @@ export default {
     //this.init();
   },
   methods: {
+      lineChartPro () {
+      var line_ChartPro = this.$echarts.init(document.getElementById(`lineChart`));
+      let options = {
+        xAxis: {
+          type: 'category',
+          axisTick: {
+            show: false,
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#0A4E85',
+              width: 1
+            }
+          },
+          axisLabel: {
+            color: '#ffffff',
+            fontSize: "12px",
+            fontFamily: 'PingFangSC-Regular'
+          },
+          data: ['7/17', '7/18', '7/19', '7/20', '7/21', '7/22', '7/23', '7/24', '7/25', '7/26', '7/27', '7/28']
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#0A4E85',
+              width: 1
+            }
+          },
+          axisLabel: {
+            color: '#ffffff'
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#0A4E85',
+              opacity: 0.5
+            }
+          }
+        },
+        series: [
+          {
+            data: [50, 30, 60, 40, 90, 120, 50, 30, 60, 40, 90, 120],
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            itemStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 1,
+                y2: 0,
+                colorStops: [{
+                  offset: 0, color: '#169DAE ' // 0% 处的颜色
+                }, {
+                  offset: 1, color: '#4CFB9B ' // 100% 处的颜色
+                }],
+                global: false // 缺省为 false
+              }
+            }
+          }
+        ]
+      };
+      line_ChartPro.setOption(options);
+      window.addEventListener('resize', function () {
+        //宽度自适应
+        line_ChartPro.resize();
+      });
+    },
     handleSelectArea (val) {
       console.log(val);
       for (let key in val) {
@@ -201,7 +271,8 @@ export default {
           x: x_arr,
           y: y_arr,
         };
-        this.lineChart(this.lineData, name, unit);
+        this.lineChartPro(this.lineData, name, unit);
+        // this.lineChart(this.lineData, name, unit);
       });
     },
     getHFCChart (obj, color) {

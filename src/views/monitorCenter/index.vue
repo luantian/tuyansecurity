@@ -1,12 +1,15 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-07 10:21:30
+ * @LastEditTime: 2022-08-07 14:09:34
  * @LastEditors: your name
  * @Description: 
 -->
 <template>
-  <div class="base-screen-wrap">
+  <div class="base-screen-wrap"
+       v-loading="loading"
+       element-loading-background="rgba(0, 0, 0, 0.8)">
+
     <div class="screen-header header">
       <!-- 智慧消防大屏监控中心 -->
     </div>
@@ -71,9 +74,11 @@
               </div>
             </div>
           </div>
+          <!-- <div style="color:#fff; font-size: 16px">近30天物联接入趋势</div> -->
           <line-chart class="line_area"
                       graphNameId="wl"
                       title="近30天物联接入趋势"></line-chart>
+          <div id="wl_line"></div>
         </div>
         <div class="screen_left_bottom screen_left_item">
           <div class="screen_little_title">
@@ -138,7 +143,6 @@
       <div class="screen_map">
         <el-amap class="amap-box"
                  v-show="show"
-                 :resizeEnable="true"
                  :center="[123.472188,41.706918]"
                  :position="[123.472188,41.706918]"
                  :vid="'amap-vue'"
@@ -301,7 +305,8 @@ export default {
     return {
       height: document.body.clientHeight / 1080,
       icon: icon,
-      show: true
+      show: true,
+      loading: false
     }
   },
   methods: {
@@ -427,13 +432,28 @@ export default {
       };
       let piechart = this.$echarts.init(document.getElementById('yw_pie'))
       piechart.setOption(option)
-    }
+    },
+    getData () {
+      this.loading = true
+      this.$get('/v1/dr/in-big-screen-count').then(res => {
+        console.log(res);
+        this.loading = false
+      }).catch(err => {
+        console.log(err);
+        this.$$message.info(err);
+        this.loading = fail
+      })
+    },
+    setBar () {
+
+    } 
   },
   mounted () {
     console.log(icon);
     // setTimeout(() => {
     //   this.show = true
     // }, 2000)
+    this.getData()
     this.setywPie()
   }
 }

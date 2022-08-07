@@ -251,18 +251,6 @@ export default {
     },
     checkRouter (val) {
       return
-      if (this.$store.state.isDev) {
-        return
-      }
-      if (val == '/chart' || val == '/chart1') {
-        return
-      }
-      log(this.menuList, val)
-      if (this.menuList.indexOf(val) === -1) {
-        if (this.$route.path !== '/404') {
-          this.$router.replace('/404')
-        }
-      }
     }
   },
   watch: {
@@ -275,17 +263,28 @@ export default {
 }
 </script>
 <style lang="scss">
-.el-menu-item{
+.el-menu-item {
   color: #ffffff;
 }
 // .el-menu-item.is-active {
 //   background-color: #09425E  !important;
 // }
 .el-menu-item.is-active {
-  background-color: #09425E  !important;
+  background-color: #09425e !important;
 }
 .el-menu-submenu.is-active {
-  background-color: #09425E  !important;
+  background-color: #09425e !important;
+}
+#dark .el-menu--dark .el-menu-item.is-active {
+  background: transparent !important;
+}
+
+#dark .el-menu--dark .el-menu-item:hover {
+  background: linear-gradient(90deg, #1b81b4 0%, #43a7d9 97%) !important;
+}
+
+#dark .el-submenu__title:hover {
+  background: linear-gradient(90deg, #1b81b4 0%, #43a7d9 97%) !important;
 }
 // .el-menu-item-group__title {
 //   padding: 0
