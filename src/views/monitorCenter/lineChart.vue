@@ -101,6 +101,7 @@ export default {
         },
         series: [
           {
+            radius: '100%',
             data: [80, 60, 110, 100, 130, 95],
             type: 'line',
             smooth: true,

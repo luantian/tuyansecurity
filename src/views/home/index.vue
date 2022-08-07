@@ -82,7 +82,7 @@
                     {{item.dr_device_serial}}发生报警
                   </div>
                   <div class="history"
-                       @click="goHistoryDetail()"
+                       @click.stop="goHistoryDetail()"
                        style="color: #129CE0;opacity: 0.64;">
                     历史报警 >
                   </div>
@@ -176,7 +176,7 @@ export default {
   },
   methods: {
     goHistoryDetail () {
-      this.$router.push({path: '/equipment/noticeList'})
+      this.$router.push({ path: '/equipment/noticeList' })
     },
     getCount () {
       this.$post('/v1/dr/notice-list-count', { dr_notice_status: 1 }).then(res => {
@@ -189,7 +189,9 @@ export default {
     getInfo () {
       this.$get('/v1/dr/in-notice-map-count').then(res => {
         this.info = res.data;
-        this.setDevicePie()
+        this.setDevicePie(this.info);
+        this.setErrDeveicePie(this.info);
+        this.setMonitorPointPie(this.info)
       })
     },
     clickDown (name) {
@@ -309,49 +311,29 @@ export default {
     /**
      * 设备饼状图
      */
-    setDevicePie () {
-      var myCharthc = this.$echarts.init(document.getElementById('devicePie'));
-      var dataing = [{
-        "name": "已完成",
-        "value": 95
-      }, {
-        "name": "2",
-        "value": 5,
-      }]
-      var dataing1 = [{
-        "name": "已完成",
-        "value": 95,
-        itemStyle: {
-          normal: {
-            borderColor: {
-              colorStops: [{
-                offset: 1,
-                color: '#00D7DF' // 0% 处的颜色
-              }, {
-                offset: 1,
-                color: '#1AFFD1 ' // 100% 处的颜色
-              }]
-            },
-          }
-        }
-      }, {
-        "name": "逾期",
-        "value": 5,
-        itemStyle: {
-          normal: {
-            borderWidth: 1,
-            borderColor: '#D06200',
-            color: '#D06200'
-          }
-        }
-      }]
+    setDevicePie (info) {
+      var myChart = this.$echarts.init(document.getElementById('devicePie'));
+      let data = [
+        {
+          "name": "正常",
+          "value": info.dr_device_normal_count || 0
+        },
+        {
+          "name": "待续费",
+          "value": info.dr_device_pay_count || 0
+        },
+        {
+          "name": "异常",
+          "value": info.dr_device_abnormal_count || 0,
+        }]
+      let count = 0;
+      data.forEach(item => count = count + item.value)
       let option = {
-        color: ['#00D7DF', "transparent"],
-        // color: ['#00D7DF', "#D06200"],
-        //  backgroundColor: '#000',
+        color: ['#00D7DF', '#014e85', "#e9410b"],
         title: {
-          text: '工单总数',
-          subtext: '12431',
+          text: '设备',
+          // subtext: count,
+          subtext: `${count}`,
           textStyle: {
             color: '#c4cfd2',
             fontSize: 13,
@@ -366,7 +348,7 @@ export default {
           },
           left: 'center',
           // top: '30%', //top待调整
-          top: 47,
+          top: '40%',
           itemGap: 3
         },
         series: [
@@ -381,7 +363,101 @@ export default {
             label: {
               normal: {
                 show: false,
-                formatter: "{a}<br>{b}",
+                formatter: function (name) {
+                  let total = 0;
+                  let tarValue;
+                  for (let index = 0; index < data.length; index++) {
+                    total += data[index].value;
+                    if (name === data[index].name) {
+                      tarValue = data[index].value
+                    }
+                  }
+                  let num = Math.round((tarValue / total) * 100)
+                  return (name + '\n' + num + '%');
+                  // return (name +'  ' + num + '%');
+                },
+                textStyle: {
+                  fontSize: 13,
+                },
+                position: 'outside'
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            labelLine: {
+              normal: {
+                show: false,
+                length: 30,
+                length2: 55
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            // name: "在用运输车",
+            data: data,
+          }
+        ]
+      };
+
+      myChart.setOption(option);
+    },
+    /**
+     * 异常设备饼状图
+     */
+    setErrDeveicePie (info) {
+      let myChart = this.$echarts.init(document.getElementById('errDevicePie'));
+      let data = [{
+        "name": "低电压",
+        "value": 0
+      },
+      {
+        "name": "故障",
+        "value": info.dr_device_gz_count || 0
+      },
+      {
+        "name": "离线",
+        "value": info.dr_device_not_online_count || 0,
+      }]
+      let count = 0;
+      data.forEach(item => count = count + item.value)
+      let option = {
+        color: ['#1a5aef', "#ed6f04", '#004974'],
+        title: {
+          text: '异常设备',
+          subtext: `${count}`,
+          textStyle: {
+            color: '#c4cfd2',
+            fontSize: 13,
+            align: 'center',
+            verticalAlign: 'top',
+            fontFamily: 'PingFang SC'
+          },
+          subtextStyle: {
+            fontSize: 20,
+            color: ['#c4cfd2'],
+            align: 'center'
+          },
+          left: 'center',
+          // top: '30%', //top待调整
+          top: '40%',
+          // top: 47,
+          itemGap: 3
+        },
+        series: [
+          // 主要展示层的
+          {
+            clockWise: false,
+            // radius: ['40%', '45%'],
+            radius: [40, 53],
+            center: ['50%', '50%'],
+            type: 'pie',
+            hoverAnimation: false,
+            label: {
+              normal: {
+                show: false,
+                formatter: "{a} {b}",
                 textStyle: {
                   fontSize: 13,
                 },
@@ -402,42 +478,100 @@ export default {
               }
             },
             // name: "在用运输车",
-            data: dataing,
-          },
-          {
-            type: 'pie',
-            clockWise: false, //顺时加载
-            hoverAnimation: false, //鼠标移入变大
-            center: ['50%', '50%'],
-            radius: [40, 43],
-            label: {
-              normal: {
-                show: true,
-                formatter: "{b}<br>{c}%",
-                textStyle: {
-                  fontSize: 13,
-                },
-                position: 'outside'
-              }
-            },
-            data: dataing1,
+            data: data,
           },
         ]
       };
 
-      myCharthc.setOption(option);
-    },
-    /**
-     * 异常设备饼状图
-     */
-    setErrDeveicePie () {
-
+      myChart.setOption(option);
     },
     /**
      * 监控点饼状图
      */
-    setMonitorPointPie () {
+    setMonitorPointPie (info) {
+      let myChart = this.$echarts.init(document.getElementById('monitorPointPie'));
+      let data = [{
+        "name": "在线",
+        "value": info.dr_device_online_count || 0
+      }, {
+        "name": "离线",
+        "value": info.dr_device_not_online_count || 0,
+      }]
+      let count = 0;
+      data.forEach(item => count = count + item.value)
+      let option = {
+        color: ['#00e2c9', '#006c82', "#e9410b"],
+        title: {
+          text: '监控点',
+          subtext: `${count}`,
+          textStyle: {
+            color: '#c4cfd2',
+            fontSize: 13,
+            align: 'center',
+            verticalAlign: 'top',
+            fontFamily: 'PingFang SC'
+          },
+          subtextStyle: {
+            fontSize: 20,
+            color: ['#c4cfd2'],
+            align: 'center'
+          },
+          left: 'center',
+          // top: '30%', //top待调整
+          top: '40%',
+          itemGap: 3
+        },
+        series: [
+          // 主要展示层的
+          {
+            clockWise: false,
+            // radius: ['40%', '45%'],
+            radius: [40, 53],
+            center: ['50%', '50%'],
+            type: 'pie',
+            hoverAnimation: false,
+            label: {
+              normal: {
+                show: false,
+                formatter: (name) => {
+                  let total = 0;
+                  let tarValue;
+                  for (let index = 0; index < data.length; index++) {
+                    total += data[index].value;
+                    if (name === data[index].name) {
+                      tarValue = data[index].value
+                    }
+                  }
+                  let num = Math.round((tarValue / total) * 100)
+                  return (name + '\n\n' + num + '%');
+                  // return (name +'  ' + num + '%');
+                },
+                textStyle: {
+                  fontSize: 13,
+                },
+                position: 'outside'
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            labelLine: {
+              normal: {
+                show: false,
+                length: 30,
+                length2: 55
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            // name: "在用运输车",
+            data: data,
+          },
+        ]
+      };
 
+      myChart.setOption(option);
     }
   },
 }
