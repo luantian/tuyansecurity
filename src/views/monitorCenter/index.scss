@@ -117,7 +117,7 @@
       width: 400px;
       background: linear-gradient(90deg, #000001 0%);
       opacity: 0.76;
-      padding: 116px 18px 0px 12px;
+      padding: 116px 18px 20px 12px;
       display: flex;
       flex-direction: column;
 
@@ -164,10 +164,14 @@
           }
         }
 
-        .line_area {
+        // .line_area {
+        //   flex: 1;
+        //   // height: 200px;
+        //   // width: 100%;
+        // }
+        #wl_line {
           flex: 1;
-          // height: 200px;
-          // width: 100%;
+          width: 100%;
         }
       }
 
@@ -268,7 +272,7 @@
       width: 420px;
       background: linear-gradient(270deg, #000001 0%);
       opacity: 0.76;
-      padding: 116px 26px 0px 26px;
+      padding: 116px 26px 20px 26px;
       display: flex;
       flex-direction: column;
 
@@ -282,6 +286,7 @@
 
         .bj_module {
           margin-top: 15px;
+          margin-bottom: 12px;
           width: 320px;
           border: 1px solid;
           border-image: linear-gradient(0deg, #042E49, #4DA9FA, #FFFFFF, #5FC8FF, #08334F) 10 10;
@@ -349,7 +354,7 @@
             .right {
               display: flex;
               align-items: center;
-
+              
               .bj_module_item_icon {
                 width: 11px;
                 // height: 10px;
@@ -373,6 +378,11 @@
             }
           }
         }
+
+        #baojingLine {
+          flex: 1;
+          width: 100%;
+        }
       }
 
       .screen_right_bottom {
@@ -384,6 +394,11 @@
           display: flex;
           flex-direction: column;
 
+          .zjt {
+            flex: 1;
+            width: 100%;
+          }
+
           .tongji {
             display: flex;
             flex-direction: column;
@@ -391,6 +406,7 @@
             .tongji_title {
               font-size: 16px;
               color: #fff;
+              margin-bottom: 12px;
             }
 
             .tongji_content {
@@ -400,6 +416,43 @@
               .tongji_content_item {
                 width: 145px;
                 height: 82px;
+                position: relative;
+
+                .content {
+                  position: absolute;
+                  top: 12px;
+                  left: 42px;
+                  .title {
+                    font-size: 12px;
+                    font-family: PingFang SC;
+                    font-weight: 400;
+                    color: #F6FFFF;
+                  }
+
+                  .num {
+                    .num1 {
+                      color: #31FFEE;
+                      font-size: 18px;
+                    }
+
+                    .num2 {
+                      color: #fff;
+                      font-size: 12px;
+                    }
+                  }
+
+                  .pre {
+                    width: 91px;
+                    height: 5px;
+                    background: #003753;
+
+                    .pre_in {
+                      height: 5px;
+                      // background: linear-gradient(90deg, #15FFE6);
+                      background-color: #31FFEE;
+                    }
+                  }
+                }
 
                 &.item1 {
                   background-image: url('./img/bg148.png');
