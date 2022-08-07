@@ -34,7 +34,7 @@
     <!-- 表格 -->
     <el-table :data="tableData"
               :row-class-name="tableRowClassName"
-              stripe
+              :stripe="true"
               :height="tableHeight"
               style="width: 100%"
               v-loading="loading"

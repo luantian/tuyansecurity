@@ -27,7 +27,7 @@
                    size="samll">新建角色</el-button>
       </div>
       <el-table :row-class-name="tableRowClassName"
-                stripe
+                 :stripe="true"
                 :data="list"
                 class="mt10">
         <el-table-column prop="dr_role_key"

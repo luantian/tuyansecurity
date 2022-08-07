@@ -1,3 +1,10 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-07-26 21:40:36
+ * @LastEditTime: 2022-08-07 12:56:48
+ * @LastEditors: your name
+ * @Description: 
+-->
 <template>
 <div>
   <el-select :value="value" v-model="nValue" ref="select" placeholder="请选择" clearable :size="size||'small'" @change="change">
@@ -36,6 +43,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>

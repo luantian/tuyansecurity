@@ -68,7 +68,7 @@
                   highlight-current-row
                   style="width: 100%"
                   empty-text="暂无数据"
-                  stripe
+                  :stripe="true"
                   @selection-change="handleSelectionChange">
           <!-- <el-table-column type="selection" align="center" fixed width="55" /> -->
           <el-table-column prop="dr_facilities_name"

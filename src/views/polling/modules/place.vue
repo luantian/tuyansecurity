@@ -73,7 +73,7 @@
           </div>
         </div>
         <!-- 表格 -->
-        <el-table stripe
+        <el-table :stripe="true"
                   :row-class-name="tableRowClassName"
                   :data="tableData"
                   :height="tableHeight"
