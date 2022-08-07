@@ -379,3 +379,19 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+// 表格斑马自定义颜色
+.stripe1-row {
+  // background: #052030  !important;
+  background: linear-gradient(90deg, #03283B 1%, #0D3B53 49%, #011F2F 97%) !important;
+  // opacity: 0.25 !important;
+  color: #fff !important;
+}
+
+.stripe2-row {
+  // background: #031823 !important;
+  background: linear-gradient(90deg, #03283B 1%, #0D3B53 49%, #011F2F 97%) !important;
+  // opacity: 0.25 !important;
+  color: #fff !important;
+}
+</style>

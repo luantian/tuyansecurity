@@ -662,6 +662,7 @@ export default {
     padding: 24px 33px 0px 33px;
     // justify-content: space-between;
     gap: 21px;
+    align-content: flex-start;
     .alarm-item {
       position: relative;
       width: 376px;
