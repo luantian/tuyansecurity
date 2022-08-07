@@ -200,4 +200,26 @@ body,
     padding: 0px !important;
   }
 }
+
+#dark .el-table th > .cell {
+  color: #fff !important;
+}
+
+#dark .el-table th > .cell {
+  opacity: 1 !important;
+}
+
+#dark .el-table tr {
+  // background: red !important;
+  background: gradient(linear, left top, right top, from(#00517B), to(#005886));
+}
+
+#dark .el-table tr.el-table__row:nth-child(2n) {
+  background: red;
+}
+
+#dark .el-table {
+  border: 1px solid rgba(0, 138, 207, 0.66) !important;
+}
+
 </style>

@@ -352,7 +352,7 @@ export default {
 //   width: 100%;
 
 //   li {
-//     background: linear-gradient(118deg, #3c78e6, rgba(106, 131, 252, .6));
+//     background: linear-gradient(118deg, #1B81B5, rgba(106, 131, 252, .6));
 //     box-shadow: 0 0 6px 1px rgba(106, 131, 252, .7);
 //     color: #fff;
 //     border-radius: 4px;
