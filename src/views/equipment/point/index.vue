@@ -6,7 +6,7 @@
     </el-col>
     <el-col :span="18" style="flex:1">
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight" border size="mini" v-loading="loading" :header-cell-style="{background:'#f5f7fa',color:'#606266'}" highlight-current-row style="width: 100%" empty-text="暂无数据">
+      <el-table  stripe :row-class-name="tableRowClassName" :data="tableData" :height="tableHeight" border size="mini" v-loading="loading" :header-cell-style="{background:'#f5f7fa',color:'#606266'}" highlight-current-row style="width: 100%" empty-text="暂无数据">
         <el-table-column prop="dr_building_floor" label="楼层名称" align="center" show-overflow-tooltip></el-table-column>
         <el-table-column prop="dr_building_area" label="楼层面积" align="center" show-overflow-tooltip />
 
@@ -87,6 +87,13 @@ export default {
     this.tableHeight = document.body.clientHeight - 200;
   },
   methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex % 2 === 0) {
+        return "stripe1-row";
+      } else {
+        return "stripe2-row";
+      }
+    },
     formatDate,
     formatDateTime,
     handleSelectArea(data) {

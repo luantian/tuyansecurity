@@ -1006,7 +1006,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .video {
   width: 600px;
   height: 400px;
@@ -1014,10 +1014,10 @@ export default {
 // 表格斑马自定义颜色
 </style>
 <style lang="scss">
-.stripe1-row {
-  background: #03283B  !important;
-}
-.stripe2-row {
-  background: #011F2F !important;
-}
+// .stripe1-row {
+//   background: #03283B  !important;
+// }
+// .stripe2-row {
+//   background: #011F2F !important;
+// }
 </style>

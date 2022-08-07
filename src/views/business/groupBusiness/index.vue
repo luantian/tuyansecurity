@@ -76,7 +76,7 @@
         </div>
       </div>
       <!-- 表格 -->
-      <el-table :data="tableData" :height="tableHeight" border size="mini" v-loading="loading" :header-cell-style="{ background: '#f5f7fa', color: '#606266' }" highlight-current-row style="width: 100%" empty-text="暂无数据" @selection-change="handleSelectionChange">
+      <el-table :data="tableData"  stripe :row-class-name="tableRowClassName" :height="tableHeight" border size="mini" v-loading="loading" :header-cell-style="{ background: '#f5f7fa', color: '#606266' }" highlight-current-row style="width: 100%" empty-text="暂无数据" @selection-change="handleSelectionChange">
 
         <el-table-column prop="dr_user_name" label="用户名称" align="center" show-overflow-tooltip>
           <template slot-scope="scope">
@@ -311,6 +311,13 @@ export default {
     });
   },
   methods: {
+    tableRowClassName ({ row, rowIndex }) {
+      if (rowIndex % 2 === 0) {
+        return "stripe1-row";
+      } else {
+        return "stripe2-row";
+      }
+    },
     formatDate,
     formatDateTime,
     upSuccess(response, file, fileList) {
@@ -603,6 +610,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>
