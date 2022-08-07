@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-06 22:06:56
+ * @LastEditTime: 2022-08-07 10:21:30
  * @LastEditors: your name
  * @Description: 
 -->
@@ -71,7 +71,9 @@
               </div>
             </div>
           </div>
-          <line-chart class="line_area" graphNameId="wl" title="近30天物联接入趋势"></line-chart>
+          <line-chart class="line_area"
+                      graphNameId="wl"
+                      title="近30天物联接入趋势"></line-chart>
         </div>
         <div class="screen_left_bottom screen_left_item">
           <div class="screen_little_title">
@@ -123,7 +125,11 @@
               </div>
             </div>
           </div>
-          <div class="yw_pie" id="yw_pie"></div>
+          <div class="yw_title">
+            各系统故障设备
+          </div>
+          <div class="yw_pie"
+               id="yw_pie"></div>
         </div>
       </div>
       <!-- 大屏左侧 end -->
@@ -131,7 +137,7 @@
       <!-- 地图 start -->
       <div class="screen_map">
         <el-amap class="amap-box"
-                  v-if="show"
+                 v-show="show"
                  :resizeEnable="true"
                  :center="[123.472188,41.706918]"
                  :position="[123.472188,41.706918]"
@@ -250,11 +256,27 @@
               </div>
             </div>
           </div>
-          <line-chart class="line_area" graphNameId="wl" title="近30天报警趋势"></line-chart>
+
+          <line-chart class="line_area"
+                      graphNameId="wl"
+                      title="近30天报警趋势"></line-chart>
         </div>
         <div class="screen_right_bottom screen_right_item">
           <div class="screen_little_title">
             巡查统计
+          </div>
+          <div class="screen_right_bottom_item">
+            <!-- 柱状图 -->
+            <div class="zjt">
+
+            </div>
+            <div class="tongji">
+              <div class="tongji_title">授权使用统计</div>
+              <div class="tongji_content">
+                <div class="tongji_content_item item1"></div>
+                <div class="tongji_content_item item2"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -279,138 +301,140 @@ export default {
     return {
       height: document.body.clientHeight / 1080,
       icon: icon,
-      show:false
+      show: true
     }
   },
   methods: {
     setywPie () {
-        var data = [
-            '电气火灾监控系统',
-            '独立式烟感系统',
-            '视频监控系统',
-            '火灾报警系统',
-            '消防水系统',
-            '可燃气体系统',
-            '其他系统'
-        ]
-        var dat = [{
-            "value": 10
-        }]
-        let option = {
-            title: {
-                subtext: '5780',
-                text: '总数',
-                x: 'center',
-                y: '43%',
-                textStyle: {
-                    fontSize: 16,
-                    fontWeight: 'normal',
-                    color: '#FFFFFF',
-                    fontFamily: 'Alibaba PuHuiTi'
-                },
-                subtextStyle: {
-                    fontSize: 28,
-                    fontWeight: 'normal',
-                    align: "center",
-                    color: '#FFFFFF',
-                    fontFamily: 'Roboto Condensed'
-                },
+      var data = [
+        '电气火灾监控系统',
+        '独立式烟感系统',
+        '视频监控系统',
+        '火灾报警系统',
+        '消防水系统',
+        '可燃气体系统',
+        '其他系统'
+      ]
+      var dat = [{
+        "value": 10
+      }]
+      let option = {
+        title: {
+          subtext: '5780',
+          text: '   总数',
+          left: '50%',
+          top: '30%',
+          textStyle: {
+            fontSize: 16,
+            fontWeight: 'normal',
+            color: '#FFFFFF',
+            fontFamily: 'Alibaba PuHuiTi'
+          },
+          subtextStyle: {
+            fontSize: 28,
+            fontWeight: 'normal',
+            align: "center",
+            color: '#FFFFFF',
+            fontFamily: 'Roboto Condensed'
+          },
+        },
+        legend: {
+          show: true,
+          orient: 'vertical',
+          left: 'left',
+          top: 'middle',
+          icon: 'circle',
+          itemWidth: 20,
+          itemHeight: 12,
+          itemGap: 9,
+          data: data,
+          textStyle: {
+            color: "#fff",
+            fontSize: "12px",
+            fontFamily: 'PingFang SC'
+          },
+        },
+        series: [{
+          type: 'pie',
+          radius: [50, 80],
+          // color: ['#004568'],
+          center: ['60%', '50%'],
+          itemStyle: {
+            color: '#004568',
+            opacity: 0.6,
+            borderColor: '#000001'
+          },
+          label: {
+            normal: {
+              show: false,
             },
-            legend: {
-                show: true,
-                orient: 'vertical',
-                left: '80px',
-                top: '120px',
-                icon: 'circle',
-                itemWidth: 20,
-                itemHeight: 12,
-                itemGap: 9,
-                data: data,
-                textStyle: {
-                    color: "#fff",
-                    fontSize: "12px",
-                    fontFamily: 'PingFang SC'
-                },
+            emphasis: {
+              show: false
+            }
+          },
+          data: dat
+        },
+        {
+          type: 'pie',
+          radius: [60, 70],
+          center: ['60%', '50%'],
+          color: ['#364EC4', '#1162CD', '#0D6DC6 ', '#149CCF ', '#02BABC', '#07C35E', '#C66C1C'],
+          itemStyle: {
+            normal: {
+              borderWidth: 3,
+              borderColor: '#000001',
+              // shadowBlur: 880,
+              // shadowColor: 'red',
             },
-            series: [{
-                    type: 'pie',
-                    radius: [50, 80],
-                    // color: ['#004568'],
-                    center: ['50%', '50%'],
-                    itemStyle: {
-                        color: '#004568',
-                        opacity: 0.6,
-                        borderColor: '#000001'
-                    },
-                    label: {
-                        normal: {
-                            show: false,
-                        },
-                        emphasis: {
-                            show: false
-                        }
-                    },
-                    data: dat
-                },
-                {
-                    type: 'pie',
-                    radius: [60, 70],
-                    center: ['50%', '50%'],
-                    color: ['#364EC4', '#1162CD', '#0D6DC6 ', '#149CCF ', '#02BABC', '#07C35E', '#C66C1C'],
-                    itemStyle: {
-                        normal: {
-                            borderWidth: 3,
-                            borderColor: '#000001',
-                            // shadowBlur: 880,
-                            // shadowColor: 'red',
-                        },
-                    },
-                    data: [{
-                            value: 27,
-                            name: '电气火灾监控系统'
-                        },
-                        {
-                            value: 30,
-                            name: '独立式烟感系统'
-                        },
-                        {
-                            value: 24,
-                            name: '视频监控系统'
-                        },
-                        {
-                            value: 27,
-                            name: '火灾报警系统'
-                        },
-                        {
-                            value: 27,
-                            name: '消防水系统'
-                        },
-                        {
-                            value: 27,
-                            name: '可燃气体系统'
-                        },
-                        {
-                            value: 27,
-                            name: '其他系统'
-                        },
+          },
+          data: [{
+            value: 27,
+            name: '电气火灾监控系统'
+          },
+          {
+            value: 30,
+            name: '独立式烟感系统'
+          },
+          {
+            value: 24,
+            name: '视频监控系统'
+          },
+          {
+            value: 27,
+            name: '火灾报警系统'
+          },
+          {
+            value: 27,
+            name: '消防水系统'
+          },
+          {
+            value: 27,
+            name: '可燃气体系统'
+          },
+          {
+            value: 27,
+            name: '其他系统'
+          },
 
-                    ],
-                    label: {
-                        normal: {
-                            show: false,
-                        }
-                    }
-                }
-            ]
-        };
-        
+          ],
+          label: {
+            normal: {
+              show: false,
+            }
+          }
+        }
+        ]
+      };
+      let piechart = this.$echarts.init(document.getElementById('yw_pie'))
+      piechart.setOption(option)
     }
   },
   mounted () {
     console.log(icon);
-    setTimeout(() => {
-      this.show = true
-    },2000)
+    // setTimeout(() => {
+    //   this.show = true
+    // }, 2000)
+    this.setywPie()
   }
 }
 </script>
