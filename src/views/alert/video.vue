@@ -79,15 +79,16 @@
                        class="video-js video classVideo">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <!-- <div class="videoDiv">{{this.v9[0].name}}</div> -->
               </div>
               <div class="colDiv">
-                <video ref="v90"
+                <video ref="v91"
                        class="video-js video">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
               </div>
               <div class="colDiv">
-                <video ref="v90"
+                <video ref="v92"
                        class="video-js video classVideo">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
@@ -95,19 +96,19 @@
             </div>
             <div class="oneRow">
               <div class="colDiv">
-                <video ref="v90"
+                <video ref="v93"
                        class="video-js video classVideo">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
               </div>
               <div class="colDiv">
-                <video ref="v90"
+                <video ref="v94"
                        class="video-js video classVideo">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
               </div>
               <div class="colDiv">
-                <video ref="v90"
+                <video ref="v95"
                        class="video-js video classVideo">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
@@ -115,19 +116,19 @@
             </div>
             <div class="oneRow">
               <div class="colDiv">
-                <video ref="v90"
+                <video ref="v96"
                        class="video-js video classVideo">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
               </div>
               <div class="colDiv">
-                <video ref="v90"
+                <video ref="v97"
                        class="video-js video classVideo">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
               </div>
               <div class="colDiv">
-                <video ref="v90"
+                <video ref="v98"
                        class="video-js video classVideo">
                 </video>
                 <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
@@ -196,7 +197,7 @@ import TreeData from '@/components/TreeData';
 
 export default {
   components: { AreaSelect, TreeData },
-  data() {
+  data () {
     return {
       params: {
         dr_unit_id: '',
@@ -229,17 +230,17 @@ export default {
     };
   },
   watch: {
-    filterText(val) {
+    filterText (val) {
       this.$refs.tree.filter(val);
     },
   },
-  mounted() {},
+  mounted () { },
   methods: {
-    handleSelectArea(data) {
+    handleSelectArea (data) {
       this.params.dr_unit_id = data.dr_unit_id;
       this.getList();
     },
-    getList() {
+    getList () {
       this.showVideo = false;
       this.$post('/v1/dr/device-list-custom', this.params).then((res) => {
         let arr = res.data;
@@ -251,6 +252,7 @@ export default {
               options: {
                 ...this.options,
                 src: arr[0] ? arr[0].dr_camera_url : '',
+                name: arr[0] ? arr[0].dr_device_name : '',
                 sources: [
                   {
                     src: arr[0] ? arr[0].dr_camera_url : '',
@@ -264,6 +266,7 @@ export default {
               options: {
                 ...this.options,
                 src: arr[i] ? arr[i].dr_camera_url : '',
+                name: arr[i] ? arr[i].dr_device_name : '',
                 sources: [
                   {
                     src: arr[i] ? arr[i].dr_camera_url : '',
@@ -277,6 +280,7 @@ export default {
               options: {
                 ...this.options,
                 src: arr[i] ? arr[i].dr_camera_url : '',
+                name: arr[i] ? arr[i].dr_device_name : '',
                 sources: [
                   {
                     src: arr[i] ? arr[i].dr_camera_url : '',
@@ -289,18 +293,18 @@ export default {
         });
       });
     },
-    setVideo() {
+    setVideo () {
       this[this.nowV].map((it, i) => {
         this.$video(
           this.$refs[this.nowV + i],
           it.options,
-          function onPlayerReady() {
+          function onPlayerReady () {
             it.player = this;
           }
         );
       });
     },
-    fullScreen() {
+    fullScreen () {
       let fullarea = document.getElementById('fulldiv-' + this.nowV);
       if (fullarea.requestFullscreen) {
         fullarea.requestFullscreen();
@@ -313,28 +317,28 @@ export default {
         fullarea.msRequestFullscreen();
       }
     },
-    changeV(v) {
+    changeV (v) {
       this.nowV = v;
       this.closeAll();
       this.$nextTick(() => {
         this.setVideo();
       });
     },
-    closeAll() {
+    closeAll () {
       this[this.nowV].map((it) => {
         // it.player && it.player.src({
         //   src: ''
         // })
       });
     },
-    listToggle() {
+    listToggle () {
       this.showList = !this.showList;
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .topbar {
   padding-bottom: 10px;
 
@@ -357,7 +361,12 @@ export default {
 }
 
 .v-box {
+  height: 100%;
   width: 100%;
+  display: flex;
+  .flex {
+    flex: 1;
+  }
 }
 
 .video-wrap {
@@ -384,8 +393,10 @@ export default {
 }
 
 .v9 {
-  height: calc(100% - 65px);
-
+  // height: calc(100% - 65px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   .el-row {
     height: 33%;
     padding-left: 0px !important;
@@ -444,24 +455,34 @@ export default {
 
 .v-right {
   height: 100%;
-  padding: 29px 30px 0 30px;
+  padding: 30px;
 }
 .oneRow {
+  flex: 1%;
   display: flex;
   justify-content: space-around;
-  margin: 22px 0;
+  margin-bottom: 20px;
+  gap: 29px 20px;
   .colDiv {
-    min-width: 32%;
-    height: 33%;
+    flex: 1;
+    border: 1px solid;
+    border-image: linear-gradient(0deg, #004a70) 10 10;
+    border-radius: 3px 3px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    // min-width: 32%;
+    // height: 100%;
+    .videoDiv {
+      flex-shrink: 0;
+    }
   }
   // justify-items: center;
 }
-</style>
 
-<style lang="scss">
 .tree-list {
   width: 270px;
-  height: 875px;
+  // height: 875px;
+  height: 100%;
   background: #000c12;
   border: 1px solid rgba(0, 138, 207, 0.66);
   .el-input__inner {

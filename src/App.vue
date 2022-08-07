@@ -8,7 +8,7 @@
         <div class="flex1" >
           <!-- <el-scrollbar :style="{ height: pageSize.height - 60 + 'px' }"
                         class="el-scroll"> -->
-            <el-main style="width:100%;height:100%">
+            <el-main style="width:100%;overflow: :hidden;" :style="{ height: pageSize.height - 60 + 'px' }">
               <!-- <el-card shadow="always"
                        :style="{ minHeight: pageSize.height - 100 + 'px' }"
                        :body-style="{ padding: '0px'}"> -->
