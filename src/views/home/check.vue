@@ -63,18 +63,23 @@
                   </div>
                   <div class="alarm-content-wrap borderWidth">
                     <div class="result-content ">
-                      <el-scrollbar style="height: 100%">
-                        <div class="result-item-wrap">
-                          <div class="center" v-if="!alarm_count">
+                      <el-scrollbar style="height: 100%;background:#000C12;">
+                        <div class="result-item-wrap"
+                        style="background:#000C12;"
+                        >
+                          <div class="center" v-if="!alarm_count"
+                          style="background:#000C12;">
                             暂无未处理报警
                           </div>
                           <div
                             class="result-item borderWidth"
                             v-if="alarm_count"
+                            style="background:#000C12;"
                             v-for="item in $bus.warnInfo"
                             :key="item.dr_notice_uuid"
                           >
-                            <div class="result-title-wrap ">
+                            <div class="result-title-wrap "
+                            style="background:#000C12;">
                               <div class="result-title-left ">
                                 <i class="el-icon-bell"></i
                                 ><span class="result-title">未处理报警</span>
@@ -86,19 +91,20 @@
                                 <i class="detail-button el-icon-document"></i>
                               </div>
                             </div>
-                            <div class="result-table-wrap">
+                            <div class="result-table-wrap"
+                            style="background:#000C12;">
                               <div class="result-table">
-                                <div>
+                                <div style="background:#000C12;">
                                   {{
                                     new Date(item.dr_create_time * 1000).Format(
                                       "yy-MM-dd hh:mm:ss"
                                     )
                                   }}
                                 </div>
-                                <div :title="item.dr_unit_name">
+                                <div :title="item.dr_unit_name" style="background:#000C12;">
                                   {{ item.dr_unit_name }}
                                 </div>
-                                <div :title="item.dr_device_serial">
+                                <div :title="item.dr_device_serial" style="background:#000C12;">
                                   {{ item.dr_device_serial }}发生报警
                                 </div>
                               </div>
@@ -213,11 +219,16 @@
           </div>
           <div class="right-box borderWidth">
             <div class="r-top borderWidth">
-              <AreaSelect
+              <!-- <AreaSelect
                 @handleSelect="handleSelectArea"
                 @ready="handleSelectArea"
                 ref="areaTree"
-              ></AreaSelect>
+              ></AreaSelect> -->
+              <TreeData
+                @handleSelect="handleSelectArea"
+                @ready="handleSelectArea"
+                ref="areaTree"
+              ></TreeData>
             </div>
             <div class="r-bottom borderWidth">
               <div class="f18">建筑列表：</div>
@@ -258,11 +269,13 @@
 import aDetail from "./detail";
 import AreaSelect from "@/components/AreaSelect";
 import VueDragResize from "vue-drag-resize";
+import  TreeData  from "@/components/TreeData";
 export default {
   components: {
     aDetail,
     AreaSelect,
     VueDragResize,
+    TreeData
   },
   data() {
     return {
