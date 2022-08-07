@@ -802,7 +802,7 @@ export default {
 
     .el-input__inner {
       border: none !important;
-      background-color: #30374b !important;
+      // background-color: #30374b !important;
       border-radius: 2px;
     }
   }
@@ -868,14 +868,14 @@ export default {
     .content_right {
       width: 1240px;
       height: 787px;
-      background: #000b10;
+      background: #000b10 !important;
       border: 1px solid rgba(0, 138, 207, 0.66);
       box-shadow: inset -5px -5px 6px 0px #0f2937, inset 5px 6px 6px 0px #0f2937;
       opacity: 0.9;
       .search_box {
         width: 100%;
         height: 58px;
-        background: rgba(0, 77, 116, 0);
+        background: #00080B;
         box-shadow: 0px 1px 0px 0px rgba(13, 98, 140, 0.38);
         // border-bottom: ;
       }

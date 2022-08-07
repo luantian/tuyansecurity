@@ -549,7 +549,7 @@ export default {
 
     .el-input__inner {
       border: none !important;
-      background-color: #30374b !important;
+      // background-color: #30374b !important;
       border-radius: 2px;
     }
   }
