@@ -656,6 +656,31 @@ img {
 //   background: #09425E !important;
 // }
 
-#dark .el-tree-node > .el-tree-node__children {
+#dark .el-tree-node>.el-tree-node__children {
   background-color: #000c12 !important;
+}
+
+input::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: rgba(255, 255, 255, .66) !important;
+}
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: rgba(255, 255, 255, .66) !important;
+}
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: rgba(255, 255, 255, .66) !important;
+}
+
+input:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgba(255, 255, 255, .66) !important;
+}
+
+input::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgba(255, 255, 255, .66) !important;
 }

@@ -599,7 +599,7 @@ export default {
       cursor: pointer;
       transition: all 0.3s;
       &.active {
-        background-color: #6b72cc !important;
+        background-color: #1B81B5 !important;
       }
     }
   }
