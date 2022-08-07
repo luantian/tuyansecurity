@@ -57,6 +57,7 @@
           <el-scrollbar style="height:100%">
             <template v-for="item in $bus.warnInfo">
               <div class="list_item"
+              @click="getPosition(item)"
                    :key="item.dr_unit_id">
                 <div class="list_item_top">
                   <div class="time">
@@ -237,6 +238,17 @@ export default {
         }
       })
 
+    },
+    getPosition (unit) {
+      console.log(unit);
+      this.$get(`/v1/dr/get-device-detail/${unit.dr_id}`).then(res => {
+        // 打点
+        console.log(res)
+      })
+      // this.$get(`/v1/dr/unit-detail/${unit.dr_id }/2`).then(res => {
+      //   console.log(res)
+      // })
+      // dr_id
     },
     handled () {
       this.showDia = false;
