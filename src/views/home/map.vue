@@ -1,69 +1,103 @@
 <template>
-<div id="mapContainer" :class="`amp ${isWaring?'waring':'none'} home-map amap-container`" :style="`visibility: ${showMap?'initial':'hidden'}`">
+  <div id="mapContainer"
+       :class="`amp ${isWaring?'waring':'none'} home-map amap-container`"
+       :style="`visibility: ${showMap?'initial':'hidden'}`">
 
-  <el-amap ref="map" class="amap-box" :events="events" vid="amap" :zoom="zoom" :resizeEnable="true" :center="position" :mapStyle="mapStyle">
-    <el-amap-marker v-if="isWaring" :events="warnEvent" vid="component-marker" :position="position" :icon="icon" :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
-    <el-amap-marker v-if="!isWaring" v-for="item in markers" :key="item.unit_id" class="res-marker marker-company" vid="component-marker" :events="item.loca" :position="item.position">
-      <div class="marker-wrap center normal">
-        <i class="icon-marker el-icon-school" v-if="!item.dr_unit_count"></i>
-        <span v-if="item.dr_unit_count">{{item.dr_unit_count}}</span>
-      </div>
-    </el-amap-marker>
-    <el-amap-marker :zIndex="99999" :visible="item.showmod" v-for="item in markers" :key="item.unit_name" :offset="[20, 320]" :position="item.position">
-      <div class="amap-info">
-        <div style="position: absolute; bottom: 0px; left: 0px;">
-          <div class="bottom-center amap-info-contentContainer">
-            <div class="resource-info-wrap">
-              <div class="unit-info-warp" id="unitMapWindow">
-                <div class="info-title" :title="item.dr_unit_name">{{item.dr_unit_name}}</div>
-                <div class="info-content-wrap">
-                  <div class="info-row">
-                    <div class="name">今日报警</div>
-                    <div class="content">{{nowUnitInfo.dr_today_notice_count}}个</div>
+    <el-amap ref="map"
+             class="amap-box"
+             :events="events"
+             vid="amap"
+             :zoom="zoom"
+             :resizeEnable="true"
+             :center="position"
+             :mapStyle="mapStyle">
+      <el-amap-marker v-if="isWaring"
+                      :events="warnEvent"
+                      vid="component-marker"
+                      :position="position"
+                      :icon="icon"
+                      :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
+      <el-amap-marker v-if="!isWaring"
+                      v-for="item in markers"
+                      :key="item.unit_id"
+                      class="res-marker marker-company"
+                      vid="component-marker"
+                      :events="item.loca"
+                      :position="item.position">
+        <div class="marker-wrap center normal">
+          <i class="icon-marker el-icon-school"
+             v-if="!item.dr_unit_count"></i>
+          <span v-if="item.dr_unit_count">{{item.dr_unit_count}}</span>
+        </div>
+      </el-amap-marker>
+      <el-amap-marker :zIndex="99999"
+                      :visible="item.showmod"
+                      v-for="item in markers"
+                      :key="item.unit_name"
+                      :offset="[20, 320]"
+                      :position="item.position">
+        <div class="amap-info">
+          <div style="position: absolute; bottom: 0px; left: 0px;">
+            <div class="bottom-center amap-info-contentContainer">
+              <div class="resource-info-wrap">
+                <div class="unit-info-warp"
+                     id="unitMapWindow">
+                  <div class="info-title"
+                       :title="item.dr_unit_name">{{item.dr_unit_name}}</div>
+                  <div class="info-content-wrap">
+                    <div class="info-row">
+                      <div class="name">今日报警</div>
+                      <div class="content">{{nowUnitInfo.dr_today_notice_count}}个</div>
+                    </div>
+                    <div class="info-row">
+                      <div class="name">未处理报警</div>
+                      <div class="content">{{nowUnitInfo.dr_notice_count}}个</div>
+                    </div>
+                    <div class="info-row">
+                      <div class="name">设备总数</div>
+                      <div class="content">{{nowUnitInfo.dr_device_count}}个</div>
+                    </div>
+                    <div class="info-row">
+                      <div class="name">离线设备</div>
+                      <div class="content">{{nowUnitInfo.dr_device_online_count}}个</div>
+                    </div>
+                    <div class="info-row">
+                      <div class="name">故障设备</div>
+                      <div class="content">{{nowUnitInfo.dr_device_gz_count}}个</div>
+                    </div>
+                    <div class="info-row mt10">
+                      <div class="name">消防负责人</div>
+                      <div class="content">{{nowUnitInfo.dr_duty_name}}</div>
+                    </div>
+                    <div class="info-row">
+                      <div class="name">联系电话</div>
+                      <div class="content">{{nowUnitInfo.dr_duty_phone}}</div>
+                    </div>
+                    <div class="info-row">
+                      <div class="name">详细地址</div>
+                      <div class="content"
+                           :title="nowUnitInfo.dr_province_name+nowUnitInfo.dr_city_name+nowUnitInfo.dr_area_name+nowUnitInfo.dr_address">{{nowUnitInfo.dr_province_name+nowUnitInfo.dr_city_name+nowUnitInfo.dr_area_name+nowUnitInfo.dr_address}}</div>
+                    </div>
                   </div>
-                  <div class="info-row">
-                    <div class="name">未处理报警</div>
-                    <div class="content">{{nowUnitInfo.dr_notice_count}}个</div>
-                  </div>
-                  <div class="info-row">
-                    <div class="name">设备总数</div>
-                    <div class="content">{{nowUnitInfo.dr_device_count}}个</div>
-                  </div>
-                  <div class="info-row">
-                    <div class="name">离线设备</div>
-                    <div class="content">{{nowUnitInfo.dr_device_online_count}}个</div>
-                  </div>
-                  <div class="info-row">
-                    <div class="name">故障设备</div>
-                    <div class="content">{{nowUnitInfo.dr_device_gz_count}}个</div>
-                  </div>
-                  <div class="info-row mt10">
-                    <div class="name">消防负责人</div>
-                    <div class="content">{{nowUnitInfo.dr_duty_name}}</div>
-                  </div>
-                  <div class="info-row">
-                    <div class="name">联系电话</div>
-                    <div class="content">{{nowUnitInfo.dr_duty_phone}}</div>
-                  </div>
-                  <div class="info-row">
-                    <div class="name">详细地址</div>
-                    <div class="content" :title="nowUnitInfo.dr_province_name+nowUnitInfo.dr_city_name+nowUnitInfo.dr_area_name+nowUnitInfo.dr_address">{{nowUnitInfo.dr_province_name+nowUnitInfo.dr_city_name+nowUnitInfo.dr_area_name+nowUnitInfo.dr_address}}</div>
-                  </div>
-                </div>
-                <div class="actions center">
-                  <div class="action" @click="unit_detail(nowUnitInfo.dr_unit_id,nowUnitInfo.dr_unit_key)" v-if="$bus.user.dr_is_admin!=='commonly'">单位详情</div>
-                  <div class="action" @click="alarm_history(nowUnitInfo.dr_unit_id)">历史报警</div>
+                  <!-- <div class="actions center">
+                    <div class="action"
+                         @click="unit_detail(nowUnitInfo.dr_unit_id,nowUnitInfo.dr_unit_key)"
+                         v-if="$bus.user.dr_is_admin!=='commonly'">单位详情</div>
+                    <div class="action"
+                         @click="alarm_history(nowUnitInfo.dr_unit_id)">历史报警</div>
+                  </div> -->
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </el-amap-marker>
+      </el-amap-marker>
 
-  </el-amap>
-  <Message @warn="warn" ref="msg" :type="'alert'" />
-</div>
+    </el-amap>
+    <Message @warn="warn"
+             ref="msg"
+             :type="'alert'" />
+  </div>
 </template>
 
 <script>
@@ -78,9 +112,9 @@ export default {
     Message
   },
 
-  data() {
+  data () {
     return {
-      position: [126.53505,45.802981],
+      position: [126.53505, 45.802981],
       mapStyle: 'amap://styles/darkblue',
       zoom: 13,
       showMap: false,
@@ -104,7 +138,7 @@ export default {
         //   showmod: false
         // },
       ],
-      nowUnitInfo:{},
+      nowUnitInfo: {},
       events: {
         moveend: (val) => {
           this.getDev()
@@ -119,7 +153,7 @@ export default {
           }
           return false
         },
-        zoomchange:(val)=>{
+        zoomchange: (val) => {
           this.getDev()
         }
       },
@@ -137,11 +171,11 @@ export default {
     // bjList(val) {
     //     this.position = [val[0].lon, val[0].lat];
     // },
-    isWaring(val) {
+    isWaring (val) {
       this.zoom = val ? 18 : 13;
     },
   },
-  mounted() {
+  mounted () {
     // this.markers.map((it, index) => {
     //   it.loca = {
     //     click: () => {
@@ -153,25 +187,25 @@ export default {
     //   }
     // })
 
-    
+
   },
   methods: {
-    getUnitDetail(id){
-      this.$get(`/v1/dr/unit-detail/${id}/2`).then(res=>{
+    getUnitDetail (id) {
+      this.$get(`/v1/dr/unit-detail/${id}/2`).then(res => {
         this.nowUnitInfo = res.data
       })
     },
-    showDetail() {
+    showDetail () {
       this.handle()
       this.$emit('showDetail', this.$bus.warnInfo[0])
     },
-    unit_detail(unit_id,unit_key) {
+    unit_detail (unit_id, unit_key) {
       window.open(`/#/alert?unit_id=${unit_id}&unit_key=${unit_key}`)
     },
-    alarm_history(){
+    alarm_history () {
       window.open('/#/equipment/noticeList')
     },
-    warn(data) {
+    warn (data) {
       for (let i = 0; i < this.$bus.warnInfo.length; i++) {
         const el = this.$bus.warnInfo[i];
         if (el.dr_notice_uuid == data.dr_notice_uuid) {
@@ -187,16 +221,16 @@ export default {
 
       this.$emit('warn', data)
     },
-    handle() {
+    handle () {
       this.$refs.msg.endWarning()
       this.isWaring = false;
     },
-    goUnit(data){//指向某单位
+    goUnit (data) {//指向某单位
       this.zoom = 16
       this.position = [+data.dr_lng, +data.dr_lat]
-      
+
     },
-    getDev() {
+    getDev () {
       let center = this.$refs.map ? this.$refs.map.$$getCenter() : this.position
       let zoom = this.$refs.map ? this.$refs.map.$$getInstance().getZoom() : this.zoom
       let test = {
@@ -219,7 +253,7 @@ export default {
           // item.lat = '36.082949'
           obj.position = [Number(item.dr_lng), Number(item.dr_lat)];
           obj.showmod = false
-          if(item.dr_unit_count){
+          if (item.dr_unit_count) {
             obj.dr_unit_count = item.dr_unit_count
           }
           obj.dr_unit_name = item.dr_unit_name;
@@ -280,6 +314,38 @@ export default {
 .waring .amap-icon {
   img {
     width: 40px;
+  }
+}
+#unitMapWindow {
+  padding: 0px 35px 35px 35px;
+  background: #06151c;
+  .info-title {
+    height: 60px;
+    line-height: 60px;
+    font-size: 18px;
+    font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .info-row {
+    display: flex;
+    line-height: 25px;
+    font-size: 14px;
+    .name {
+      width: 110px;
+      padding-right: 40px;
+      text-align: right;
+    }
+    .content {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 190px;
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+    }
   }
 }
 </style>
