@@ -78,20 +78,21 @@
                 <video ref="v90"
                        class="video-js video classVideo">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
-                <!-- <div class="videoDiv">{{this.v9[0].name}}</div> -->
+                <!-- <div class="videoDiv">青岛万科中心A座710号房间水探测</div> -->
+                <div class="videoDiv">{{this.v9[0] && this.v9[0].name  }}</div>
+                <!-- <div class="videoDiv">{{this.v9[0].option.name }}</div> -->
               </div>
               <div class="colDiv">
                 <video ref="v91"
                        class="video-js video">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <div class="videoDiv">{{this.v9[1] && this.v9[1].name  }}</div>
               </div>
               <div class="colDiv">
                 <video ref="v92"
                        class="video-js video classVideo">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <div class="videoDiv">{{this.v9[2] && this.v9[2].name  }}</div>
               </div>
             </div>
             <div class="oneRow">
@@ -99,19 +100,19 @@
                 <video ref="v93"
                        class="video-js video classVideo">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <div class="videoDiv">{{this.v9[3] && this.v9[3].name  }}</div>
               </div>
               <div class="colDiv">
                 <video ref="v94"
                        class="video-js video classVideo">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <div class="videoDiv">{{this.v9[4] && this.v9[4].name }}</div>
               </div>
               <div class="colDiv">
                 <video ref="v95"
                        class="video-js video classVideo">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <div class="videoDiv">{{this.v9[5] && this.v9[5].name  }}</div>
               </div>
             </div>
             <div class="oneRow">
@@ -119,19 +120,19 @@
                 <video ref="v96"
                        class="video-js video classVideo">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <div class="videoDiv">{{this.v9[6] && this.v9[6].name  }}</div>
               </div>
               <div class="colDiv">
                 <video ref="v97"
                        class="video-js video classVideo">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <div class="videoDiv">{{this.v9[7] && this.v9[7].name  }}</div>
               </div>
               <div class="colDiv">
                 <video ref="v98"
                        class="video-js video classVideo">
                 </video>
-                <div class="videoDiv">青岛万科中心A座710号房间水探测</div>
+                <div class="videoDiv">{{this.v9[8] && this.v9[8].name }}</div>
               </div>
             </div>
             <!-- <el-row :gutter="20"
@@ -252,13 +253,14 @@ export default {
               options: {
                 ...this.options,
                 src: arr[0] ? arr[0].dr_camera_url : '',
-                name: arr[0] ? arr[0].dr_device_name : '',
                 sources: [
                   {
                     src: arr[0] ? arr[0].dr_camera_url : '',
                   },
                 ],
               },
+
+              name: arr[0] ? arr[0].dr_device_name : '',
             },
           ];
           for (let i = 0; i < 4; i++) {
@@ -266,13 +268,14 @@ export default {
               options: {
                 ...this.options,
                 src: arr[i] ? arr[i].dr_camera_url : '',
-                name: arr[i] ? arr[i].dr_device_name : '',
+
                 sources: [
                   {
                     src: arr[i] ? arr[i].dr_camera_url : '',
                   },
                 ],
               },
+              name: arr[i] ? arr[i].dr_device_name : '',
             });
           }
           for (let i = 0; i < 9; i++) {
@@ -280,13 +283,13 @@ export default {
               options: {
                 ...this.options,
                 src: arr[i] ? arr[i].dr_camera_url : '',
-                name: arr[i] ? arr[i].dr_device_name : '',
                 sources: [
                   {
                     src: arr[i] ? arr[i].dr_camera_url : '',
                   },
                 ],
               },
+              name: arr[i] ? arr[i].dr_device_name : '',
             });
           }
           this.setVideo();
