@@ -147,12 +147,14 @@
           :height="tableHeight"
           border
           size="small"
+          stripe
           v-loading="loading"
           :header-cell-style="{ background: '#f5f7fa', color: '#606266' }"
           highlight-current-row
           style="width: 100%"
           empty-text="暂无数据"
           @selection-change="handleSelectionChange"
+          :row-class-name="tableRowClassName"
         >
          
           <el-table-column
@@ -994,6 +996,13 @@ export default {
       this.fileList = [];
       this.dialogVisibleUpload = false;
     },
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex % 2 === 0) {
+        return "stripe1-row";
+      } else {
+        return "stripe2-row";
+      }
+    },
   },
 };
 </script>
@@ -1002,5 +1011,12 @@ export default {
 .video {
   width: 600px;
   height: 400px;
+}
+// 表格斑马自定义颜色
+.el-table__row.stripe1-row {
+  background: #ffffff;
+}
+.el-table__row.stripe2-row {
+  background: red;
 }
 </style>
