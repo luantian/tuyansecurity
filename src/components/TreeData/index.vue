@@ -81,5 +81,6 @@ export default {
 .areaBox {
   max-height: 77vh;
   overflow: auto;
+  background: #07131b !important;
 }
 </style>

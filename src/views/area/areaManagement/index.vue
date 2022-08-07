@@ -1,12 +1,15 @@
 <template>
   <div :class="`dashboard-container unit-box status${status}`">
     <el-row :gutter="20" type="flex">
-      <el-col :span="6" style="width: 320px">
-        <AreaSelect
+      <el-col :span="6" style="width: 320px;background-color: #000C12;">
+        <!-- <AreaSelect
           @handleSelect="handleSelectArea"
           @ready="handleSelectArea"
           ref="AreaSelect"
-        ></AreaSelect>
+        ></AreaSelect> -->
+        <TreeData @handleSelect="handleSelectArea"
+                @ready="handleSelectArea"
+                ref="areaTree"></TreeData>
       </el-col>
       <el-col :span="18">
         <div class="l-title flex align-center">
@@ -658,6 +661,7 @@ import { mapGetters } from "vuex";
 import { formatDate, formatDateTime } from "@/utils";
 import Pagination from "@/components/Pagination"; // 分页
 import AreaSelect from "@/components/AreaSelect";
+import TreeData from '@/components/TreeData';
 import {
   getOriginDetail,
   addOrigin,
@@ -700,6 +704,7 @@ export default {
   components: {
     Pagination,
     AreaSelect,
+    TreeData
   },
   watch: {
     filterText(val) {
