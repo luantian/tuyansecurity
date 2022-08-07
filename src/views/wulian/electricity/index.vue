@@ -88,7 +88,8 @@
 
       </div>
       <!-- 折线图 start -->
-      <div class="right_bottom" v-if="info.length">
+      <div class="right_bottom"
+           v-if="info.length">
         <div class="right_bottom_line"></div>
         <div id="lineChart"
              class="line_Chart"
@@ -183,7 +184,7 @@ export default {
                 );
               });
 
-              // this.setLine(0, '电流', 'mA');
+              this.setLine(0, '电流', 'mA');
             });
           }
         );
@@ -227,7 +228,8 @@ export default {
           x: x_arr,
           y: y_arr,
         };
-        this.lineChart(this.lineData, name, unit);
+        // this.lineChart(this.lineData, name, unit);
+        this.lineChartPro()
       });
     },
     getHFCChart (obj, color) {
@@ -513,6 +515,76 @@ export default {
       });
 
     },
+    lineChartPro () {
+      var line_ChartPro = this.$echarts.init(document.getElementById(`lineChart`));
+      let options = {
+        xAxis: {
+          type: 'category',
+          axisTick: {
+            show: false,
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#0A4E85',
+              width: 1
+            }
+          },
+          axisLabel: {
+            color: '#ffffff',
+            fontSize: "12px",
+            fontFamily: 'PingFangSC-Regular'
+          },
+          data: ['7/17', '7/18', '7/19', '7/20', '7/21', '7/22', '7/23', '7/24', '7/25', '7/26', '7/27', '7/28']
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: '#0A4E85',
+              width: 1
+            }
+          },
+          axisLabel: {
+            color: '#ffffff'
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#0A4E85',
+              opacity: 0.5
+            }
+          }
+        },
+        series: [
+          {
+            data: [50, 30, 60, 40, 90, 120, 50, 30, 60, 40, 90, 120],
+            type: 'line',
+            smooth: true,
+            symbol: 'none',
+            itemStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 1,
+                y2: 0,
+                colorStops: [{
+                  offset: 0, color: '#169DAE ' // 0% 处的颜色
+                }, {
+                  offset: 1, color: '#4CFB9B ' // 100% 处的颜色
+                }],
+                global: false // 缺省为 false
+              }
+            }
+          }
+        ]
+      };
+      line_ChartPro.setOption(options);
+      window.addEventListener('resize', function () {
+        //宽度自适应
+        line_ChartPro.resize();
+      });
+    },
     lineChart (data, name, unit) {
       let serve = {
         name: '',
@@ -779,6 +851,7 @@ export default {
       border-radius: 3px;
       border: 1px solid #0f2937;
       box-shadow: inset -2px -2px 4px 0px #0f2937, inset 2px 2px 4px 0px #0f2937;
+      display: flex;
       .right_bottom_line {
         position: absolute;
         top: 0px;
@@ -787,6 +860,10 @@ export default {
         width: 146px;
         height: 4px;
         background: #43c6d9;
+      }
+      .line_Chart {
+        width: 100%;
+        height: 100%;
       }
     }
   }

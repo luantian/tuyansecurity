@@ -601,6 +601,10 @@ export default {
         height: 4px;
         background: #43c6d9;
       }
+      .line_Chart {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
