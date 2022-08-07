@@ -275,6 +275,18 @@ export default {
 }
 </script>
 <style lang="scss">
+.el-menu-item{
+  color: #ffffff;
+}
+// .el-menu-item.is-active {
+//   background-color: #09425E  !important;
+// }
+.el-menu-item.is-active {
+  background-color: #09425E  !important;
+}
+.el-menu-submenu.is-active {
+  background-color: #09425E  !important;
+}
 // .el-menu-item-group__title {
 //   padding: 0
 // }

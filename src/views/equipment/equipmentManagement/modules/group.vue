@@ -145,9 +145,7 @@
         <el-table
           :data="tableData"
           :height="tableHeight"
-          border
           size="small"
-          stripe
           v-loading="loading"
           :header-cell-style="{ background: '#f5f7fa', color: '#606266' }"
           highlight-current-row
@@ -239,8 +237,8 @@
           >
             <template slot-scope="scope">
               <el-button
-                type="primary"
-                size="small"
+                type="text"
+                style="color:#4AC3FF"
                 v-if="
                   scope.row.dr_model_type === 'yc'
                 "
@@ -248,8 +246,8 @@
                 >查岗</el-button
               >
               <el-button
-                type="primary"
-                size="small"
+                type="text"
+                style="color:#4AC3FF"
                 v-if="
                   scope.row.dr_model_type !== 'camera' && !scope.row.dr_slave_id
                 "
@@ -257,8 +255,8 @@
                 >联动绑定</el-button
               >
               <el-button
-                type="danger"
-                size="small"
+                type="text"
+                style="color:#4AC3FF"
                 v-if="
                   scope.row.dr_model_type !== 'camera' && scope.row.dr_slave_id
                 "
@@ -266,15 +264,15 @@
                 >设备解绑</el-button
               >
               <el-button
-                type="success"
-                size="small"
+                type="text"
+                style="color:#4AC3FF"
                 v-if="scope.row.dr_model_type == 'camera'"
                 @click="play(scope.row)"
                 >监控播放</el-button
               >
               <el-button
-                type="danger"
-                size="small"
+                type="text"
+                style="color:#4AC3FF"
                 @click="handleDelete(scope.row)"
                 >删除</el-button
               >
@@ -469,6 +467,7 @@ export default {
   },
   data() {
     return {
+      stripe:true,
       nowVideo:{},
       bindForm: {
         dr_master_id: "",
@@ -1013,10 +1012,12 @@ export default {
   height: 400px;
 }
 // 表格斑马自定义颜色
-.el-table__row.stripe1-row {
-  background: #ffffff;
+</style>
+<style lang="scss">
+.stripe1-row {
+  background: #03283B  !important;
 }
-.el-table__row.stripe2-row {
-  background: red;
+.stripe2-row {
+  background: #011F2F !important;
 }
 </style>
