@@ -4,7 +4,7 @@
       <div class="home-container">
         <div class="home-wrapper">
           <div class="left-side-warp">
-            <div class="today-num-wrap" style="margin-bottom: 10px">
+            <div class="today-num-wrap borderWidth" style="margin-bottom: 10px;background: #000C12;">
               <div class="content-wrap">
                 <img
                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAhCAYAAAC4JqlRAAAABGdBTUEAALGPC/xhBQAAAsdJREFUWAntVk9rE0EUf2+3MV0oImg2asQKHgSRevLkH4oHLz1IU6NWK72IH0ARFE0cE0tR/PMBFFQMVoxNQQWvRfTirf0EXhSzCSJSSZt2ZnyTNEvYzW7Nbgse8g6Zmffe7/deZua9HYCuhNwBKSWGpAgOLw3femAlM2+DMwBoYcCIsl8C9Ifh6PECl4fZWdrcXrPInnn5UALzIOGPl13py6fYoARhmG+yH9r5ee4AgQ4A8CdWkh1rB1S62HQuaxZz4172ciq3Twj+Xgo47+XjuQOxni0T5ZVfQxLFcQJ/dBJYKbYdgSeA61Lq8N0ssB9OH8FrJ+mG/kaIXnXammvfG6xuOAkdc0MqqTsJLmpXQMAwgNzT1DdG/AqARb0n8nBb4eY3patXyOlHvVi4XG34uH99E2h1t0bS16SEDJ250ap3zRGqKPG2OZO967K1UayZgGRMs+ZEnv7PaBu8twrhpTmgX0DGhLfTP5ShNS/udRxcRZRwroH1C0+H5mcuJdOHieiTn8+aNoQj8WLus5dfvQpKZ3J7cXn5uoba7FYNXmOB1RSAznJSUgZhRHEQ3i7lSjJ9iCMOGpu0p5unWKXRB2qyj5yGuOAvyoJfUgF/pthuCn5UzcOI4lBciqOcZBe5hC8o5eTiEuxXunoC8ZnMXGxAS0Q0/WBsZ+yxMnAOJ9S4HtLkMqKRdxroo4Zu7KAOW+8tdiNava3zzYCUeage3+RRY5Orb+pGiZavWm2NI2jVrM4JFGujDqTy4/JMgPL2rZDOMvHm8kmgsxBBvbsJdHeguwN2J3SWEaK2SL1gwakPtEYkrv9UXN1uYXQiXl1aGtuIfI1oNL/6PbDpXUdQXVncJSTctz3WcULcs0SnPki2uKpA43qJXsK+7zgb3cFEcSpuJ8R1BMrBGsmM05N6jF4zEScgyFqiXKYE8uZ09nkQ/IZi/gLf1+lInh43+QAAAABJRU5ErkJggg=="
@@ -32,7 +32,8 @@
               </div>
               <div class="bar"></div>
             </div>
-            <div class="search-input-wrap">
+            <div class="search-input-wrap"
+            style="background-color: #000000;">
               <el-input
                 placeholder="单位搜索"
                 size="normal"
@@ -50,9 +51,9 @@
             </div>
 
             <div class="panel">
-              <div class="untreated-alarm-wrap untreated-alarm">
+              <div class="untreated-alarm-wrap untreated-alarm borderWidth">
                 <div v-show="!showSearch">
-                  <div class="title-wrap">
+                  <div class="title-wrap borderWidth">
                     <span class="title">待处理报警</span
                     ><span class="untreated-alarm-num">{{
                       alarm_count
@@ -60,21 +61,21 @@
                     <!-- <span class="h-icon-angles_up_sm toggle-btn"></span> -->
                     <div style="width: 35px"></div>
                   </div>
-                  <div class="alarm-content-wrap">
-                    <div class="result-content">
+                  <div class="alarm-content-wrap borderWidth">
+                    <div class="result-content ">
                       <el-scrollbar style="height: 100%">
                         <div class="result-item-wrap">
                           <div class="center" v-if="!alarm_count">
                             暂无未处理报警
                           </div>
                           <div
-                            class="result-item"
+                            class="result-item borderWidth"
                             v-if="alarm_count"
                             v-for="item in $bus.warnInfo"
                             :key="item.dr_notice_uuid"
                           >
-                            <div class="result-title-wrap">
-                              <div class="result-title-left">
+                            <div class="result-title-wrap ">
+                              <div class="result-title-left ">
                                 <i class="el-icon-bell"></i
                                 ><span class="result-title">未处理报警</span>
                               </div>
@@ -172,20 +173,20 @@
           </div>
           <div class="center-box">
             <div class="c-top-count">
-              <div class="c-list">
+              <div class="c-list borderWidth">
                 <div class="c-num">{{count.dr_slave_num||0}}</div>
                 <div class="c-tx">下属单位</div>
               </div>
-              <div class="c-list">
+              <div class="c-list borderWidth">
                 <div class="c-num">{{count.dr_fool_num||0}}</div>
                 <div class="c-tx">楼层总数</div>
               </div>
-              <div class="c-list">
+              <div class="c-list borderWidth">
                 <div class="c-num">{{count.dr_device_count||0}}</div>
                 <div class="c-tx">设备总数</div>
               </div>
             </div>
-            <div class="c-bot">
+            <div class="c-bot borderWidth">
                 <div class="point-wrap" ref="wrap">
                   <img
                     class="bim"
@@ -210,15 +211,15 @@
                 </div>
             </div>
           </div>
-          <div class="right-box">
-            <div class="r-top">
+          <div class="right-box borderWidth">
+            <div class="r-top borderWidth">
               <AreaSelect
                 @handleSelect="handleSelectArea"
                 @ready="handleSelectArea"
                 ref="areaTree"
               ></AreaSelect>
             </div>
-            <div class="r-bottom">
+            <div class="r-bottom borderWidth">
               <div class="f18">建筑列表：</div>
               <ul class="mt10">
                 <li
@@ -620,5 +621,10 @@ export default {
 
 .blink{
   animation: bli 0.6s infinite alternate;
+}
+.borderWidth {
+  background: #000C12;
+border: 1px solid rgba(0,138,207,0.6600);
+opacity: 0.9;
 }
 </style>
