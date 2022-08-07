@@ -872,12 +872,16 @@ export default {
       border: 1px solid rgba(0, 138, 207, 0.66);
       box-shadow: inset -5px -5px 6px 0px #0f2937, inset 5px 6px 6px 0px #0f2937;
       opacity: 0.9;
+      overflow: hidden;
       .search_box {
         width: 100%;
         height: 58px;
         background: #00080B;
         box-shadow: 0px 1px 0px 0px rgba(13, 98, 140, 0.38);
         // border-bottom: ;
+        .alarm-list {
+          overflow: auto;
+        }
       }
     }
   }
