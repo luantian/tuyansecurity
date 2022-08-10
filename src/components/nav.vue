@@ -76,7 +76,17 @@ export default {
         dr_power_name: "首页",
         dr_self_key: "3fa19b14fc224206bc123ab64c368017",
         dr_son: [],
-        dr_sort: 4
+        dr_sort: 1
+      },
+      {
+        dr_level: 1,
+        dr_parent_key: "",
+        dr_power_href: "/hazardousGoods",
+        dr_power_icon: "explosive",
+        dr_power_name: "依然易爆品管理",
+        dr_self_key: "3fa19b14fc224206bc123ab64c368097",
+        dr_son: [],
+        dr_sort: 20
       },
       {
         dr_level: 1,
@@ -134,7 +144,7 @@ export default {
             dr_sort: 4
           },
         ],
-        dr_sort: 4
+        dr_sort: 3
       },
       {
         dr_level: 1,
@@ -156,7 +166,7 @@ export default {
         dr_power_name: "单位管理",
         dr_self_key: "3fa19b14fc224206bc123ab64c3680b7",
         dr_son: [],
-        dr_sort: 4
+        dr_sort: 5
       }]
       this.$get('/v1/dr/get-menu').then(res => {
         console.log('res')
