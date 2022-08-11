@@ -18,7 +18,7 @@
                 <router-link :to="child.dr_power_href||''"
                              :key="child.dr_power_name"
                              v-if="child.dr_power_href">
-                  <el-menu-item :index="item.dr_power_name">{{ child.dr_power_name }}</el-menu-item>
+                  <el-menu-item :index="child.dr_power_name">{{ child.dr_power_name }}</el-menu-item>
                 </router-link>
               </template>
 
@@ -33,23 +33,25 @@
             </el-menu-item>
           </router-link>
         </template>
-        <!-- <router-link tag="a" target="_blank" to="/chart">
+        <!-- <router-link tag="a"
+                     target="_blank"
+                     to="/chart">
           <el-menu-item>
             <i :class="`iconfont el-icon-pie-chart`"></i>
             <span slot="title">数据看板</span>
           </el-menu-item>
         </router-link> -->
-
       </el-scrollbar>
     </el-menu>
   </el-aside>
 </template>
 <script>
-
 export default {
   components: {},
-  data () {
+  data() {
     return {
+      isCollapse: false,
+      menuActive: '',
       openeds: [],
       navList: [],
       key: 1, //this.$local.get('user').key,
@@ -59,218 +61,214 @@ export default {
       menu: {},
       noAccess: false,
       driver: null,
-    }
+    };
   },
 
-  mounted () {
-    this.getMenu()
-    this.noAccess = false
+  mounted() {
+    this.getMenu();
+    this.noAccess = false;
   },
   methods: {
-    getMenu () {
-      this.navList = [{
-        dr_level: 1,
-        dr_parent_key: "",
-        dr_power_href: "/home",
-        dr_power_icon: "home",
-        dr_power_name: "首页",
-        dr_self_key: "3fa19b14fc224206bc123ab64c368017",
-        dr_son: [],
-        dr_sort: 1
-      },
-      {
-        dr_level: 1,
-        dr_parent_key: "",
-        dr_power_href: "/hazardousGoods",
-        dr_power_icon: "explosive",
-        dr_power_name: "依然易爆品管理",
-        dr_self_key: "3fa19b14fc224206bc123ab64c368097",
-        dr_son: [],
-        dr_sort: 20
-      },
-      {
-        dr_level: 1,
-        dr_parent_key: "",
-        dr_power_icon: "dataTest",
-        dr_power_name: "数据检测",
-        dr_self_key: "3fa19b14fc224206bc123ab64c368017",
-        dr_son: [
-          {
-            dr_level: 2,
-            dr_parent_key: "3fa19b14fc224206bc123ab64c368017",
-            dr_power_href: "/alarm",
-            // dr_power_icon: "el-icon-notebook-2",
-            dr_power_name: "报警系统",
-            dr_self_key: "3fa19b14fc224206bc123ab64c368318",
-            dr_son: [
-
-            ],
-            dr_sort: 4
-          },
-          {
-            dr_level: 2,
-            dr_parent_key: "3fa19b14fc224206bc123ab64c368017",
-            dr_power_href: "/electricity",
-            // dr_power_icon: "el-icon-notebook-2",
-            dr_power_name: "智慧用电",
-            dr_self_key: "3fa19b14fc224206bc123ab64c368317",
-            dr_son: [
-
-            ],
-            dr_sort: 4
-          },
-          {
-            dr_level: 2,
-            dr_parent_key: "3fa19b14fc224206bc123ab64c368017",
-            dr_power_href: "/water",
-            // dr_power_icon: "el-icon-notebook-2",
-            dr_power_name: "消防水系统",
-            dr_self_key: "3fa19b14fc224206bc123ab64c368317",
-            dr_son: [
-
-            ],
-            dr_sort: 4
-          },
-          {
-            dr_level: 2,
-            dr_parent_key: "3fa19b14fc224206bc123ab64c368017",
-            dr_power_href: "/video",
-            // dr_power_icon: "el-icon-notebook-2",
-            dr_power_name: "视频监控",
-            dr_self_key: "3fa19b14fc224206bc123ab64c368317",
-            dr_son: [
-
-            ],
-            dr_sort: 4
-          },
-        ],
-        dr_sort: 3
-      },
-      {
-        dr_level: 1,
-        dr_parent_key: "",
-        dr_power_href: "/check",
-        dr_power_icon: "dailyTest",
-        dr_power_name: "日常检查",
-        dr_self_key: "3fa19b14fc224206bc123ab64c368317",
-        dr_son: [
-
-        ],
-        dr_sort: 4
-      },
-      {
-        dr_level: 1,
-        dr_parent_key: "",
-        dr_power_href: "/area/areaManagement",
-        dr_power_icon: "company",
-        dr_power_name: "单位管理",
-        dr_self_key: "3fa19b14fc224206bc123ab64c3680b7",
-        dr_son: [],
-        dr_sort: 5
-      }]
-      this.$get('/v1/dr/get-menu').then(res => {
-        console.log('res')
-        console.log(res)
-        this.menu = res.data
-        this.setMenu()
-        this.noAccess = false
-      }).catch(err => {
-        log(err)
-        //this.$router.replace('/404')
-        this.noAccess = true
-      })
+    menuSelect(index) {
+      console.log(index, 'indexindex');
     },
-    setMenu () {
-      let dr_menu = this.menu
+    getMenu() {
+      this.navList = [
+        {
+          dr_level: 1,
+          dr_parent_key: '',
+          dr_power_href: '/home',
+          dr_power_icon: 'home',
+          dr_power_name: '首页',
+          dr_self_key: '3fa19b14fc224206bc123ab64c368017',
+          dr_son: [],
+          dr_sort: 1,
+        },
+        {
+          dr_level: 1,
+          dr_parent_key: '',
+          dr_power_href: '/hazardousGoods',
+          dr_power_icon: 'explosive',
+          dr_power_name: '易燃易爆品管理',
+          dr_self_key: '3fa19b14fc224206bc123ab64c368097',
+          dr_son: [],
+          dr_sort: 20,
+        },
+        {
+          dr_level: 1,
+          dr_parent_key: '',
+          dr_power_icon: 'dataTest',
+          dr_power_name: '数据检测',
+          dr_self_key: '3fa19b14fc224206bc123ab64c368017',
+          dr_son: [
+            {
+              dr_level: 2,
+              dr_parent_key: '',
+              dr_power_href: '/alarm',
+              // dr_power_icon: "el-icon-notebook-2",
+              dr_power_name: '报警系统',
+              dr_self_key: '3fa19b14fc224206bc123ab64c368318',
+              dr_son: [],
+              dr_sort: 4,
+            },
+            {
+              dr_level: 2,
+              dr_parent_key: '',
+              dr_power_href: '/electricity',
+              // dr_power_icon: "el-icon-notebook-2",
+              dr_power_name: '智慧用电',
+              dr_self_key: '3fa19b14fc224206bc123ab64c368317',
+              dr_son: [],
+              dr_sort: 4,
+            },
+            {
+              dr_level: 2,
+              dr_parent_key: '',
+              dr_power_href: '/water',
+              // dr_power_icon: "el-icon-notebook-2",
+              dr_power_name: '消防水系统',
+              dr_self_key: '3fa19b14fc224206bc123ab64c368317',
+              dr_son: [],
+              dr_sort: 4,
+            },
+            {
+              dr_level: 2,
+              dr_parent_key: '',
+              dr_power_href: '/video',
+              // dr_power_icon: "el-icon-notebook-2",
+              dr_power_name: '视频监控',
+              dr_self_key: '3fa19b14fc224206bc123ab64c368317',
+              dr_son: [],
+              dr_sort: 4,
+            },
+          ],
+          dr_sort: 3,
+        },
+        {
+          dr_level: 1,
+          dr_parent_key: '',
+          dr_power_href: '/check',
+          dr_power_icon: 'dailyTest',
+          dr_power_name: '日常检查',
+          dr_self_key: '3fa19b14fc224206bc123ab64c368317',
+          dr_son: [],
+          dr_sort: 4,
+        },
+        {
+          dr_level: 1,
+          dr_parent_key: '',
+          dr_power_href: '/area/areaManagement',
+          dr_power_icon: 'company',
+          dr_power_name: '单位管理',
+          dr_self_key: '3fa19b14fc224206bc123ab64c3680b7',
+          dr_son: [],
+          dr_sort: 5,
+        },
+      ];
+      this.$get('/v1/dr/get-menu')
+        .then((res) => {
+          console.log('res');
+          console.log(res);
+          this.menu = res.data;
+          this.setMenu();
+          this.noAccess = false;
+        })
+        .catch((err) => {
+          log(err);
+          //this.$router.replace('/404')
+          this.noAccess = true;
+        });
+    },
+    setMenu() {
+      let dr_menu = this.menu;
 
       for (let key in dr_menu) {
-        this.navList.push(dr_menu[key])
+        this.navList.push(dr_menu[key]);
       }
       console.log(this.navList);
       for (let key in this.navList) {
-        this.navList[key].dr_power_href && this.menuList.push(this.navList[key].dr_power_href)
+        this.navList[key].dr_power_href &&
+          this.menuList.push(this.navList[key].dr_power_href);
         //console.log(this.navList[key].dr_son);
-        this.navList[key].dr_son = Object.values(this.navList[key].dr_son)
-        this.navList[key].dr_son && this.navList[key].dr_son.forEach(menu => {
-          //log(menu.dr_power_href)
-          if (menu.dr_power_href) {
-            this.menuList.push(menu.dr_power_href.split('?')[0])
-          }
+        this.navList[key].dr_son = Object.values(this.navList[key].dr_son);
+        this.navList[key].dr_son &&
+          this.navList[key].dr_son.forEach((menu) => {
+            //log(menu.dr_power_href)
+            if (menu.dr_power_href) {
+              this.menuList.push(menu.dr_power_href.split('?')[0]);
+            }
 
-          if (menu.dr_power_href == this.$route.path) {
-            this.open = [this.navList[key].dr_self_key]
-          }
-          if (menu.dr_son) {
-            menu.dr_son = Object.values(menu.dr_son)
-            menu.dr_son.forEach(btn => {
-              this.btnList.push(btn)
-            })
-          }
-
-        })
+            if (menu.dr_power_href == this.$route.path) {
+              this.open = [this.navList[key].dr_self_key];
+            }
+            if (menu.dr_son) {
+              menu.dr_son = Object.values(menu.dr_son);
+              menu.dr_son.forEach((btn) => {
+                this.btnList.push(btn);
+              });
+            }
+          });
       }
 
-      this.$store.state.btnList = this.btnList.map(it => {
-        return it.dr_power_func_tag
-      })
+      this.$store.state.btnList = this.btnList.map((it) => {
+        return it.dr_power_func_tag;
+      });
       // this.$nextTick(() => { //开始提示步骤
       //   this.steps()
       // })
       //console.log(this.$store.state.btnList)
-      this.checkRouter(this.$route.path)
+      this.checkRouter(this.$route.path);
       //console.log(this.navList[0].dr_son[0].dr_power_href)
       //return
       if (this.$route.query.reload == 1) {
         if (this.navList[0].dr_power_href) {
-          return this.$router.replace(this.navList[0].dr_power_href)
+          return this.$router.replace(this.navList[0].dr_power_href);
         } else {
-          return this.$router.replace(this.navList[0].dr_son[0].dr_power_href)
+          return this.$router.replace(this.navList[0].dr_son[0].dr_power_href);
         }
       } else {
-
       }
-
-
     },
-    steps () {
+    steps() {
       this.driver = new this.$driver({
         closeBtnText: '关闭',
-        doneBtnText: "完成", //结束按钮的文字
-        nextBtnText: "下一步", //下一步按钮的文字
-        prevBtnText: "上一步", //上一步按钮的文字
+        doneBtnText: '完成', //结束按钮的文字
+        nextBtnText: '下一步', //下一步按钮的文字
+        prevBtnText: '上一步', //上一步按钮的文字
         overlayClickNext: true,
-        onDeselected: (() => {
+        onDeselected: () => {
           //console.log(111)
-        }),
-        onNext: (() => {
+        },
+        onNext: () => {
           //console.log(this.driver)
-        })
-      })
-      this.driver.defineSteps([{
-        element: ".nav-shenpi",
-        popover: {
-          title: "提示",
-          description: "请先在审批列表中添加审批流程",
-          position: "right"
-        }
-      }])
+        },
+      });
+      this.driver.defineSteps([
+        {
+          element: '.nav-shenpi',
+          popover: {
+            title: '提示',
+            description: '请先在审批列表中添加审批流程',
+            position: 'right',
+          },
+        },
+      ]);
       setTimeout(() => {
-        this.driver.start()
-      }, 500)
-
+        this.driver.start();
+      }, 500);
     },
-    checkRouter (val) {
-      return
-    }
+    checkRouter(val) {
+      return;
+    },
   },
   watch: {
-    '$route.path' (val, old) {
+    '$route.path'(val, old) {
       if (this.menuList.length > 1) {
-        this.checkRouter(val)
+        this.checkRouter(val);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss">
 .el-menu-item {
@@ -279,14 +277,17 @@ export default {
 // .el-menu-item.is-active {
 //   background-color: #09425E  !important;
 // }
-// .el-menu-item.is-active {
+// #dark.el-menu-item.is-active {
 //   background-color: #09425e !important;
 // }
 // .el-menu-submenu.is-active {
 //   background-color: #09425e !important;
 // }
+// #dark .el-menu--dark .el-menu-item.is-active {
+//   background: transparent !important;
+// }
 #dark .el-menu--dark .el-menu-item.is-active {
-  background-color: #09425e !important;
+  background: #09425e !important;
 }
 
 #dark .el-menu--dark .el-menu-item:hover {
