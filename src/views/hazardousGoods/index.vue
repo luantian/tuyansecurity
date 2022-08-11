@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 18:49:32
+ * @LastEditTime: 2022-08-11 19:11:55
  * @LastEditors: your name
  * @Description: 
 -->
@@ -287,22 +287,22 @@
                  :model="addForm"
                  label-width="80px"
                  :rules="formRules">
-          <el-form-item label="易燃易爆位号"
-                        label-width="110px"
+          <el-form-item label="易燃易爆品位号"
+                        label-width="130px"
                         prop="dr_point">
             <el-input v-model="addForm.dr_point"
                       size="small"
                       clearable></el-input>
           </el-form-item>
-          <el-form-item label="易燃易爆名称"
-                        label-width="110px"
+          <el-form-item label="易燃易爆品名称"
+                        label-width="130px"
                         prop="dr_name">
             <el-input v-model="addForm.dr_name"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="分类名称"
-                        label-width="110px"
+                        label-width="130px"
                         prop="dr_big_category">
             <el-select size="small"
                        v-model="addForm.dr_big_category">
@@ -313,25 +313,25 @@
             </el-select>
           </el-form-item>
           <el-form-item label="描述"
-                        label-width="110px">
+                        label-width="130px">
             <el-input v-model="addForm.dr_desc"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="责任人"
-                        label-width="110px">
+                        label-width="130px">
             <el-input v-model="addForm.dr_duty"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="规格"
-                        label-width="110px">
+                        label-width="130px">
             <el-input v-model="addForm.dr_spu"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="部门"
-                        label-width="110px">
+                        label-width="130px">
             <el-cascader :options="units"
                          :props="{
                             checkStrictly: true,
@@ -364,21 +364,21 @@
                  label-width="80px"
                  :rules="formRules">
           <el-form-item label="易燃易爆位号"
-                        label-width="110px"
+                        label-width="130px"
                         prop="dr_point">
             <el-input v-model="editForm.dr_point"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="易燃易爆名称"
-                        label-width="110px"
+                        label-width="130px"
                         prop="dr_name">
             <el-input v-model="editForm.dr_name"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="分类名称"
-                        label-width="110px"
+                        label-width="130px"
                         prop="dr_big_category">
             <el-select size="small"
                        v-model="editForm.dr_big_category">
@@ -389,25 +389,25 @@
             </el-select>
           </el-form-item>
           <el-form-item label="描述"
-                        label-width="110px">
+                        label-width="130px">
             <el-input v-model="editForm.dr_desc"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="责任人"
-                        label-width="110px">
+                        label-width="130px">
             <el-input v-model="editForm.dr_duty"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="规格"
-                        label-width="110px">
+                        label-width="130px">
             <el-input v-model="editForm.dr_spu"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="部门"
-                        label-width="110px">
+                        label-width="130px">
             <el-cascader :options="units"
                          :props="{
                             checkStrictly: true,
@@ -516,9 +516,9 @@ export default {
         dr_pic: ""
       },
       formRules: {
-        dr_point: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        dr_point: [{ required: true, message: '位号不能为空', trigger: 'blur' }],
         dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        dr_big_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        dr_big_category: [{ required: true, message: '分类名称不能为空', trigger: 'blur' }],
         // dr_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
       },
       units: []
@@ -540,7 +540,7 @@ export default {
       if (!this.filterBtn) {
         this.tableHeight = document.body.clientHeight - 250;
       } else {
-        this.tableHeight = document.body.clientHeight - 250 - 211;
+        this.tableHeight = document.body.clientHeight - 250 - 100;
       }
     },
     handleNodeClick (data) {
@@ -600,6 +600,9 @@ export default {
         // this
       }
       this.showAddType = true;
+      this.$nextTick(() => {
+        this.$refs["addTypeForm"].clearValidate(); // 清除校验
+      });
     },
     commitAddHazardousGoodType () {
       this.$refs.addTypeForm.validate((valid) => {
@@ -712,6 +715,9 @@ export default {
         this.addForm.dr_unit = "",
         this.addForm.dr_pic = ""
       this.showAdd = true;
+      this.$nextTick(() => {
+        this.$refs["addForm"].clearValidate(); // 清除校验
+      });
     },
     commitAddHazardousGood () {
       console.log(this.addForm)
@@ -756,6 +762,10 @@ export default {
         this.editForm.dr_status = item.dr_status,
         this.editForm.dr_pic = item.dr_pic
       this.showEdit = true;
+      this.$nextTick(() => {
+        this.$refs["editForm"].clearValidate(); // 清除校验
+      });
+
 
     },
     /**
