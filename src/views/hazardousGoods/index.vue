@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 15:58:23
+ * @LastEditTime: 2022-08-11 16:16:14
  * @LastEditors: your name
  * @Description: 
 -->
@@ -256,15 +256,14 @@
                  :rules="typeFormRules">
           <el-form-item label="分类名称"
                         prop="dr_login_pass">
-            <el-input v-model="editTypeForm.dr_login_pass"
+            <el-input v-model="editTypeForm.dr_name"
                       size="small"
-                      type="password"
                       clearable></el-input>
           </el-form-item>
         </el-form>
         <div class="center mt20">
           <el-button type="primary"
-                     @click="commitAddHazardousGoodType"
+                     @click="commitUpdateHazardousGoodTye"
                      size="small">保存</el-button>
           <el-button @click="showDia1 = false"
                      size="small">取消</el-button>
@@ -380,7 +379,7 @@ export default {
         "dr_name": "",
         "dr_level": "",
         "dr_parent_key": "",
-        dr_status: 1,
+        "dr_status": 1,
         "dr_id": ""
       },
       typeFormRules: {
@@ -390,7 +389,7 @@ export default {
         dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
       },
       editForm: {
-
+        dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -412,6 +411,8 @@ export default {
       // data.dr_id = data.dr_id;
       // this.checked = data;
       console.log(data);
+      this.filter.dr_category = data.dr_id
+      this.selectHazardousGood()
       // this.$emit('handleSelect', data);
     },
     filterNode (value, data) {
@@ -433,7 +434,8 @@ export default {
     getMapCode () {
       return new Promise((reslove, reject) => {
         this.$get('/v1/dr/mapcode-list/92').then(res => {
-          this.mapList = res.data;
+          this.mapList
+          this.mapList = [{dr_id: null, dr_name: "请选择"}, ...res.data];
           reslove()
         }).catch(err => {
           console.log(err);
@@ -483,12 +485,27 @@ export default {
      */
     updatedHazardousGoodType (node, data) {
       console.log(node, data)
+      this.editTypeForm.dr_id = data.dr_id;
+      this.editTypeForm.dr_name = data.dr_name;
+      this.editTypeForm.dr_status = 1;
+      this.editTypeForm.dr_level = data.dr_level;
+      this.editTypeForm.dr_parent_key = data.dr_parent_key;
+      this.showEditType = true;
     },
     /**
      * 确定修改
      */
     commitUpdateHazardousGoodTye (isEdit) {
-
+      this.$refs.editTypeForm.validate((valid) => {
+        if (valid) {
+          this.$post('v1/dr/dangerous-tree-update', this.editTypeForm).then(res => {
+            console.log(res);
+            this.$message.success('修改分类成功！');
+            this.showEditType = false;
+            this.selectHazardousGoodType()
+          });
+        }
+      })
     },
     /**
      * 查询易燃易爆品分类
@@ -583,7 +600,11 @@ export default {
     selectHazardousGood () {
       this.loading = true;
       let obj = {
-        "dr_name": "测试位号1"
+        "dr_name": this.filter.dr_name || null,
+        dr_status: this.filter.dr_status,
+        dr_big_category: this.filter.dr_big_category || null,
+        dr_duty: this.filter.dr_duty || null,
+        dr_category: this.filter.dr_category || null
       }
       // 查询条件
       this.$post('/v1/dr/dangerous-list', obj).then(res => {
@@ -667,6 +688,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        width: 100%;
       }
     }
   }
