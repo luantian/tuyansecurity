@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 15:08:57
+ * @LastEditTime: 2022-08-11 15:58:23
  * @LastEditors: your name
  * @Description: 
 -->
@@ -12,7 +12,11 @@
                 v-model="filterText"
                 clearable
                 size="small" /> -->
-      <el-button></el-button>
+      <div class="main_left_top">
+        <el-button type="primary"
+                   size="mini"
+                   @click="addHazardousGoodType(null)">新增</el-button>
+      </div>
       <el-tree class="filter-tree"
                :data="dangerousTypeList"
                :props="defaultProps"
@@ -31,7 +35,7 @@
           <div class="tree_right">
             <el-button type="text"
                        size="mini"
-                       @click.stop="() => updatedHazardousGoodType(node,data)">
+                       @click.stop="() => deleteHazardousGoodType(node,data)">
               <i class="el-icon-delete"></i>
             </el-button>
             <el-button type="text"
@@ -39,11 +43,11 @@
                        @click.stop="() => updatedHazardousGoodType(node, data)">
               <i class="el-icon-edit"></i>
             </el-button>
-            <el-button type="text"
+            <!-- <el-button type="text"
                        size="mini"
                        @click.stop="() => addHazardousGoodType(node, data)">
               <i class="el-icon-plus"></i>
-            </el-button>
+            </el-button> -->
           </div>
         </span>
       </el-tree>
@@ -66,14 +70,14 @@
                    :inline="true"
                    :model="filter"
                    label-position="right"
-                   label-width="80px">
+                   label-width="50px">
             <el-row :gutter="24">
               <!-- <el-col :span="8">
                   <el-form-item label="用户名称">
                     <el-input clearable size="mini" v-model="listQuery.dr_user_name" placeholder="请输入" />
                   </el-form-item>
                 </el-col> -->
-              <el-col :span="5">
+              <el-col :span="6">
                 <el-form-item label="名称">
                   <el-input clearable
                             size="mini"
@@ -81,7 +85,7 @@
                             placeholder="请输入" />
                 </el-form-item>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="6">
                 <el-form-item label="状态">
                   <el-select clearable
                              size="mini"
@@ -95,7 +99,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="6">
                 <el-form-item label="大分类">
                   <el-select clearable
                              size="mini"
@@ -117,23 +121,18 @@
                             placeholder="请输入" />
                 </el-form-item>
               </el-col>
-              <el-col :span="1">
-                <el-form-item label=" ">
-                  <el-button type="primary"
-                             size="mini"
-                             @click="selectHazardousGood()">过滤</el-button>
-                  <!-- <el-button size="mini"
-                             @click="handleReset">重置</el-button> -->
-                </el-form-item>
-              </el-col>
+
             </el-row>
+            <el-button type="primary"
+                       size="mini"
+                       @click="selectHazardousGood()">过滤</el-button>
           </el-form>
         </div>
       </div>
       <div class="add_btn">
         <el-button type="primary"
                    size="mini"
-                   @click="addHazardousGoodType(null)">新增单位</el-button>
+                   @click="addHazardousGood(null)">新增</el-button>
       </div>
       <div class="main_right_bottom">
 
@@ -227,7 +226,7 @@
                  :append-to-body="true">
         <el-form ref="addTypeForm"
                  :model="addTypeForm"
-                 label-width="80px"
+                 label-width="50px"
                  :rules="typeFormRules">
           <el-form-item label="分类名称"
                         prop="dr_login_pass">
@@ -253,7 +252,7 @@
                  :append-to-body="true">
         <el-form ref="editTypeForm"
                  :model="editTypeForm"
-                 label-width="80px"
+                 label-width="50px"
                  :rules="typeFormRules">
           <el-form-item label="分类名称"
                         prop="dr_login_pass">
@@ -281,7 +280,7 @@
                  :append-to-body="true">
         <el-form ref="addForm"
                  :model="addForm"
-                 label-width="80px"
+                 label-width="50px"
                  :rules="rules">
           <el-form-item label="分类名称"
                         prop="dr_login_pass">
@@ -308,7 +307,7 @@
                  :append-to-body="true">
         <el-form ref="editForm"
                  :model="editForm"
-                 label-width="80px"
+                 label-width="50px"
                  :rules="rules">
           <el-form-item label="分类名称"
                         prop="dr_login_pass">
@@ -378,7 +377,11 @@ export default {
         dr_status: 1
       },
       editTypeForm: {
-
+        "dr_name": "",
+        "dr_level": "",
+        "dr_parent_key": "",
+        dr_status: 1,
+        "dr_id": ""
       },
       typeFormRules: {
         dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
@@ -504,14 +507,46 @@ export default {
     /**
      * 删除易燃易爆品分类
      */
-    deleteHazardousGoodType (item) {
+    deleteHazardousGoodType (node, data) {
+      this.editTypeForm.dr_name = data.dr_name
+      this.editTypeForm.dr_level = data.dr_level
+      this.editTypeForm.dr_parent_key = data.dr_parent_key
+      this.editTypeForm.dr_status = 0
+      this.editTypeForm.dr_id = data.dr_id;
+      this.$confirm(`是否删除-${data.dr_name}分类`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$post('/v1/dr/dangerous-tree-update', this.editTypeForm).then(res => {
+          console.log(res);
+          this.$message.success('删除成功！');
+          this.selectHazardousGoodType()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
 
     },
     /**
      * 添加易燃易爆品
      */
     addHazardousGood () {
-
+      console.log(node, data)
+      this.addForm.dr_name = "";
+      this.addForm.dr_status = 1;
+      if (data) {
+        this.addForm.dr_level = Number(data.dr_level) + 1;
+        this.addForm.dr_parent_key = data.dr_parent_key;
+      } else {
+        this.addForm.dr_level = 1;
+        this.addForm.dr_parent_key = null;
+        // this
+      }
+      this.showAdd = true;
     },
     /**
      * 修改易燃易爆品
@@ -572,8 +607,33 @@ export default {
 </script>
 
 <style lang="scss">
-.el-dialog__header {
+.el-dialog .el-dialog__header {
+  background: #000c12 !important;
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #005b88 !important;
 }
+.el-dialog .el-dialog__body {
+  background: #000c12 !important;
+}
+.el-input--small .el-input__inner {
+  background: #000c12 !important;
+  border: 1px solid #005b88 !important;
+}
+.el-message-box__header {
+  background: #000c12 !important;
+}
+.el-message-box__content {
+  background: #000c12 !important;
+}
+.el-message-box__btns {
+  background: #000c12 !important;
+}
+.el-message-box {
+  background: #000c12 !important;
+  border: 1px solid #000c12 !important;
+}
+
 .hazardous_main {
   width: 100%;
   height: 100%;
@@ -582,8 +642,13 @@ export default {
     width: 270px;
     height: 100%;
     flex-shrink: 0;
+    padding: 10px;
     background: #000c12;
-
+    .main_left_top {
+      width: 100%;
+      display: flex;
+      justify-content: right;
+    }
     .filter-tree {
       &.el-tree {
         width: 100%;
@@ -623,6 +688,9 @@ export default {
     .add_btn {
       height: 69px;
       width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: right;
     }
     .main_right_bottom {
     }
