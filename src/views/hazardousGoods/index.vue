@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 19:11:55
+ * @LastEditTime: 2022-08-11 19:16:58
  * @LastEditors: your name
  * @Description: 
 -->
@@ -330,7 +330,7 @@
                       size="small"
                       clearable></el-input>
           </el-form-item>
-          <el-form-item label="部门"
+          <!-- <el-form-item label="部门"
                         label-width="130px">
             <el-cascader :options="units"
                          :props="{
@@ -342,7 +342,7 @@
                          clearable
                          v-model="addForm.dr_unit"
                          size="mini"></el-cascader>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
         <div class="center mt20">
           <el-button type="primary"
@@ -406,7 +406,7 @@
                       size="small"
                       clearable></el-input>
           </el-form-item>
-          <el-form-item label="部门"
+          <!-- <el-form-item label="部门"
                         label-width="130px">
             <el-cascader :options="units"
                          :props="{
@@ -418,7 +418,7 @@
                          clearable
                          v-model="editForm.dr_unit"
                          size="mini"></el-cascader>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
         <div class="center mt20">
           <el-button type="primary"
@@ -500,7 +500,7 @@ export default {
         dr_desc: "",
         dr_duty: "",
         dr_spu: "",
-        dr_unit: "",
+        // dr_unit: "",
         dr_pic: ""
       },
       editForm: {
@@ -512,7 +512,7 @@ export default {
         dr_desc: "",
         dr_duty: "",
         dr_spu: "",
-        dr_unit: "",
+        // dr_unit: "",
         dr_pic: ""
       },
       formRules: {
@@ -521,7 +521,7 @@ export default {
         dr_big_category: [{ required: true, message: '分类名称不能为空', trigger: 'blur' }],
         // dr_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
       },
-      units: []
+      // units: []
     }
   },
   components: {
@@ -530,11 +530,11 @@ export default {
   methods: {
     formatDate,
     formatDateTime,
-    getUnits () {
-      this.$get("/v1/dr/unit-list").then((res) => {
-        this.units = forobj(res.data);
-      });
-    },
+    // getUnits () {
+    //   this.$get("/v1/dr/unit-list").then((res) => {
+    //     this.units = forobj(res.data);
+    //   });
+    // },
     handleFilter () {
       this.filterBtn = !this.filterBtn;
       if (!this.filterBtn) {
@@ -737,19 +737,6 @@ export default {
      * @param {object} item 添加时选中的对象没有则为空
      */
     updatedHazardousGood (item) {
-      let param = {
-        "dr_key": "7bf0ef884ca6477780d4c29e0236b9aa",
-        "dr_point": "wh1",
-        "dr_name": "测试位号2",
-        "dr_big_category": "92",
-        "dr_category": 2,
-        "dr_desc": "测试危险品",
-        "dr_spu": "17*86",
-        "dr_unit": "85fc426af39e45fbb2b4d661e142ca8a",
-        "dr_duty": "小红",
-        "dr_status": "0",
-        "dr_pic": "85fc426af39e45fbb2b4d661e142ca81"
-      }
       this.editForm.dr_key = item.dr_key,
         this.editForm.dr_point = item.dr_point,
         this.editForm.dr_name = item.dr_name,
@@ -757,7 +744,7 @@ export default {
         this.editForm.dr_category = item.dr_category,
         this.editForm.dr_desc = item.dr_desc,
         this.editForm.dr_spu = item.dr_spu,
-        this.editForm.dr_unit = item.dr_unit,
+        // this.editForm.dr_unit = item.dr_unit,
         this.editForm.dr_duty = item.dr_duty,
         this.editForm.dr_status = item.dr_status,
         this.editForm.dr_pic = item.dr_pic
@@ -789,7 +776,7 @@ export default {
       this.editForm.dr_desc = item.dr_desc
       this.editForm.dr_duty = item.dr_duty
       this.editForm.dr_spu = item.dr_spu
-      this.editForm.dr_unit = item.dr_unit
+      // this.editForm.dr_unit = item.dr_unit
       this.editForm.dr_pic = item.dr_pic
       this.editForm.dr_status = 0
       this.$confirm(`是否删除-${item.dr_name}`, '提示', {
@@ -833,7 +820,7 @@ export default {
   },
   async mounted () {
     await this.getMapCode();
-    this.getUnits();
+    // this.getUnits();
     this.selectHazardousGoodType()
     this.selectHazardousGood();
   },
