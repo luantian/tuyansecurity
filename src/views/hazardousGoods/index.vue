@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 16:16:14
+ * @LastEditTime: 2022-08-11 17:15:29
  * @LastEditors: your name
  * @Description: 
 -->
@@ -21,6 +21,7 @@
                :data="dangerousTypeList"
                :props="defaultProps"
                :default-expand-all="true"
+               :current-node-key="dr_category"
                :filter-node-method="filterNode"
                ref="tree"
                @node-click="handleNodeClick"
@@ -70,7 +71,7 @@
                    :inline="true"
                    :model="filter"
                    label-position="right"
-                   label-width="50px">
+                   label-width="80px">
             <el-row :gutter="24">
               <!-- <el-col :span="8">
                   <el-form-item label="用户名称">
@@ -85,7 +86,7 @@
                             placeholder="请输入" />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-form-item label="状态">
                   <el-select clearable
                              size="mini"
@@ -98,12 +99,12 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="6">
                 <el-form-item label="大分类">
                   <el-select clearable
                              size="mini"
-                             v-model="filter.dr_category"
+                             v-model="filter.dr_big_category"
                              placeholder="请选择">
                     <el-option v-for="item in mapList"
                                :key="item.dr_id"
@@ -113,7 +114,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="6">
                 <el-form-item label="责任人">
                   <el-input clearable
                             size="mini"
@@ -121,11 +122,15 @@
                             placeholder="请输入" />
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-button type="primary"
+                           size="mini"
+                           @click="selectHazardousGood()">过滤</el-button>
+
+              </el-col>
 
             </el-row>
-            <el-button type="primary"
-                       size="mini"
-                       @click="selectHazardousGood()">过滤</el-button>
+
           </el-form>
         </div>
       </div>
@@ -208,7 +213,7 @@
               <el-button type="text"
                          @click="updatedHazardousGood(scope.row)">修改</el-button>
               <el-button type="text"
-                         @click="updatedHazardousGood(scope.row)">禁用</el-button>
+                         @click="deleteHazardousGood(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -226,7 +231,7 @@
                  :append-to-body="true">
         <el-form ref="addTypeForm"
                  :model="addTypeForm"
-                 label-width="50px"
+                 label-width="80px"
                  :rules="typeFormRules">
           <el-form-item label="分类名称"
                         prop="dr_login_pass">
@@ -252,7 +257,7 @@
                  :append-to-body="true">
         <el-form ref="editTypeForm"
                  :model="editTypeForm"
-                 label-width="50px"
+                 label-width="80px"
                  :rules="typeFormRules">
           <el-form-item label="分类名称"
                         prop="dr_login_pass">
@@ -274,26 +279,72 @@
       <!-- 新增 start -->
       <el-dialog :close-on-click-modal="false"
                  title="新增易燃易爆品"
-                 :visible.sync="showEdit"
+                 :visible.sync="showAdd"
                  width="500px"
                  :append-to-body="true">
         <el-form ref="addForm"
                  :model="addForm"
-                 label-width="50px"
-                 :rules="rules">
-          <el-form-item label="分类名称"
+                 label-width="80px"
+                 :rules="formRules">
+          <el-form-item label="易燃易爆位号"
+                        label-width="100px"
                         prop="dr_login_pass">
-            <el-input v-model="addForm.dr_login_pass"
+            <el-input v-model="addForm.dr_point"
                       size="small"
-                      type="password"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="易燃易爆名称"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="addForm.dr_name"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="分类名称"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-select size="small"
+                       v-model="addForm.dr_big_category">
+              <el-option :value="item.dr_id"
+                         :label="item.dr_name"
+                         v-for="item in mapList1"
+                         :key="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="描述"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="addForm.dr_desc"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="责任人"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="addForm.dr_duty"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="规格"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="addForm.dr_spu"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="部门"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="addForm.dr_unit"
+                      size="small"
                       clearable></el-input>
           </el-form-item>
         </el-form>
         <div class="center mt20">
           <el-button type="primary"
-                     @click="Submit"
+                     @click="commitAddHazardousGood()"
                      size="small">保存</el-button>
-          <el-button @click="showDia1 = false"
+          <el-button @click="showAdd = false"
                      size="small">取消</el-button>
         </div>
       </el-dialog>
@@ -306,8 +357,8 @@
                  :append-to-body="true">
         <el-form ref="editForm"
                  :model="editForm"
-                 label-width="50px"
-                 :rules="rules">
+                 label-width="80px"
+                 :rules="formRules">
           <el-form-item label="分类名称"
                         prop="dr_login_pass">
             <el-input v-model="editForm.dr_login_pass"
@@ -318,9 +369,9 @@
         </el-form>
         <div class="center mt20">
           <el-button type="primary"
-                     @click="Submit"
+                     @click="commitUpdateHazardousGood()"
                      size="small">保存</el-button>
-          <el-button @click="showDia1 = false"
+          <el-button @click="showEdit = false"
                      size="small">取消</el-button>
         </div>
       </el-dialog>
@@ -341,15 +392,17 @@ export default {
   data () {
     return {
       mapList: [], // 码表下拉 dr_name dr_id
+      mapList1: [], 
       list: [], // 列表数据
       page: 0,
       total: 0,
+      dr_category: 1,
       tableHeight: '',
       loading: true,
       PageSize: 0,
       showAddType: false,
       showEditType: false,
-      showAddType: false,
+      showAdd: false,
       showEdit: false,
       defaultProps: {
         label: 'dr_name',
@@ -359,9 +412,9 @@ export default {
       filterBtn: false,
       filter: {
         dr_name: '',
-        dr_status: null,
+        dr_status: 1,
         dr_big_category: null,
-        dr_category: null,
+        dr_category: this.dr_category,
         dr_duty: ''
       },
       statusOptions: [
@@ -386,11 +439,36 @@ export default {
         dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
       },
       addForm: {
-        dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+        // dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+        dr_point: "",
+        dr_name: "",
+        dr_big_category: "",
+        dr_category: "",
+        dr_desc: "",
+        dr_duty: "",
+        dr_spu: "",
+        dr_unit: "",
+        dr_pic: ""
       },
       editForm: {
-        dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+        // dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+        dr_point: "",
+        dr_name: "",
+        dr_big_category: "",
+        dr_category: "",
+        dr_desc: "",
+        dr_duty: "",
+        dr_spu: "",
+        dr_unit: "",
+        dr_pic: ""
+      },
+      formRules: {
+        dr_point: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        dr_big_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        dr_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
       }
+
     }
   },
   components: {
@@ -411,6 +489,7 @@ export default {
       // data.dr_id = data.dr_id;
       // this.checked = data;
       console.log(data);
+      this.dr_category = data.dr_id;
       this.filter.dr_category = data.dr_id
       this.selectHazardousGood()
       // this.$emit('handleSelect', data);
@@ -434,8 +513,9 @@ export default {
     getMapCode () {
       return new Promise((reslove, reject) => {
         this.$get('/v1/dr/mapcode-list/92').then(res => {
-          this.mapList
-          this.mapList = [{dr_id: null, dr_name: "请选择"}, ...res.data];
+          this.mapList = [{ dr_id: null, dr_name: "请选择" }, ...res.data];
+          this.mapList1 =  res.data;
+          this.filter.dr_big_category =  res.data[0].dr_id;
           reslove()
         }).catch(err => {
           console.log(err);
@@ -515,6 +595,11 @@ export default {
         let list = []
         if (res.code == 200) {
           for (let key in res.data) {
+            let sonList  = []
+            for (let sonKey in res.data[key].dr_son) {
+              sonList.push(res.data[key].dr_son[sonKey])
+            }
+            res.data[key].dr_son = sonList;
             list.push(res.data[key])
           }
         }
@@ -552,18 +637,29 @@ export default {
      * 添加易燃易爆品
      */
     addHazardousGood () {
-      console.log(node, data)
-      this.addForm.dr_name = "";
-      this.addForm.dr_status = 1;
-      if (data) {
-        this.addForm.dr_level = Number(data.dr_level) + 1;
-        this.addForm.dr_parent_key = data.dr_parent_key;
-      } else {
-        this.addForm.dr_level = 1;
-        this.addForm.dr_parent_key = null;
-        // this
-      }
+      this.addForm.dr_point = "",
+        this.addForm.dr_name = "",
+        this.addForm.dr_big_category = "",
+        this.addForm.dr_category = this.dr_category,
+        this.addForm.dr_desc = "",
+        this.addForm.dr_duty = "",
+        this.addForm.dr_spu = "",
+        this.addForm.dr_unit = "",
+        this.addForm.dr_pic = ""
       this.showAdd = true;
+    },
+    commitAddHazardousGood () {
+      console.log(this.addForm)
+      // this.$refs.addForm.validate((valid) => {
+      //   if (valid) {
+      //     this.$post('v1/dr/dangerous-add', this.addForm).then(res => {
+      //       console.log(res);
+      //       this.$message.success('新增分类成功！');
+      //       this.showAddType = false;
+      //       this.selectHazardousGood()
+      //     });
+      //   }
+      // })
     },
     /**
      * 修改易燃易爆品
@@ -593,6 +689,36 @@ export default {
         this.$message.success('修改成功！')
         console.log(res);
       })
+    },
+    deleteHazardousGood (item) {
+      console.log(item)
+      this.editForm.dr_key = item.dr_key
+      this.editForm.dr_point = item.dr_point
+      this.editForm.dr_name = item.dr_name
+      this.editForm.dr_big_category = item.dr_big_category
+      this.editForm.dr_category = item.dr_category
+      this.editForm.dr_desc = item.dr_desc
+      this.editForm.dr_duty = item.dr_duty
+      this.editForm.dr_spu = item.dr_spu
+      this.editForm.dr_unit = item.dr_unit
+      this.editForm.dr_pic = item.dr_pic
+      this.editForm.dr_status = 0
+      this.$confirm(`是否删除-${item.dr_name}`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$post('/v1/dr/dangerous-update', this.editForm).then(res => {
+          console.log(res);
+          this.$message.success('删除成功！');
+          this.selectHazardousGood()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
     /**
      * 查询易燃易爆品
@@ -669,6 +795,7 @@ export default {
       width: 100%;
       display: flex;
       justify-content: right;
+      margin-bottom: 10px;
     }
     .filter-tree {
       &.el-tree {
