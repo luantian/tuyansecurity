@@ -792,7 +792,7 @@ export default {
     }
 
     .el-form-item__label {
-     color: hsla(0, 0%, 100%, 0.65);
+     color: rgba(0, 0, 0, 0.65);
     }
 
     .el-button--default {

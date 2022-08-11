@@ -1316,7 +1316,7 @@ export default {
 .status3 {
   .el-input.is-disabled .el-input__inner {
     background-color: #fff;
-    color: #333;
+    color: hsla(0, 0%, 100%, 0.3);
     border: 0;
     font-size: 14px;
   }
@@ -1332,7 +1332,7 @@ export default {
 
 #dark .el-input.is-disabled .el-input__inner {
   background-color: initial;
-  color: #ccc;
+  color:  hsla(0, 0%, 100%, 0.65);
   cursor: not-allowed;
   border: 0;
 }
