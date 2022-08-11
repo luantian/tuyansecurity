@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 17:15:29
+ * @LastEditTime: 2022-08-11 18:24:27
  * @LastEditors: your name
  * @Description: 
 -->
@@ -157,6 +157,15 @@
                            align="center"
                            show-overflow-tooltip>
           </el-table-column>
+          <el-table-column prop="dr_name"
+                           label="名称"
+                           align="center"
+                           show-overflow-tooltip />
+          <el-table-column prop="dr_category_name"
+                           label="分类名称"
+                           align="center"
+                           show-overflow-tooltip>
+          </el-table-column>
           <el-table-column prop="dr_duty"
                            label="责任人"
                            align="center"
@@ -178,20 +187,12 @@
               <span>{{formatDateTime(scope.row.dr_create_time*1000)}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="dr_category_name"
-                           label="分类名称"
-                           align="center"
-                           show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column prop="dr_name"
-                           label="名称"
-                           align="center"
-                           show-overflow-tooltip />
-          <el-table-column label="状态"
+
+          <!-- <el-table-column label="状态"
                            prop="dr_status"
                            align="center"
                            show-overflow-tooltip>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column label="规格"
                            prop="dr_spu"
                            align="center"
@@ -335,9 +336,16 @@
           <el-form-item label="部门"
                         label-width="100px"
                         prop="dr_login_pass">
-            <el-input v-model="addForm.dr_unit"
-                      size="small"
-                      clearable></el-input>
+            <el-cascader :options="units"
+                         :props="{
+                            checkStrictly: true,
+                            value: 'dr_self_key',
+                            label: 'dr_unit_name',
+                            children: 'dr_son',
+                          }"
+                         clearable
+                         v-model="addForm.dr_unit"
+                         size="mini"></el-cascader>
           </el-form-item>
         </el-form>
         <div class="center mt20">
@@ -359,12 +367,65 @@
                  :model="editForm"
                  label-width="80px"
                  :rules="formRules">
-          <el-form-item label="分类名称"
+          <el-form-item label="易燃易爆位号"
+                        label-width="100px"
                         prop="dr_login_pass">
-            <el-input v-model="editForm.dr_login_pass"
+            <el-input v-model="editForm.dr_point"
                       size="small"
-                      type="password"
                       clearable></el-input>
+          </el-form-item>
+          <el-form-item label="易燃易爆名称"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="editForm.dr_name"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="分类名称"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-select size="small"
+                       v-model="editForm.dr_big_category">
+              <el-option :value="item.dr_id"
+                         :label="item.dr_name"
+                         v-for="item in mapList1"
+                         :key="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="描述"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="editForm.dr_desc"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="责任人"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="editForm.dr_duty"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="规格"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-input v-model="editForm.dr_spu"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="部门"
+                        label-width="100px"
+                        prop="dr_login_pass">
+            <el-cascader :options="units"
+                         :props="{
+                            checkStrictly: true,
+                            value: 'dr_self_key',
+                            label: 'dr_unit_name',
+                            children: 'dr_son',
+                          }"
+                         clearable
+                         v-model="editForm.dr_unit"
+                         size="mini"></el-cascader>
           </el-form-item>
         </el-form>
         <div class="center mt20">
@@ -392,7 +453,7 @@ export default {
   data () {
     return {
       mapList: [], // 码表下拉 dr_name dr_id
-      mapList1: [], 
+      mapList1: [],
       list: [], // 列表数据
       page: 0,
       total: 0,
@@ -442,7 +503,7 @@ export default {
         // dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
         dr_point: "",
         dr_name: "",
-        dr_big_category: "",
+        dr_big_category: null,
         dr_category: "",
         dr_desc: "",
         dr_duty: "",
@@ -467,8 +528,8 @@ export default {
         dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         dr_big_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         dr_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-      }
-
+      },
+      units: []
     }
   },
   components: {
@@ -477,6 +538,11 @@ export default {
   methods: {
     formatDate,
     formatDateTime,
+    getUnits () {
+      this.$get("/v1/dr/unit-list").then((res) => {
+        this.units = forobj(res.data);
+      });
+    },
     handleFilter () {
       this.filterBtn = !this.filterBtn;
       if (!this.filterBtn) {
@@ -514,8 +580,10 @@ export default {
       return new Promise((reslove, reject) => {
         this.$get('/v1/dr/mapcode-list/92').then(res => {
           this.mapList = [{ dr_id: null, dr_name: "请选择" }, ...res.data];
-          this.mapList1 =  res.data;
-          this.filter.dr_big_category =  res.data[0].dr_id;
+          this.mapList1 = res.data;
+          console.log('dr_big_category', res.data)
+          this.addForm.dr_big_category = res.data[0].dr_id
+          // this.filter.dr_big_category = res.data[0].dr_id;
           reslove()
         }).catch(err => {
           console.log(err);
@@ -595,7 +663,7 @@ export default {
         let list = []
         if (res.code == 200) {
           for (let key in res.data) {
-            let sonList  = []
+            let sonList = []
             for (let sonKey in res.data[key].dr_son) {
               sonList.push(res.data[key].dr_son[sonKey])
             }
@@ -603,7 +671,12 @@ export default {
             list.push(res.data[key])
           }
         }
-        this.$set(this, "dangerousTypeList", list)
+        this.$set(this, "dangerousTypeList", list);
+        console.log(this.dangerousTypeList.length)
+        if (this.dangerousTypeList.length) {
+          console.log('sss')
+          this.dr_category = this.dangerousTypeList[0].dr_id
+        }
       })
     },
     /**
@@ -639,7 +712,7 @@ export default {
     addHazardousGood () {
       this.addForm.dr_point = "",
         this.addForm.dr_name = "",
-        this.addForm.dr_big_category = "",
+        // this.addForm.dr_big_category = "",
         this.addForm.dr_category = this.dr_category,
         this.addForm.dr_desc = "",
         this.addForm.dr_duty = "",
@@ -650,16 +723,16 @@ export default {
     },
     commitAddHazardousGood () {
       console.log(this.addForm)
-      // this.$refs.addForm.validate((valid) => {
-      //   if (valid) {
-      //     this.$post('v1/dr/dangerous-add', this.addForm).then(res => {
-      //       console.log(res);
-      //       this.$message.success('新增分类成功！');
-      //       this.showAddType = false;
-      //       this.selectHazardousGood()
-      //     });
-      //   }
-      // })
+      this.$refs.addForm.validate((valid) => {
+        if (valid) {
+          this.$post('v1/dr/dangerous-add', this.addForm).then(res => {
+            console.log(res);
+            this.$message.success('新增分类成功！');
+            this.showAdd = false;
+            this.selectHazardousGood()
+          });
+        }
+      })
     },
     /**
      * 修改易燃易爆品
@@ -679,14 +752,28 @@ export default {
         "dr_status": "0",
         "dr_pic": "85fc426af39e45fbb2b4d661e142ca81"
       }
+      this.editForm.dr_key = item.dr_key,
+        this.editForm.dr_point = item.dr_point,
+        this.editForm.dr_name = item.dr_name,
+        this.editForm.dr_big_category = Number(item.dr_big_category),
+        this.editForm.dr_category = item.dr_category,
+        this.editForm.dr_desc = item.dr_desc,
+        this.editForm.dr_spu = item.dr_spu,
+        this.editForm.dr_unit = item.dr_unit,
+        this.editForm.dr_duty = item.dr_duty,
+        this.editForm.dr_status = item.dr_status,
+        this.editForm.dr_pic = item.dr_pic
+      this.showEdit = true;
 
     },
     /**
      * 确定修改
      */
     commitUpdateHazardousGood (isEdit) {
-      this.$post('/v1/dr/dangerous-update', param).then(res => {
+      this.$post('/v1/dr/dangerous-update', this.editForm).then(res => {
         this.$message.success('修改成功！')
+        this.showEdit = false
+        this.selectHazardousGood()
         console.log(res);
       })
     },
@@ -726,7 +813,7 @@ export default {
     selectHazardousGood () {
       this.loading = true;
       let obj = {
-        "dr_name": this.filter.dr_name || null,
+        dr_name: this.filter.dr_name || null,
         dr_status: this.filter.dr_status,
         dr_big_category: this.filter.dr_big_category || null,
         dr_duty: this.filter.dr_duty || null,
@@ -744,6 +831,7 @@ export default {
   },
   async mounted () {
     await this.getMapCode();
+    this.getUnits();
     this.selectHazardousGoodType()
     this.selectHazardousGood();
   },
@@ -780,7 +868,14 @@ export default {
   background: #000c12 !important;
   border: 1px solid #000c12 !important;
 }
-
+.el-cascader {
+  .el-input {
+    .el-input__inner {
+      background: #000c12 !important;
+      border: 1px solid #005b88 !important;
+    }
+  }
+}
 .hazardous_main {
   width: 100%;
   height: 100%;
