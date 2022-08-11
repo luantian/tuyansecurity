@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 13:16:15
+ * @LastEditTime: 2022-08-11 15:08:57
  * @LastEditors: your name
  * @Description: 
 -->
@@ -12,7 +12,7 @@
                 v-model="filterText"
                 clearable
                 size="small" /> -->
-
+      <el-button></el-button>
       <el-tree class="filter-tree"
                :data="dangerousTypeList"
                :props="defaultProps"
@@ -131,7 +131,9 @@
         </div>
       </div>
       <div class="add_btn">
-
+        <el-button type="primary"
+                   size="mini"
+                   @click="addHazardousGoodType(null)">新增单位</el-button>
       </div>
       <div class="main_right_bottom">
 
@@ -217,6 +219,114 @@
                     :limit.sync="PageSize"
                     @pagination="selectHazardousGood" />
       </div>
+      <!-- 新增分类 start -->
+      <el-dialog :close-on-click-modal="false"
+                 title="新增易燃易爆品分类"
+                 :visible.sync="showAddType"
+                 width="500px"
+                 :append-to-body="true">
+        <el-form ref="addTypeForm"
+                 :model="addTypeForm"
+                 label-width="80px"
+                 :rules="typeFormRules">
+          <el-form-item label="分类名称"
+                        prop="dr_login_pass">
+            <el-input v-model="addTypeForm.dr_name"
+                      size="small"
+                      clearable></el-input>
+          </el-form-item>
+        </el-form>
+        <div class="center mt20">
+          <el-button type="primary"
+                     @click="commitAddHazardousGoodType"
+                     size="small">保存</el-button>
+          <el-button @click="showAddType = false"
+                     size="small">取消</el-button>
+        </div>
+      </el-dialog>
+      <!-- 新增分类 end -->
+      <!-- 修改分类 start -->
+      <el-dialog :close-on-click-modal="false"
+                 title="修改易燃易爆品分类"
+                 :visible.sync="showEditType"
+                 width="500px"
+                 :append-to-body="true">
+        <el-form ref="editTypeForm"
+                 :model="editTypeForm"
+                 label-width="80px"
+                 :rules="typeFormRules">
+          <el-form-item label="分类名称"
+                        prop="dr_login_pass">
+            <el-input v-model="editTypeForm.dr_login_pass"
+                      size="small"
+                      type="password"
+                      clearable></el-input>
+          </el-form-item>
+        </el-form>
+        <div class="center mt20">
+          <el-button type="primary"
+                     @click="commitAddHazardousGoodType"
+                     size="small">保存</el-button>
+          <el-button @click="showDia1 = false"
+                     size="small">取消</el-button>
+        </div>
+      </el-dialog>
+      <!-- 修改分类 end -->
+
+      <!-- 新增 start -->
+      <el-dialog :close-on-click-modal="false"
+                 title="新增易燃易爆品"
+                 :visible.sync="showEdit"
+                 width="500px"
+                 :append-to-body="true">
+        <el-form ref="addForm"
+                 :model="addForm"
+                 label-width="80px"
+                 :rules="rules">
+          <el-form-item label="分类名称"
+                        prop="dr_login_pass">
+            <el-input v-model="addForm.dr_login_pass"
+                      size="small"
+                      type="password"
+                      clearable></el-input>
+          </el-form-item>
+        </el-form>
+        <div class="center mt20">
+          <el-button type="primary"
+                     @click="Submit"
+                     size="small">保存</el-button>
+          <el-button @click="showDia1 = false"
+                     size="small">取消</el-button>
+        </div>
+      </el-dialog>
+      <!-- 新增 end -->
+      <!-- 修改 start -->
+      <el-dialog :close-on-click-modal="false"
+                 title="修改易燃易爆品"
+                 :visible.sync="showEdit"
+                 width="500px"
+                 :append-to-body="true">
+        <el-form ref="editForm"
+                 :model="editForm"
+                 label-width="80px"
+                 :rules="rules">
+          <el-form-item label="分类名称"
+                        prop="dr_login_pass">
+            <el-input v-model="editForm.dr_login_pass"
+                      size="small"
+                      type="password"
+                      clearable></el-input>
+          </el-form-item>
+        </el-form>
+        <div class="center mt20">
+          <el-button type="primary"
+                     @click="Submit"
+                     size="small">保存</el-button>
+          <el-button @click="showDia1 = false"
+                     size="small">取消</el-button>
+        </div>
+      </el-dialog>
+      <!-- 修改 end -->
     </div>
   </div>
 </template>
@@ -239,6 +349,10 @@ export default {
       tableHeight: '',
       loading: true,
       PageSize: 0,
+      showAddType: false,
+      showEditType: false,
+      showAddType: false,
+      showEdit: false,
       defaultProps: {
         label: 'dr_name',
         children: 'dr_son',
@@ -256,7 +370,25 @@ export default {
         { value: "1", name: '正常' },
         { value: "0", name: '删除' },
       ],
-      filterText: ''
+      filterText: '',
+      addTypeForm: {
+        "dr_name": "",
+        "dr_level": "",
+        "dr_parent_key": "",
+        dr_status: 1
+      },
+      editTypeForm: {
+
+      },
+      typeFormRules: {
+        dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+      },
+      addForm: {
+        dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+      },
+      editForm: {
+
+      }
     }
   },
   components: {
@@ -310,7 +442,36 @@ export default {
      * 添加易燃易爆品分类
      * @param {object} item 添加分类时选中的对象没有则为空
      */
-    addHazardousGoodType (item) {
+    addHazardousGoodType (node, data) {
+      console.log(node, data)
+      this.addTypeForm.dr_name = "";
+      this.addTypeForm.dr_status = 1;
+      if (data) {
+        this.addTypeForm.dr_level = Number(data.dr_level) + 1;
+        this.addTypeForm.dr_parent_key = data.dr_parent_key;
+      } else {
+        this.addTypeForm.dr_level = 1;
+        this.addTypeForm.dr_parent_key = null;
+        // this
+      }
+      this.showAddType = true;
+    },
+    commitAddHazardousGoodType () {
+      this.$refs.addTypeForm.validate((valid) => {
+        if (valid) {
+          this.$post('v1/dr/dangerous-tree-add', this.addTypeForm).then(res => {
+            console.log(res);
+            this.$message.success('新增分类成功！');
+            this.showAddType = false;
+            this.selectHazardousGoodType()
+          });
+        }
+      })
+      // let param = {
+      //   "dr_name": this.addTypeForm,
+      //   "dr_level": "1",
+      //   "dr_parent_key": null
+      // }
 
     },
     /**
@@ -319,6 +480,12 @@ export default {
      */
     updatedHazardousGoodType (node, data) {
       console.log(node, data)
+    },
+    /**
+     * 确定修改
+     */
+    commitUpdateHazardousGoodTye (isEdit) {
+
     },
     /**
      * 查询易燃易爆品分类
@@ -351,7 +518,29 @@ export default {
      * @param {object} item 添加时选中的对象没有则为空
      */
     updatedHazardousGood (item) {
+      let param = {
+        "dr_key": "7bf0ef884ca6477780d4c29e0236b9aa",
+        "dr_point": "wh1",
+        "dr_name": "测试位号2",
+        "dr_big_category": "92",
+        "dr_category": 2,
+        "dr_desc": "测试危险品",
+        "dr_spu": "17*86",
+        "dr_unit": "85fc426af39e45fbb2b4d661e142ca8a",
+        "dr_duty": "小红",
+        "dr_status": "0",
+        "dr_pic": "85fc426af39e45fbb2b4d661e142ca81"
+      }
 
+    },
+    /**
+     * 确定修改
+     */
+    commitUpdateHazardousGood (isEdit) {
+      this.$post('/v1/dr/dangerous-update', param).then(res => {
+        this.$message.success('修改成功！')
+        console.log(res);
+      })
     },
     /**
      * 查询易燃易爆品
@@ -383,6 +572,8 @@ export default {
 </script>
 
 <style lang="scss">
+.el-dialog__header {
+}
 .hazardous_main {
   width: 100%;
   height: 100%;
@@ -391,13 +582,17 @@ export default {
     width: 270px;
     height: 100%;
     flex-shrink: 0;
-    background: #000C12;
-    .el-tree {
-      width: 100%;
-      height: 100%;
-      background: #000C12 !important;
-    }
+    background: #000c12;
+
     .filter-tree {
+      &.el-tree {
+        width: 100%;
+        height: 100%;
+        background: #000c12 !important;
+        .el-tree-node {
+          background: #000c12 !important;
+        }
+      }
       .el-tree-node__content {
         width: 100%;
         display: flex !important;

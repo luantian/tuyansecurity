@@ -18,7 +18,7 @@
                 <router-link :to="child.dr_power_href||''"
                              :key="child.dr_power_name"
                              v-if="child.dr_power_href">
-                  <el-menu-item>{{ child.dr_power_name }}</el-menu-item>
+                  <el-menu-item :index="item.dr_power_name">{{ child.dr_power_name }}</el-menu-item>
                 </router-link>
               </template>
 
@@ -97,7 +97,7 @@ export default {
         dr_son: [
           {
             dr_level: 2,
-            dr_parent_key: "",
+            dr_parent_key: "3fa19b14fc224206bc123ab64c368017",
             dr_power_href: "/alarm",
             // dr_power_icon: "el-icon-notebook-2",
             dr_power_name: "报警系统",
@@ -109,7 +109,7 @@ export default {
           },
           {
             dr_level: 2,
-            dr_parent_key: "",
+            dr_parent_key: "3fa19b14fc224206bc123ab64c368017",
             dr_power_href: "/electricity",
             // dr_power_icon: "el-icon-notebook-2",
             dr_power_name: "智慧用电",
@@ -121,7 +121,7 @@ export default {
           },
           {
             dr_level: 2,
-            dr_parent_key: "",
+            dr_parent_key: "3fa19b14fc224206bc123ab64c368017",
             dr_power_href: "/water",
             // dr_power_icon: "el-icon-notebook-2",
             dr_power_name: "消防水系统",
@@ -133,7 +133,7 @@ export default {
           },
           {
             dr_level: 2,
-            dr_parent_key: "",
+            dr_parent_key: "3fa19b14fc224206bc123ab64c368017",
             dr_power_href: "/video",
             // dr_power_icon: "el-icon-notebook-2",
             dr_power_name: "视频监控",
@@ -279,14 +279,14 @@ export default {
 // .el-menu-item.is-active {
 //   background-color: #09425E  !important;
 // }
-.el-menu-item.is-active {
-  background-color: #09425e !important;
-}
-.el-menu-submenu.is-active {
-  background-color: #09425e !important;
-}
+// .el-menu-item.is-active {
+//   background-color: #09425e !important;
+// }
+// .el-menu-submenu.is-active {
+//   background-color: #09425e !important;
+// }
 #dark .el-menu--dark .el-menu-item.is-active {
-  background: transparent !important;
+  background-color: #09425e !important;
 }
 
 #dark .el-menu--dark .el-menu-item:hover {
