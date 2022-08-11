@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 19:24:05
+ * @LastEditTime: 2022-08-11 23:43:16
  * @LastEditors: your name
  * @Description: 
 -->
@@ -271,7 +271,7 @@
           <el-button type="primary"
                      @click="commitUpdateHazardousGoodTye"
                      size="small">保存</el-button>
-          <el-button @click="showDia1 = false"
+          <el-button @click="showEditType = false"
                      size="small">取消</el-button>
         </div>
       </el-dialog>
