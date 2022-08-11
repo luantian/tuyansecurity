@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 18:24:27
+ * @LastEditTime: 2022-08-11 18:49:32
  * @LastEditors: your name
  * @Description: 
 -->
@@ -235,7 +235,7 @@
                  label-width="80px"
                  :rules="typeFormRules">
           <el-form-item label="分类名称"
-                        prop="dr_login_pass">
+                        prop="dr_name">
             <el-input v-model="addTypeForm.dr_name"
                       size="small"
                       clearable></el-input>
@@ -261,7 +261,7 @@
                  label-width="80px"
                  :rules="typeFormRules">
           <el-form-item label="分类名称"
-                        prop="dr_login_pass">
+                        prop="dr_name">
             <el-input v-model="editTypeForm.dr_name"
                       size="small"
                       clearable></el-input>
@@ -288,22 +288,22 @@
                  label-width="80px"
                  :rules="formRules">
           <el-form-item label="易燃易爆位号"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px"
+                        prop="dr_point">
             <el-input v-model="addForm.dr_point"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="易燃易爆名称"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px"
+                        prop="dr_name">
             <el-input v-model="addForm.dr_name"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="分类名称"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px"
+                        prop="dr_big_category">
             <el-select size="small"
                        v-model="addForm.dr_big_category">
               <el-option :value="item.dr_id"
@@ -313,29 +313,25 @@
             </el-select>
           </el-form-item>
           <el-form-item label="描述"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px">
             <el-input v-model="addForm.dr_desc"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="责任人"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px">
             <el-input v-model="addForm.dr_duty"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="规格"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px">
             <el-input v-model="addForm.dr_spu"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="部门"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px">
             <el-cascader :options="units"
                          :props="{
                             checkStrictly: true,
@@ -368,22 +364,22 @@
                  label-width="80px"
                  :rules="formRules">
           <el-form-item label="易燃易爆位号"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px"
+                        prop="dr_point">
             <el-input v-model="editForm.dr_point"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="易燃易爆名称"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px"
+                        prop="dr_name">
             <el-input v-model="editForm.dr_name"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="分类名称"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px"
+                        prop="dr_big_category">
             <el-select size="small"
                        v-model="editForm.dr_big_category">
               <el-option :value="item.dr_id"
@@ -393,29 +389,25 @@
             </el-select>
           </el-form-item>
           <el-form-item label="描述"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px">
             <el-input v-model="editForm.dr_desc"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="责任人"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px">
             <el-input v-model="editForm.dr_duty"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="规格"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px">
             <el-input v-model="editForm.dr_spu"
                       size="small"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="部门"
-                        label-width="100px"
-                        prop="dr_login_pass">
+                        label-width="110px">
             <el-cascader :options="units"
                          :props="{
                             checkStrictly: true,
@@ -527,7 +519,7 @@ export default {
         dr_point: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         dr_name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         dr_big_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        dr_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        // dr_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
       },
       units: []
     }
