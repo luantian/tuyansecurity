@@ -57,7 +57,7 @@
           <el-scrollbar style="height:100%">
             <template v-for="item in $bus.warnInfo">
               <div class="list_item"
-              @click="getPosition(item)"
+                   @click="getPosition(item)"
                    :key="item.dr_unit_id">
                 <div class="list_item_top">
                   <div class="time">
@@ -364,7 +364,7 @@ export default {
             clockWise: false,
             // radius: ['40%', '45%'],
             radius: [40, 53],
-            center: ['50%', '50%'],
+            center: ['50%', '55%'],
             type: 'pie',
             hoverAnimation: false,
             label: {
@@ -392,15 +392,22 @@ export default {
                 show: false
               }
             },
+
             labelLine: {
-              normal: {
-                show: false,
-                length: 30,
-                length2: 55
+              lineStyle: {
+                color: 'rgba(255, 255, 255, 0.3)'
               },
-              emphasis: {
-                show: true
-              }
+              smooth: 0.2,
+              length: 10,
+              length2: 20
+              // normal: {
+              //   show: true,
+              //   length: 30,
+              //   length2: 55
+              // },
+              // emphasis: {
+              //   show: true
+              // }
             },
             // name: "在用运输车",
             data: data,
@@ -427,8 +434,8 @@ export default {
         "name": "离线",
         "value": info.dr_device_not_online_count || 0,
       }]
-      let count = 0;
-      data.forEach(item => count = count + item.value)
+      let count = info.dr_device_gz_count;
+      // data.forEach(item => count = count + item.value)
       let option = {
         color: ['#1a5aef', "#ed6f04", '#004974'],
         title: {
@@ -458,7 +465,7 @@ export default {
             clockWise: false,
             // radius: ['40%', '45%'],
             radius: [40, 53],
-            center: ['50%', '50%'],
+            center: ['50%', '55%'],
             type: 'pie',
             hoverAnimation: false,
             label: {
@@ -504,8 +511,8 @@ export default {
         "name": "离线",
         "value": info.dr_device_not_online_count || 0,
       }]
-      let count = 0;
-      data.forEach(item => count = count + item.value)
+      let count = info.dr_unit_count;
+      // data.forEach(item => count = count + item.value)
       let option = {
         color: ['#00e2c9', '#006c82', "#e9410b"],
         title: {
@@ -515,7 +522,7 @@ export default {
             color: '#c4cfd2',
             fontSize: 13,
             align: 'center',
-            verticalAlign: 'top',
+            // verticalAlign: 'top',
             fontFamily: 'PingFang SC'
           },
           subtextStyle: {
@@ -534,7 +541,7 @@ export default {
             clockWise: false,
             // radius: ['40%', '45%'],
             radius: [40, 53],
-            center: ['50%', '50%'],
+            center: ['50%', '55%'],
             type: 'pie',
             hoverAnimation: false,
             label: {

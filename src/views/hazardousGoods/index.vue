@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-11 19:16:58
+ * @LastEditTime: 2022-08-11 19:24:05
  * @LastEditors: your name
  * @Description: 
 -->
@@ -449,7 +449,7 @@ export default {
       list: [], // 列表数据
       page: 0,
       total: 0,
-      dr_category: 1,
+      dr_category: 8,
       tableHeight: '',
       loading: true,
       PageSize: 0,

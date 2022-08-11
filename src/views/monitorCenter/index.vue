@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-07 15:06:03
+ * @LastEditTime: 2022-08-11 21:41:40
  * @LastEditors: your name
  * @Description: 
 -->
@@ -174,92 +174,94 @@
           <div class="screen_little_title">
             报警统计
           </div>
-          <div class="bj_module">
-            <div class="bj_module_item odd">
-              <div class="left">
-                <div class="bj_module_item_id id1">01</div>
-                <div class="bj_module_item_name">万象城</div>
-                <div class="bj_module_item_category">（一般单位）</div>
-              </div>
-              <div class="right">
-                <div class="bj_module_item_icon">
-                  <img src="./img/alarm.png"
-                       alt="">
+          <vue-seamless-scroll :class-option="defaultOption">
+            <ul class="bj_module">
+              <li class="bj_module_item odd">
+                <div class="left">
+                  <div class="bj_module_item_id id1">01</div>
+                  <div class="bj_module_item_name">万象城</div>
+                  <div class="bj_module_item_category">（一般单位）</div>
                 </div>
-                <div class="bj_module_item_num">78</div>
-              </div>
-            </div>
-            <div class="bj_module_item even">
-              <div class="left">
-                <div class="bj_module_item_id id2">02</div>
-                <div class="bj_module_item_name">万达广场</div>
-                <div class="bj_module_item_category">（重点单位）</div>
-              </div>
-              <div class="right">
-                <div class="bj_module_item_icon">
-                  <img src="./img/alarm.png"
-                       alt="">
+                <div class="right">
+                  <div class="bj_module_item_icon">
+                    <img src="./img/alarm.png"
+                         alt="">
+                  </div>
+                  <div class="bj_module_item_num">78</div>
                 </div>
-                <div class="bj_module_item_num">65</div>
-              </div>
-            </div>
-            <div class="bj_module_item odd">
-              <div class="left">
-                <div class="bj_module_item_id id3">03</div>
-                <div class="bj_module_item_name">家乐福</div>
-                <div class="bj_module_item_category">（高层建筑）</div>
-              </div>
-              <div class="right">
-                <div class="bj_module_item_icon">
-                  <img src="./img/alarm.png"
-                       alt="">
+              </li>
+              <li class="bj_module_item even">
+                <div class="left">
+                  <div class="bj_module_item_id id2">02</div>
+                  <div class="bj_module_item_name">万达广场</div>
+                  <div class="bj_module_item_category">（重点单位）</div>
                 </div>
-                <div class="bj_module_item_num">34</div>
-              </div>
-            </div>
-            <div class="bj_module_item even">
-              <div class="left">
-                <div class="bj_module_item_id id4">04</div>
-                <div class="bj_module_item_name">人民医院</div>
-                <div class="bj_module_item_category">（一般单位）</div>
-              </div>
-              <div class="right">
-                <div class="bj_module_item_icon">
-                  <img src="./img/alarm.png"
-                       alt="">
+                <div class="right">
+                  <div class="bj_module_item_icon">
+                    <img src="./img/alarm.png"
+                         alt="">
+                  </div>
+                  <div class="bj_module_item_num">65</div>
                 </div>
-                <div class="bj_module_item_num">28</div>
-              </div>
-            </div>
-            <div class="bj_module_item odd">
-              <div class="left">
-                <div class="bj_module_item_id id5">05</div>
-                <div class="bj_module_item_name">华润万象</div>
-                <div class="bj_module_item_category"> （一般单位）</div>
-              </div>
-              <div class="right">
-                <div class="bj_module_item_icon">
-                  <img src="./img/alarm.png"
-                       alt="">
+              </li>
+              <li class="bj_module_item odd">
+                <div class="left">
+                  <div class="bj_module_item_id id3">03</div>
+                  <div class="bj_module_item_name">家乐福</div>
+                  <div class="bj_module_item_category">（高层建筑）</div>
                 </div>
-                <div class="bj_module_item_num">21</div>
-              </div>
-            </div>
-            <div class="bj_module_item even">
-              <div class="left">
-                <div class="bj_module_item_id id6">06</div>
-                <div class="bj_module_item_name">恒隆广场</div>
-                <div class="bj_module_item_category">（高层建筑）</div>
-              </div>
-              <div class="right">
-                <div class="bj_module_item_icon">
-                  <img src="./img/alarm.png"
-                       alt="">
+                <div class="right">
+                  <div class="bj_module_item_icon">
+                    <img src="./img/alarm.png"
+                         alt="">
+                  </div>
+                  <div class="bj_module_item_num">34</div>
                 </div>
-                <div class="bj_module_item_num">17</div>
-              </div>
-            </div>
-          </div>
+              </li>
+              <li class="bj_module_item even">
+                <div class="left">
+                  <div class="bj_module_item_id id4">04</div>
+                  <div class="bj_module_item_name">人民医院</div>
+                  <div class="bj_module_item_category">（一般单位）</div>
+                </div>
+                <div class="right">
+                  <div class="bj_module_item_icon">
+                    <img src="./img/alarm.png"
+                         alt="">
+                  </div>
+                  <div class="bj_module_item_num">28</div>
+                </div>
+              </li>
+              <li class="bj_module_item odd">
+                <div class="left">
+                  <div class="bj_module_item_id id5">05</div>
+                  <div class="bj_module_item_name">华润万象</div>
+                  <div class="bj_module_item_category"> （一般单位）</div>
+                </div>
+                <div class="right">
+                  <div class="bj_module_item_icon">
+                    <img src="./img/alarm.png"
+                         alt="">
+                  </div>
+                  <div class="bj_module_item_num">21</div>
+                </div>
+              </li>
+              <li class="bj_module_item even">
+                <div class="left">
+                  <div class="bj_module_item_id id6">06</div>
+                  <div class="bj_module_item_name">恒隆广场</div>
+                  <div class="bj_module_item_category">（高层建筑）</div>
+                </div>
+                <div class="right">
+                  <div class="bj_module_item_icon">
+                    <img src="./img/alarm.png"
+                         alt="">
+                  </div>
+                  <div class="bj_module_item_num">17</div>
+                </div>
+              </li>
+            </ul>
+          </vue-seamless-scroll>
 
           <!-- <line-chart class="line_area"
                       graphNameId="wl"
@@ -322,11 +324,28 @@ import centerMap from "./map";
 import lineChart from "./lineChart.vue";
 import PieChart from "./PieChart";
 import icon from './img/lvdian.png'
+import vueSeamlessScroll from 'vue-seamless-scroll'
 export default {
   components: {
     centerMap,
     lineChart,
-    PieChart
+    PieChart,
+    vueSeamlessScroll
+  },
+  computed: {
+    defaultOption () {
+      return {
+        step: 0.2, // 数值越大速度滚动越快
+        limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
+        hoverStop: true, // 是否开启鼠标悬停stop
+        direction: 1, // 0向下 1向上 2向左 3向右
+        openWatch: true, // 开启数据实时监控刷新dom
+        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+        singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+        waitTime: 1000 // 单步运动停止的时间(默认值1000ms)
+      }
+    }
+
   },
   data () {
     return {
@@ -391,6 +410,10 @@ export default {
         },
         series: [{
           type: 'pie',
+          hoverAnimation: false,
+          emphasis: {
+            disabled: false
+          },
           radius: [50, 80],
           // color: ['#004568'],
           center: ['60%', '50%'],
@@ -461,7 +484,11 @@ export default {
         ]
       };
       let piechart = this.$echarts.init(document.getElementById('yw_pie'))
-      piechart.setOption(option)
+      piechart.setOption(option);
+      window.addEventListener('resize', function () {
+        //宽度自适应
+        piechart.resize();
+      });
     },
     getData () {
       this.loading = true
@@ -874,7 +901,7 @@ export default {
     // }, 2000)
     this.getData()
 
-  }
+  },
 }
 </script>
 
