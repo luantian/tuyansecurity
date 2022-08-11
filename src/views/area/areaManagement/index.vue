@@ -386,7 +386,7 @@
               <el-col
                 :span="24"
                 :offset="0"
-                style="height: 400px; position: relative"
+                style="height: 270px; position: relative"
               >
                 <el-amap-search-box
                   v-if="true"

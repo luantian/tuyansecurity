@@ -569,7 +569,7 @@ export default {
   left: 344px;
   top: 12px;
   bottom: 12px;
-  background-color: #404d6c;
+  // background-color: #404d6c;
   right: 344px;
   border-radius: 4px;
   display: flex;
@@ -580,7 +580,7 @@ export default {
   right: 12px;
   top: 12px;
   bottom: 12px;
-  background-color: #404d6c;
+  // background-color: #404d6c;
   width: 320px;
   border-radius: 4px;
   padding: 15px;
