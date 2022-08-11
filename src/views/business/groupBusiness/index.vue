@@ -1,14 +1,19 @@
 <template>
-<div class="dashboard-container">
-  <el-row :gutter="20" type="flex">
-    <!-- <el-col :span="6" style="width:220px">
+  <div class="dashboard-container">
+    <el-row :gutter="20"
+            type="flex">
+      <!-- <el-col :span="6" style="width:220px">
         <AreaSelect @handleSelect="handleSelectArea" ref="areaTree"></AreaSelect>
       </el-col> -->
-    <el-col :span="24" style="flex: 1">
-      <div class="btnBox">
-        <!-- 按钮 -->
-        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleAdd">添加</el-button>
-        <!-- <el-button type="primary" size="mini" icon="el-icon-right" :disabled="selective" @click="handleMove">移动
+      <el-col :span="24"
+              style="flex: 1">
+        <div class="btnBox">
+          <!-- 按钮 -->
+          <el-button type="primary"
+                     size="mini"
+                     icon="el-icon-plus"
+                     @click="handleAdd">添加</el-button>
+          <!-- <el-button type="primary" size="mini" icon="el-icon-right" :disabled="selective" @click="handleMove">移动
           </el-button>
           <el-button type="primary" size="mini" icon="el-icon-check" :disabled="selective" @click="handleEnable">启用
           </el-button>
@@ -17,29 +22,44 @@
             重置密码</el-button>
           <el-button type="primary" size="mini" icon="el-icon-finished" @click="handleTransfer">批量划拨</el-button>
           <el-button type="primary" size="mini" icon="el-icon-s-promotion" @click="handleExport">批量导出</el-button> -->
-        <el-button type="primary" size="mini" @click="handleFilter" class="floatR">
-          <svg-icon icon-class="filter" /><i :class="!filterBtn ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"></i>
-        </el-button>
-        <!-- 检索区域 -->
-        <div class="filterBox" v-show="filterBtn">
-          <el-form ref="dataForm" class="formBox" :inline="true" :model="listQuery" label-position="right" label-width="80px">
-            <el-row :gutter="20">
-              <!-- <el-col :span="8">
+          <el-button type="primary"
+                     size="mini"
+                     @click="handleFilter"
+                     class="floatR">
+            <svg-icon icon-class="filter" /><i :class="!filterBtn ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"></i>
+          </el-button>
+          <!-- 检索区域 -->
+          <div class="filterBox"
+               v-show="filterBtn">
+            <el-form ref="dataForm"
+                     class="formBox"
+                     :inline="true"
+                     :model="listQuery"
+                     label-position="right"
+                     label-width="80px">
+              <el-row :gutter="20">
+                <!-- <el-col :span="8">
                   <el-form-item label="用户名称">
                     <el-input clearable size="mini" v-model="listQuery.dr_user_name" placeholder="请输入" />
                   </el-form-item>
                 </el-col> -->
-              <el-col :span="8">
-                <el-form-item label="用户账号">
-                  <el-input clearable size="mini" v-model="listQuery.dr_login_account" placeholder="请输入" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="手机号码">
-                  <el-input clearable size="mini" v-model="listQuery.dr_user_phone" placeholder="请输入" />
-                </el-form-item>
-              </el-col>
-              <!-- <el-col :span="8">
+                <el-col :span="8">
+                  <el-form-item label="用户账号">
+                    <el-input clearable
+                              size="mini"
+                              v-model="listQuery.dr_login_account"
+                              placeholder="请输入" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="手机号码">
+                    <el-input clearable
+                              size="mini"
+                              v-model="listQuery.dr_user_phone"
+                              placeholder="请输入" />
+                  </el-form-item>
+                </el-col>
+                <!-- <el-col :span="8">
                   <el-form-item label="用户单位">
                     <el-input clearable size="mini" v-model="listQuery.dr_group_name" placeholder="请输入" />
                   </el-form-item>
@@ -65,50 +85,97 @@
                     <el-input clearable size="mini" v-model="listQuery.name" placeholder="请输入" />
                   </el-form-item>
                 </el-col> -->
-              <el-col :span="8">
-                <el-form-item label=" ">
-                  <el-button type="primary" size="mini" @click="handleSearch">过滤</el-button>
-                  <el-button size="mini" @click="handleReset">重置</el-button>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
+                <el-col :span="8">
+                  <el-form-item label=" ">
+                    <el-button type="primary"
+                               size="mini"
+                               @click="handleSearch">过滤</el-button>
+                    <el-button size="mini"
+                               @click="handleReset">重置</el-button>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+          </div>
         </div>
-      </div>
-      <!-- 表格 -->
-      <el-table :data="tableData"  :stripe="true" :row-class-name="tableRowClassName" :height="tableHeight" border size="mini" v-loading="loading" :header-cell-style="{ background: '#f5f7fa', color: '#606266' }" highlight-current-row style="width: 100%" empty-text="暂无数据" @selection-change="handleSelectionChange">
+        <!-- 表格 -->
+        <el-table :data="tableData"
+                  :stripe="true"
+                  :row-class-name="tableRowClassName"
+                  :height="tableHeight"
+                  border
+                  size="mini"
+                  v-loading="loading"
+                  :header-cell-style="{ background: '#f5f7fa', color: '#606266' }"
+                  highlight-current-row
+                  style="width: 100%"
+                  empty-text="暂无数据"
+                  @selection-change="handleSelectionChange">
 
-        <el-table-column prop="dr_user_name" label="用户名称" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">
-            <el-button type="text" size="mini" title="点击修改" @click="edit(scope.row)">{{ scope.row.dr_user_name }}</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="dr_login_account" label="用户账号" align="center" show-overflow-tooltip />
-        <el-table-column prop="dr_user_phone" label="手机号" align="center" show-overflow-tooltip />
-        <el-table-column prop="dr_unit_name" label="用户单位" align="center" show-overflow-tooltip />
+          <el-table-column prop="dr_user_name"
+                           label="用户名称"
+                           align="center"
+                           show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="mini"
+                         title="点击修改"
+                         @click="edit(scope.row)">{{ scope.row.dr_user_name }}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="dr_login_account"
+                           label="用户账号"
+                           align="center"
+                           show-overflow-tooltip />
+          <el-table-column prop="dr_user_phone"
+                           label="手机号"
+                           align="center"
+                           show-overflow-tooltip />
+          <el-table-column prop="dr_unit_name"
+                           label="用户单位"
+                           align="center"
+                           show-overflow-tooltip />
 
-        <el-table-column prop="dr_status" label="启用状态" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span v-if="scope.row.dr_status" class="normal">正常</span>
-            <span v-else class="deactivate">停用</span>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column prop="dr_name" label="用户角色" align="center" width="100" show-overflow-tooltip />
+          <el-table-column prop="dr_status"
+                           label="启用状态"
+                           align="center"
+                           show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span v-if="scope.row.dr_status"
+                    class="normal">正常</span>
+              <span v-else
+                    class="deactivate">停用</span>
+            </template>
+          </el-table-column>
+          <!-- <el-table-column prop="dr_name" label="用户角色" align="center" width="100" show-overflow-tooltip />
            -->
-        <el-table-column prop="dr_overdue_time" label="创建时间" align="center" width="160" show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span>{{
+          <el-table-column prop="dr_overdue_time"
+                           label="创建时间"
+                           align="center"
+                           width="160"
+                           show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span>{{
                 formatDateTime(scope.row.dr_register_time * 1000)
               }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center" width="100" fixed="right">
-          <template slot-scope="scope">
-            <el-button type="danger" size="mini" v-if="scope.row.dr_status == 1" @click="changeUser(scope.row, 0)">停用</el-button>
-            <el-button type="primary" size="mini" v-if="scope.row.dr_status == 0" @click="changeUser(scope.row, 1)">启用</el-button>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column prop="address" label="设备详情" align="center" width="100" show-overflow-tooltip fixed="right">
+            </template>
+          </el-table-column>
+          <el-table-column label="操作"
+                           align="center"
+                           width="100"
+                           fixed="right">
+            <template slot-scope="scope">
+              <el-button type="danger"
+                         size="mini"
+                         v-if="scope.row.dr_status == 1"
+                         @click="changeUser(scope.row, 0)">停用</el-button>
+              <el-button type="primary"
+                         size="mini"
+                         v-if="scope.row.dr_status == 0"
+                         @click="changeUser(scope.row, 1)">启用</el-button>
+            </template>
+          </el-table-column>
+          <!-- <el-table-column prop="address" label="设备详情" align="center" width="100" show-overflow-tooltip fixed="right">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="handleEquipment(scope.row)">查看</el-button>
             </template>
@@ -118,65 +185,104 @@
               <el-button type="text" size="mini" @click="handleGateway(scope.row)">查看</el-button>
             </template>
           </el-table-column> -->
-      </el-table>
-      <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.PageSize" @pagination="getList" />
-    </el-col>
-  </el-row>
-  <!-- 新增 -->
-  <el-dialog :close-on-click-modal="false" :title="isEdit ? '修改' : '添加'" :visible.sync="dialogVisible" width="500px">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <!-- <el-form-item label="所属区域">
+        </el-table>
+        <pagination v-show="total > 0"
+                    :total="total"
+                    :page.sync="listQuery.page"
+                    :limit.sync="listQuery.PageSize"
+                    @pagination="getList" />
+      </el-col>
+    </el-row>
+    <!-- 新增 -->
+    <el-dialog :close-on-click-modal="false"
+               :title="isEdit ? '修改' : '添加'"
+               :visible.sync="dialogVisible"
+               width="500px">
+      <el-form :model="ruleForm"
+               :rules="rules"
+               ref="ruleForm"
+               label-width="100px"
+               class="demo-ruleForm">
+        <!-- <el-form-item label="所属区域">
           <el-input v-if="$refs.areaTree" size="mini" :value="ruleForm.areaName||$refs.areaTree.checked.name" disabled></el-input>
         </el-form-item> -->
-      <el-form-item label="用户账号" prop="dr_login_account">
-        <el-input clearable size="mini" v-model="ruleForm.dr_login_account"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" :prop="isEdit?'':'dr_login_pass'">
-        <el-input clearable size="mini" v-model="ruleForm.dr_login_pass"></el-input>
-      </el-form-item>
-      <el-form-item label="用户名" prop="dr_user_name">
-        <el-input clearable size="mini" v-model="ruleForm.dr_user_name"></el-input>
-      </el-form-item>
-      <el-form-item label="所属单位" prop="dr_unit_key">
-        <el-cascader :options="units" :props="{
+        <el-form-item label="用户账号"
+                      prop="dr_login_account">
+          <el-input clearable
+                    size="mini"
+                    v-model="ruleForm.dr_login_account"></el-input>
+        </el-form-item>
+        <el-form-item label="密码"
+                      :prop="isEdit?'':'dr_login_pass'">
+          <el-input clearable
+                    size="mini"
+                    v-model="ruleForm.dr_login_pass"></el-input>
+        </el-form-item>
+        <el-form-item label="用户名"
+                      prop="dr_user_name">
+          <el-input clearable
+                    size="mini"
+                    v-model="ruleForm.dr_user_name"></el-input>
+        </el-form-item>
+        <el-form-item label="所属单位"
+                      prop="dr_unit_key">
+          <el-cascader :options="units"
+                       :props="{
               checkStrictly: true,
               value: 'dr_self_key',
               label: 'dr_unit_name',
               children: 'dr_son',
-            }" clearable v-model="ruleForm.dr_unit_key" size="mini"></el-cascader>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="dr_user_email">
-        <el-input clearable size="mini" v-model="ruleForm.dr_user_email"></el-input>
-      </el-form-item>
-      <el-form-item label="手机号码" prop="dr_user_phone">
-        <el-input clearable size="mini" v-model="ruleForm.dr_user_phone"></el-input>
-      </el-form-item>
+            }"
+                       clearable
+                       v-model="ruleForm.dr_unit_key"
+                       size="mini"></el-cascader>
+        </el-form-item>
+        <el-form-item label="邮箱"
+                      prop="dr_user_email">
+          <el-input clearable
+                    size="mini"
+                    v-model="ruleForm.dr_user_email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号码"
+                      prop="dr_user_phone">
+          <el-input clearable
+                    size="mini"
+                    v-model="ruleForm.dr_user_phone"></el-input>
+        </el-form-item>
 
-      <el-form-item label="用户类型" prop="dr_is_admin">
-        <el-radio-group v-model="ruleForm.dr_is_admin">
-          <el-radio :label="'commonly'">终端用户</el-radio>
-          <el-radio :label="'service'" v-if="$bus.user.dr_is_admin!=='commonly'">运维用户</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="是否接收报警" prop="dr_is_push_socket">
-        <el-radio-group v-model="ruleForm.dr_is_push_socket">
-          <el-radio :label="1">是</el-radio>
-          <el-radio :label="0">否</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="关联角色" prop="dr_role">
-        <el-checkbox-group v-model="ruleForm.dr_role">
-          <el-checkbox :key="item.dr_role_key" :label="item.dr_role_key" v-for="item in roles">{{ item.dr_role_value }}</el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="submitForm">确 定</el-button>
-    </span>
-  </el-dialog>
+        <el-form-item label="用户类型"
+                      prop="dr_is_admin">
+          <el-radio-group v-model="ruleForm.dr_is_admin">
+            <el-radio :label="'commonly'">终端用户</el-radio>
+            <el-radio :label="'service'"
+                      v-if="$bus.user.dr_is_admin!=='commonly'">运维用户</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="是否接收报警"
+                      prop="dr_is_push_socket">
+          <el-radio-group v-model="ruleForm.dr_is_push_socket">
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="关联角色"
+                      prop="dr_role">
+          <el-checkbox-group v-model="ruleForm.dr_role">
+            <el-checkbox :key="item.dr_role_key"
+                         :label="item.dr_role_key"
+                         v-for="item in roles">{{ item.dr_role_value }}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="submitForm">确 定</el-button>
+      </span>
+    </el-dialog>
 
-</div>
+  </div>
 </template>
 
 <script>
@@ -212,12 +318,12 @@ export default {
   },
   computed: {
     ...mapGetters(["name"]),
-    selective() {
+    selective () {
       return this.multipleSelection.length === 0;
     },
   },
 
-  data() {
+  data () {
     return {
       showArea: false,
       tableHeight: "",
@@ -238,19 +344,19 @@ export default {
         dr_role_type: 2,
       },
       statusOptions: [{
-          value: 1,
-          label: "正常",
-        },
-        {
-          value: 0,
-          label: "停用",
-        },
+        value: 1,
+        label: "正常",
+      },
+      {
+        value: 0,
+        label: "停用",
+      },
       ],
       ruleForm: {
         dr_role: [],
         dr_is_admin: "commonly",
         dr_unit_key: "",
-        dr_is_push_socket:1,
+        dr_is_push_socket: 1,
         //dr_overdue_time: ''
       },
       rules: {
@@ -259,22 +365,22 @@ export default {
           required: true,
           message: "不能为空",
           trigger: "blur"
-        }, ],
+        },],
         dr_login_pass: [{
           required: true,
           message: "不能为空",
           trigger: "blur"
-        }, ],
+        },],
         dr_user_phone: [{
           required: true,
           message: "不能为空",
           trigger: "blur"
-        }, {pattern:/^1(3\d|4[5-9]|5[0-35-9]|6[2567]|7[0-8]|8\d|9[0-35-9])\d{8}$/,message:'请填写正确的手机号'}],
+        }, { pattern: /^1(3\d|4[5-9]|5[0-35-9]|6[2567]|7[0-8]|8\d|9[0-35-9])\d{8}$/, message: '请填写正确的手机号' }],
         dr_user_email: [{
           required: true,
           message: "不能为空",
           trigger: "blur"
-        }, ],
+        },],
         //dr_is_push_msg: [{ required: true, message: '不能为空', trigger: 'blur' }],
         //dr_nike_name: [{ required: true, message: '不能为空', trigger: 'blur' }],
         //dr_overdue_time: [{ required: true, message: '不能为空', trigger: 'blur' }],
@@ -285,7 +391,7 @@ export default {
           required: true,
           message: "不能为空",
           trigger: "blur"
-        }, ],
+        },],
         dr_role: [{
           required: true,
           message: "不能为空",
@@ -302,7 +408,7 @@ export default {
       units: [],
     };
   },
-  created() {
+  created () {
     this.tableHeight = document.body.clientHeight - 250;
     this.getList();
     this.getUnits();
@@ -320,7 +426,7 @@ export default {
     },
     formatDate,
     formatDateTime,
-    upSuccess(response, file, fileList) {
+    upSuccess (response, file, fileList) {
       //log(response)
       if (response.code == 200) {
         this.$message.success("上传成功");
@@ -328,15 +434,15 @@ export default {
         this.$message.error("上传失败");
       }
     },
-    getUnits() {
+    getUnits () {
       this.$get("/v1/dr/unit-list").then((res) => {
         this.units = forobj(res.data);
       });
     },
-    upError(err, file, fileList) {
+    upError (err, file, fileList) {
       this.$message.error("上传失败");
     },
-    edit(data) {
+    edit (data) {
       this.resetFormData();
       this.isEdit = true;
       this.dialogVisible = true;
@@ -347,21 +453,21 @@ export default {
           this.ruleForm,
           "dr_role",
           res.data.dr_have_role
-          .map((it) => {
-            if (it.dr_is_existence) return it.dr_role_key;
-          })
-          .filter((it) => {
-            return it;
-          })
+            .map((it) => {
+              if (it.dr_is_existence) return it.dr_role_key;
+            })
+            .filter((it) => {
+              return it;
+            })
         );
         //this.ruleForm.dr_overdue_time = res.data.dr_user_detail.dr_overdue_time * 1000
       });
     },
-    areaS(val) {
+    areaS (val) {
       this.ruleForm.dr_org_id = val.id;
       this.$set(this.ruleForm, "areaName", val.name);
     },
-    changeUser(row, status) {
+    changeUser (row, status) {
       // data.dr_ids = this.multipleSelection.map(it => { return it.dr_user_id })
       // changeUser(data).then(res => {
       //   this.$message.success('修改成功')
@@ -375,12 +481,12 @@ export default {
         this.handleReset();
       });
     },
-    handleSelectArea(data) {
+    handleSelectArea (data) {
       this.listQuery.dr_org_id = data.id;
       this.listQuery.page = 1;
       this.getList();
     },
-    handleFilter() {
+    handleFilter () {
       this.filterBtn = !this.filterBtn;
       if (!this.filterBtn) {
         this.tableHeight = document.body.clientHeight - 250;
@@ -388,18 +494,18 @@ export default {
         this.tableHeight = document.body.clientHeight - 250 - 211;
       }
     },
-    handleSearch() {
+    handleSearch () {
       this.listQuery.page = 1;
       this.getList();
     },
-    handleReset() {
+    handleReset () {
       this.listQuery = {
         page: 1,
         dr_role_type: 2,
       };
       this.getList();
     },
-    getList() {
+    getList () {
       this.loading = true;
       getList(this.listQuery)
         .then((res) => {
@@ -411,10 +517,10 @@ export default {
           this.loading = false;
         });
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.multipleSelection = val;
     },
-    handleEquipment(row) {
+    handleEquipment (row) {
       this.$router.push({
         path: "/groupBusinessDetail",
         query: {
@@ -430,21 +536,21 @@ export default {
       //   this.equipmentDetail = res.data.list[0] || null
       // })
     },
-    handleGateway(row) {
+    handleGateway (row) {
       this.dialogVisibleGateway = true;
     },
 
-    handleSelect(item) {
+    handleSelect (item) {
       console.log(item);
     },
-    resetFormData() {
+    resetFormData () {
       this.ruleForm = {
         dr_role: [],
         dr_is_admin: "commonly",
         dr_unit_key: "",
       };
     },
-    handleAdd() {
+    handleAdd () {
       this.resetFormData();
       this.isEdit = false;
       this.dialogVisible = true;
@@ -452,7 +558,7 @@ export default {
         this.$refs["ruleForm"].clearValidate(); // 清除校验
       });
     },
-    submitForm() {
+    submitForm () {
       //this.ruleForm.type = 2
       //this.ruleForm.dr_org_id = this.$refs.areaTree.checked.id
 
@@ -490,11 +596,11 @@ export default {
       });
     },
     // 移动
-    handleMove() {
+    handleMove () {
       this.dialogVisibleMove = true;
       this.resetFormData();
     },
-    submitMoveForm() {
+    submitMoveForm () {
       if (this.ruleForm.dr_org_id) {
         this.dialogVisibleMove = false;
         this.changeUser({
@@ -505,12 +611,12 @@ export default {
       }
     },
     // 启用
-    handleEnable() {
+    handleEnable () {
       this.$confirm("确定要启用用户吗?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
         .then(() => {
           this.changeUser({
             dr_status: 1
@@ -524,12 +630,12 @@ export default {
         });
     },
     // 停用
-    handleDeactivate() {
+    handleDeactivate () {
       this.$confirm("确定要停用用户吗?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
         .then(() => {
           this.changeUser({
             dr_status: 0
@@ -543,12 +649,12 @@ export default {
         });
     },
     // 重置密码
-    handleResetPassword() {
+    handleResetPassword () {
       this.$confirm("确定要重置用户密码吗?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
         .then(() => {
           this.changeUser({
             dr_reset_pwd: 1
@@ -562,33 +668,33 @@ export default {
         });
     },
     // 批量划拨
-    handleTransfer() {
+    handleTransfer () {
       this.fileList = [];
       this.dialogVisibleTransfer = true;
     },
 
-    handlePreview(file) {
+    handlePreview (file) {
       console.log(file);
     },
-    beforeRemove(file, fileList) {
+    beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
-    submitTransferForm() {
+    submitTransferForm () {
       // this.$refs.upload.submit();
       this.fileList = [];
       this.dialogVisibleTransfer = false;
     },
-    handleExport() {
+    handleExport () {
       this.$confirm(
-          "最多导出3W设备的数据，设备较多时请分区域导出。",
-          "导出集团列表", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning",
-          }
-        )
+        "最多导出3W设备的数据，设备较多时请分区域导出。",
+        "导出集团列表", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }
+      )
         .then(() => {
-          this.$down("/v1/dr/device-export", "集团列表").then((res) => {});
+          this.$down("/v1/dr/device-export", "集团列表").then((res) => { });
         })
         .catch(() => {
           this.$message({
@@ -597,7 +703,7 @@ export default {
           });
         });
     },
-    handleDown(res) {
+    handleDown (res) {
       let link = document.createElement("a");
       link.style.display = "none";
       link.href = res.FilePath;
