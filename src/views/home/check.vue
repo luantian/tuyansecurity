@@ -529,8 +529,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "./index.css";
+<style lang="scss">
+@import "./index.scss";
 
 .c-bot {
   height: calc(100vh - 80px - 12px - 120px);

@@ -333,8 +333,8 @@ export default {
           "name": "异常",
           "value": info.dr_device_abnormal_count || 0,
         }]
-      let count = 0;
-      data.forEach(item => count = count + item.value)
+      let count = info.dr_device_count;
+      // data.forEach(item => count = count + item.value)
       let option = {
         color: ['#00D7DF', '#014e85', "#e9410b"],
         title: {
@@ -369,22 +369,23 @@ export default {
             hoverAnimation: false,
             label: {
               normal: {
-                show: false,
-                formatter: function (name) {
-                  let total = 0;
-                  let tarValue;
-                  for (let index = 0; index < data.length; index++) {
-                    total += data[index].value;
-                    if (name === data[index].name) {
-                      tarValue = data[index].value
-                    }
-                  }
-                  let num = Math.round((tarValue / total) * 100)
-                  return (name + '\n' + num + '%');
-                  // return (name +'  ' + num + '%');
-                },
+                show: true,
+                // formatter: function (name) {
+                //   let total = count;
+                //   let tarValue;
+                //   for (let index = 0; index < data.length; index++) {
+                //     if (name === data[index].name) {
+                //       tarValue = data[index].value
+                //     }
+                //   }
+                //   let num = Math.round((tarValue / total) * 100)
+                //   return (name + '\n' + num + '%');
+                //   // return (name +'  ' + num + '%');
+                // },
+                formatter: "{b}\n{c}%",
                 textStyle: {
                   fontSize: 13,
+                  color: '#ffffff',
                 },
                 position: 'outside'
               },
@@ -395,19 +396,15 @@ export default {
 
             labelLine: {
               lineStyle: {
-                color: 'rgba(255, 255, 255, 0.3)'
+                color: '#006C80'
+                // color: 'rgba(255, 255, 255, 0.3)'
               },
               smooth: 0.2,
               length: 10,
-              length2: 20
-              // normal: {
-              //   show: true,
-              //   length: 30,
-              //   length2: 55
-              // },
-              // emphasis: {
-              //   show: true
-              // }
+              length2: 25,
+              emphasis: {
+                show: false
+              }
             },
             // name: "在用运输车",
             data: data,
@@ -454,9 +451,7 @@ export default {
             align: 'center'
           },
           left: 'center',
-          // top: '30%', //top待调整
           top: '40%',
-          // top: 47,
           itemGap: 3
         },
         series: [
@@ -470,10 +465,12 @@ export default {
             hoverAnimation: false,
             label: {
               normal: {
-                show: false,
-                formatter: "{a} {b}",
+                show: true,
+                // formatter: "{a} {b}",
+                formatter: "{b}\n{c}%",
                 textStyle: {
                   fontSize: 13,
+                  color: '#ffffff',
                 },
                 position: 'outside'
               },
@@ -482,11 +479,13 @@ export default {
               }
             },
             labelLine: {
-              normal: {
-                show: false,
-                length: 30,
-                length2: 55
+              lineStyle: {
+                color: '#006C80'
+                // color: 'rgba(255, 255, 255, 0.3)'
               },
+              smooth: 0.2,
+              length: 10,
+              length2: 25,
               emphasis: {
                 show: false
               }
@@ -546,37 +545,46 @@ export default {
             hoverAnimation: false,
             label: {
               normal: {
-                show: false,
-                formatter: (name) => {
-                  let total = 0;
-                  let tarValue;
-                  for (let index = 0; index < data.length; index++) {
-                    total += data[index].value;
-                    if (name === data[index].name) {
-                      tarValue = data[index].value
-                    }
-                  }
-                  let num = Math.round((tarValue / total) * 100)
-                  return (name + '\n\n' + num + '%');
-                  // return (name +'  ' + num + '%');
-                },
+                show: true,
+                // formatter: (name) => {
+                //   console.log(name)
+                //   let total = count;
+                //   let tarValue;
+                //   for (let index = 0; index < data.length; index++) {
+                //     if (name === data[index].name) {
+                //       tarValue = data[index].value
+                //     }
+                //   }
+                //   let num = Math.round((tarValue / total) * 100)
+                //   return (name + '\n\n' + num + '%');
+                //   // return (name +'  ' + num + '%');
+                // },
+                formatter: "{b}{c}%",
                 textStyle: {
                   fontSize: 13,
+                  color: '#ffffff',
                 },
                 position: 'outside'
               },
               emphasis: {
-                show: false
+                show: true
               }
             },
             labelLine: {
-              normal: {
-                show: false,
-                length: 30,
-                length2: 55
+              lineStyle: {
+                color: '#006C80'
+                // color: 'rgba(255, 255, 255, 0.3)'
               },
+              // normal: {
+              //   show: true,
+              //   length: 20,
+              //   length2: 10
+              // },
+              smooth: 0.2,
+              length: 10,
+              length2: 25,
               emphasis: {
-                show: true
+                show: false
               }
             },
             // name: "在用运输车",
@@ -591,7 +599,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './index.scss';
 
 .home-root .home-container {
@@ -794,6 +802,7 @@ export default {
     z-index: 1;
     .home_main_bottom_item {
       flex: 1;
+      padding-top: 15px;
     }
   }
 }

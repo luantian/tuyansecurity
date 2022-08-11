@@ -162,12 +162,13 @@ export default {
 }
 </script>>
 
-<style lang="scss" scoped>
+<style lang="scss">
+
+@import "../home/index.scss";
 $bgColor:#11283b;
 $textColor:#62eef8;
 $def-textColor: #ccc;
 $FontColor: #fff;
-@import "../home/index.css";
 
 .h-warp {
   position: relative;
