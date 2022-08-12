@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-12 20:28:04
+ * @LastEditTime: 2022-08-13 00:05:24
  * @LastEditors: your name
  * @Description: 
 -->
@@ -40,39 +40,83 @@
           <div class="screen_little_title">
             物联接入
           </div>
-          <div class="wl_module">
-            <div class="wl_module_item">
-              <div class="wl_module_item_title">
-                电气火灾监控系统
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="wl_module">
+                  <div class="wl_module_item">
+                    <div class="wl_module_item_title">
+                      电气火灾监控系统
+                    </div>
+                    <div class="wl_module_item_num">
+                      68
+                    </div>
+                  </div>
+                  <div class="wl_module_item">
+                    <div class="wl_module_item_title">
+                      独立式烟感系统
+                    </div>
+                    <div class="wl_module_item_num">
+                      345
+                    </div>
+                  </div>
+                  <div class="wl_module_item">
+                    <div class="wl_module_item_title">
+                      独立式烟感系统
+                    </div>
+                    <div class="wl_module_item_num">
+                      78
+                    </div>
+                  </div>
+                  <div class="wl_module_item">
+                    <div class="wl_module_item_title">
+                      可燃气体系统
+                    </div>
+                    <div class="wl_module_item_num">
+                      61
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="wl_module_item_num">
-                68
+              <div class="swiper-slide">
+                <div class="wl_module">
+                  <div class="wl_module_item">
+                    <div class="wl_module_item_title">
+                      电气火灾监控系统
+                    </div>
+                    <div class="wl_module_item_num">
+                      68
+                    </div>
+                  </div>
+                  <div class="wl_module_item">
+                    <div class="wl_module_item_title">
+                      独立式烟感系统
+                    </div>
+                    <div class="wl_module_item_num">
+                      345
+                    </div>
+                  </div>
+                  <div class="wl_module_item">
+                    <div class="wl_module_item_title">
+                      独立式烟感系统
+                    </div>
+                    <div class="wl_module_item_num">
+                      78
+                    </div>
+                  </div>
+                  <div class="wl_module_item">
+                    <div class="wl_module_item_title">
+                      可燃气体系统
+                    </div>
+                    <div class="wl_module_item_num">
+                      61
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="wl_module_item">
-              <div class="wl_module_item_title">
-                独立式烟感系统
-              </div>
-              <div class="wl_module_item_num">
-                345
-              </div>
-            </div>
-            <div class="wl_module_item">
-              <div class="wl_module_item_title">
-                独立式烟感系统
-              </div>
-              <div class="wl_module_item_num">
-                78
-              </div>
-            </div>
-            <div class="wl_module_item">
-              <div class="wl_module_item_title">
-                可燃气体系统
-              </div>
-              <div class="wl_module_item_num">
-                61
-              </div>
-            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
           </div>
           <div style="color:#fff; font-size: 16px">近30天物联接入趋势</div>
           <!-- <line-chart class="line_area"
@@ -250,75 +294,82 @@
           <div class="screen_little_title">
             巡查统计
           </div>
-          <div class="screen_right_bottom_item"
-               v-if="vshow">
-            <!-- 柱状图 -->
-            <div class="zjt"
-                 id="zjt">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="screen_right_bottom_item">
+                  <!-- 柱状图 -->
+                  <div class="zjt"
+                       id="zjt">
 
-            </div>
-            <div class="tongji">
-              <div class="tongji_title">授权使用统计</div>
-              <div class="tongji_content">
-                <div class="tongji_content_item item1">
-                  <div class="content">
-                    <div class="title">语音</div>
-                    <div class="num">
-                      <span class="num1">7/</span>
-                      <span class="num2">5000</span>
-                    </div>
-                    <div class="pre">
-                      <div class="pre_in"
-                           :style="{'width': '10px'}"></div>
+                  </div>
+                  <div class="tongji">
+                    <div class="tongji_title">授权使用统计</div>
+                    <div class="tongji_content">
+                      <div class="tongji_content_item item1">
+                        <div class="content">
+                          <div class="title">语音</div>
+                          <div class="num">
+                            <span class="num1">7/</span>
+                            <span class="num2">5000</span>
+                          </div>
+                          <div class="pre">
+                            <div class="pre_in"
+                                 :style="{'width': '10px'}"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tongji_content_item item2">
+                        <div class="content">
+                          <div class="title">短信</div>
+                          <div class="num">
+                            <span class="num1">0/</span>
+                            <span class="num2">5000</span>
+                          </div>
+                          <div class="pre">
+                            <div class="pre_in"
+                                 :style="{'width': '0px'}"></div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="tongji_content_item item2">
-                  <div class="content">
-                    <div class="title">短信</div>
-                    <div class="num">
-                      <span class="num1">0/</span>
-                      <span class="num2">5000</span>
+              </div>
+              <div class="swiper-slide">
+                <div class="screen_right_bottom_item">
+                  <div class="screen_right_bottom_title">
+                    工作效率（近30天）
+                  </div>
+                  <!-- 工单 -->
+                  <div class="gd_area">
+                    <div class="gdTotalPie"
+                         id="gdTotalPie">
                     </div>
-                    <div class="pre">
-                      <div class="pre_in"
-                           :style="{'width': '0px'}"></div>
+                    <div class="gdcompletionPie"
+                         id="gdcompletionPie">
+                    </div>
+
+                  </div>
+                  <div class="wb_area">
+                    <div class="wb_area_item">
+                      <img src="./img/weibao.png" />
+                      <div class="wb_area_item_title">维保完成数</div>
+                      <div class="wb_area_item_num">352</div>
+                    </div>
+                    <div class="wb_area_item">
+                      <img src="./img/xunjian.png" />
+                      <div class="wb_area_item_title">巡检异常数</div>
+                      <div class="wb_area_item_num">57</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
           </div>
-          <div class="screen_right_bottom_item"
-               v-else>
-               <div class="screen_right_bottom_title">
-                工作效率（近30天）
-               </div>
-            <!-- 工单 -->
-            <div class="gd_area">
-              <div class="gdTotalPie"
-                   id="gdTotalPie"
-                   >
-              </div>
-              <div class="gdcompletionPie"
-                   id="gdcompletionPie"
-                   >
-              </div>
 
-            </div>
-            <div class="wb_area">
-              <div class="wb_area_item">
-                <img src="./img/weibao.png" />
-                <div class="wb_area_item_title">维保完成数</div>
-                <div class="wb_area_item_num">352</div>
-              </div>
-              <div class="wb_area_item">
-                <img src="./img/xunjian.png" />
-                <div class="wb_area_item_title">巡检异常数</div>
-                <div class="wb_area_item_num">57</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <!-- 大屏右侧 end -->
@@ -332,13 +383,17 @@ import centerMap from "./map";
 import lineChart from "./lineChart.vue";
 import PieChart from "./PieChart";
 import icon from './img/lvdian.png'
-import vueSeamlessScroll from 'vue-seamless-scroll'
+import vueSeamlessScroll from 'vue-seamless-scroll';
+import 'swiper/dist/js/swiper'
+import 'swiper/dist/css/swiper.css'
+import Swiper from "swiper"
 export default {
   components: {
     centerMap,
     lineChart,
     PieChart,
-    vueSeamlessScroll
+    vueSeamlessScroll,
+    Swiper
   },
   computed: {
     defaultOption () {
@@ -406,6 +461,7 @@ export default {
         },
         legend: {
           show: true,
+          type: 'scroll',
           orient: 'vertical',
           left: 'left',
           top: 'middle',
@@ -514,7 +570,7 @@ export default {
         this.setywPie();
         this.setwulianLine();
         this.setbaojingLine();
-        // this.setBar()
+        this.setBar()
         this.setGDTotalPie();
         this.setGDcompletionPie()
         this.loading = false
@@ -1037,7 +1093,39 @@ export default {
     // setTimeout(() => {
     //   this.show = true
     // }, 2000)
-    this.getData()
+    this.getData();
+    // new Swiper('.swiper-container', {
+    //   //direction: 'vertical', // 垂直切换选项
+    //   //mousewheel: true, //滚轮
+    //   autoplay: { //自动开始
+    //     delay: 2500, //时间间隔
+    //     disableOnInteraction: false, //*手动操作轮播图后不会暂停*
+    //   },
+    //   loop: true, // 循环模式选项
+
+    //   // 如果需要分页器
+    //   pagination: {
+    //     el: '.swiper-pagination',
+    //     clickable: true, // 分页器可以点击
+    //   },
+    // })
+    this.$nextTick(() => {
+      new Swiper('.swiper-container', {
+      //direction: 'vertical', // 垂直切换选项
+      //mousewheel: true, //滚轮
+      autoplay: { //自动开始
+        delay: 2500, //时间间隔
+        disableOnInteraction: false, //*手动操作轮播图后不会暂停*
+      },
+      loop: true, // 循环模式选项
+
+      // 如果需要分页器
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true, // 分页器可以点击
+      },
+    })
+    })
 
   },
 }
@@ -1051,5 +1139,22 @@ export default {
     'sans-serif';
   line-height: 1.428;
   font-weight: 500;
+}
+.swiper-container {
+  width: 100%;
+  .swiper-slide {
+    width: 100%;
+  }
+  .swiper-pagination {
+    position: absolute;
+    top: 0;
+    right: 0;
+    .swiper-pagination-bullet {
+      background: #fff;
+    }
+    .swiper-pagination-bullet-active {
+      background: #2db1ef;
+    }
+  }
 }
 </style>
