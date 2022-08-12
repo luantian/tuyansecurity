@@ -990,7 +990,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .video {
   width: 600px;
   height: 400px;
