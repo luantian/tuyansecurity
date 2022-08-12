@@ -170,7 +170,8 @@
         //   // width: 100%;
         // }
         #wl_line {
-          flex: 1;
+          // flex: 1;
+          height: 250px;
           width: 100%;
         }
       }
@@ -250,7 +251,8 @@
         }
 
         .yw_pie {
-          flex: 1;
+          // flex: 1;
+          height: 250px;
           width: 100%;
         }
       }
@@ -380,7 +382,8 @@
         }
 
         #baojingLine {
-          flex: 1;
+          // flex: 1;
+          height: 250px;
           width: 100%;
         }
       }
@@ -395,7 +398,8 @@
           flex-direction: column;
 
           .zjt {
-            flex: 1;
+            // flex: 1;
+            height: 250px;
             width: 100%;
           }
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-11 21:41:40
+ * @LastEditTime: 2022-08-12 15:05:02
  * @LastEditors: your name
  * @Description: 
 -->
@@ -78,7 +78,7 @@
           <!-- <line-chart class="line_area"
                       graphNameId="wl"
                       title="近30天物联接入趋势"></line-chart> -->
-          <div id="wl_line"></div>
+          <div id="wl_line" ></div>
         </div>
         <div class="screen_left_bottom screen_left_item">
           <div class="screen_little_title">
@@ -141,7 +141,11 @@
 
       <!-- 地图 start -->
       <div class="screen_map">
-        <el-amap class="amap-box"
+        <centerMap></centerMap>
+        <!-- <el-amap id="mapContainer" class="amap-container" ref="map" :events="map.events" vid="amap" :zoom="map.zoom" :resizeEnable="true" :center="map.position" :mapStyle="map.mapStyle">
+
+          </el-amap> -->
+        <!-- <el-amap class="amap-box"
                  v-show="show"
                  :center="[123.472188,41.706918]"
                  :position="[123.472188,41.706918]"
@@ -164,7 +168,7 @@
                           :position="[123.483,41.71]"
                           :icon="icon"
                           :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
-        </el-amap>
+        </el-amap> -->
       </div>
       <!-- 地图 end -->
 
