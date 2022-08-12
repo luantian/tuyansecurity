@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-13 01:08:27
+ * @LastEditTime: 2022-08-13 01:35:11
  * @LastEditors: your name
  * @Description: 
 -->
@@ -118,7 +118,8 @@
             <!-- 如果需要分页器 -->
             <div class="swiper-pagination"></div>
           </div>
-          <div style="color:#fff; font-size: 16px">近30天物联接入趋势</div>
+          <div style="color:#fff; font-size: 16px"><img class="dian_img"
+                 src="./img/diamond.png" />近30天物联接入趋势</div>
           <!-- <line-chart class="line_area"
                       graphNameId="wl"
                       title="近30天物联接入趋势"></line-chart> -->
@@ -175,7 +176,8 @@
             </div>
           </div>
           <div class="yw_title">
-            各系统故障设备
+            <img src="./img/diamond.png"
+                 class="dian_img" /> 各系统故障设备
           </div>
           <div class="yw_pie"
                id="yw_pie"></div>
@@ -192,8 +194,7 @@
       <!-- 大屏右侧 start -->
       <div class="screen_right">
         <div class="screen_right_top screen_right_item">
-          <div class="screen_little_title">
-            报警统计
+          <div class="screen_little_title">报警统计
           </div>
 
           <ul class="bj_module">
@@ -228,7 +229,8 @@
           <!-- <line-chart class="line_area"
                       graphNameId="wl"
                       title="近30天报警趋势"></line-chart> -->
-          <div style="color:#fff; font-size: 16px;">近30天报警趋势</div>
+          <div style="color:#fff; font-size: 16px;"><img class="dian_img"
+                 src="./img/diamond.png" />近30天报警趋势</div>
           <div id="baojingLine"></div>
         </div>
         <div class="screen_right_bottom screen_right_item">
@@ -245,7 +247,8 @@
 
                   </div>
                   <div class="tongji">
-                    <div class="tongji_title">授权使用统计</div>
+                    <div class="tongji_title"><img class="dian_img"
+                           src="./img/diamond.png" />授权使用统计</div>
                     <div class="tongji_content">
                       <div class="tongji_content_item item1">
                         <div class="content">
@@ -280,7 +283,8 @@
               <div class="swiper-slide">
                 <div class="screen_right_bottom_item">
                   <div class="screen_right_bottom_title">
-                    工作效率（近30天）
+                    <img src="./img/diamond.png"
+                         class="dian_img" />工作效率（近30天）
                   </div>
                   <!-- 工单 -->
                   <div class="gd_area">

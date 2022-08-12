@@ -6,6 +6,12 @@
   height: 100%;
   overflow: hidden;
 
+  .dian_img {
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+  }
+
   .screen-header {
     position: absolute;
     top: 0;
@@ -251,6 +257,7 @@
         .yw_title {
           font-size: 16px;
           color: #fff;
+
         }
 
         .yw_pie {
