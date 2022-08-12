@@ -2,7 +2,7 @@
   <div class="home-root"
        id="gss">
     <div class="home_main">
-      <cmap></cmap>
+      <cmap ref="map" @warn="newWarn" @showDetail="showDetail"></cmap>
       <!-- 头部提示 start-->
       <div class="home_main_top">
         <div class="today_warring top_item">

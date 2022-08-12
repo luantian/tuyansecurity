@@ -772,6 +772,13 @@ export default {
       background: #00080b;
       border: 1px solid #145677;
       border-radius: 2px;
+      &.el-input--small {
+        .el-input__inner {
+        // background: #000c12 !important;
+        background: transparent !important; 
+       border: 1px solid #145677 !important;
+      }
+      }
     }
     .el-form-item {
       margin-bottom: 0;
@@ -792,7 +799,7 @@ export default {
     }
 
     .el-form-item__label {
-     color: rgba(0, 0, 0, 0.65);
+      color: rgba(0, 0, 0, 0.65);
     }
 
     .el-button--default {
@@ -877,7 +884,7 @@ export default {
       .search_box {
         width: 100%;
         height: 58px;
-        background: #00080B;
+        background: #00080b;
         box-shadow: 0px 1px 0px 0px rgba(13, 98, 140, 0.38);
         // border-bottom: ;
         .alarm-list {
