@@ -1,3 +1,10 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-08-12 14:10:14
+ * @LastEditTime: 2022-08-12 17:28:48
+ * @LastEditors: your name
+ * @Description: 
+-->
 <template>
 <div class="center">
   <div class="map-box" :style="`visibility: ${showMap?'initial':'hidden'}`">
@@ -45,7 +52,7 @@ export default {
             this.showMap = true
           }
         },
-        mapStyle: "amap://styles/951e57e8412b7617cbf9e3f81e0c5ac2",
+        mapStyle: "amap://styles/darkblue",
         resizeEnable: true,
         rotateEnable: false,
         pitchEnable: false,
