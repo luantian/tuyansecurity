@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-13 00:26:58
+ * @LastEditTime: 2022-08-13 01:08:27
  * @LastEditors: your name
  * @Description: 
 -->
@@ -195,94 +195,35 @@
           <div class="screen_little_title">
             报警统计
           </div>
-          <vue-seamless-scroll :class-option="defaultOption">
-            <ul class="bj_module">
-              <li class="bj_module_item odd">
+
+          <ul class="bj_module">
+            <vue-seamless-scroll :data="unitList"
+                                 :class-option="defaultOption">
+              <li class="bj_module_item odd"
+                  v-for="(item, index) in unitList"
+                  :key="index">
                 <div class="left">
-                  <div class="bj_module_item_id id1">01</div>
-                  <div class="bj_module_item_name">万象城</div>
-                  <div class="bj_module_item_category">（一般单位）</div>
+                  <div class="bj_module_item_id"
+                       :class="{
+                        'id1': index==0,
+                        'id2': index==1,
+                        'id3': index==2,
+
+                       }">{{item.id}}</div>
+                  <div class="bj_module_item_name">{{item.name}}</div>
+                  <div class="bj_module_item_category">{{item.des}}</div>
                 </div>
                 <div class="right">
                   <div class="bj_module_item_icon">
                     <img src="./img/alarm.png"
                          alt="">
                   </div>
-                  <div class="bj_module_item_num">78</div>
+                  <div class="bj_module_item_num">{{item.num}}</div>
                 </div>
               </li>
-              <li class="bj_module_item even">
-                <div class="left">
-                  <div class="bj_module_item_id id2">02</div>
-                  <div class="bj_module_item_name">万达广场</div>
-                  <div class="bj_module_item_category">（重点单位）</div>
-                </div>
-                <div class="right">
-                  <div class="bj_module_item_icon">
-                    <img src="./img/alarm.png"
-                         alt="">
-                  </div>
-                  <div class="bj_module_item_num">65</div>
-                </div>
-              </li>
-              <li class="bj_module_item odd">
-                <div class="left">
-                  <div class="bj_module_item_id id3">03</div>
-                  <div class="bj_module_item_name">家乐福</div>
-                  <div class="bj_module_item_category">（高层建筑）</div>
-                </div>
-                <div class="right">
-                  <div class="bj_module_item_icon">
-                    <img src="./img/alarm.png"
-                         alt="">
-                  </div>
-                  <div class="bj_module_item_num">34</div>
-                </div>
-              </li>
-              <li class="bj_module_item even">
-                <div class="left">
-                  <div class="bj_module_item_id id4">04</div>
-                  <div class="bj_module_item_name">人民医院</div>
-                  <div class="bj_module_item_category">（一般单位）</div>
-                </div>
-                <div class="right">
-                  <div class="bj_module_item_icon">
-                    <img src="./img/alarm.png"
-                         alt="">
-                  </div>
-                  <div class="bj_module_item_num">28</div>
-                </div>
-              </li>
-              <li class="bj_module_item odd">
-                <div class="left">
-                  <div class="bj_module_item_id id5">05</div>
-                  <div class="bj_module_item_name">华润万象</div>
-                  <div class="bj_module_item_category"> （一般单位）</div>
-                </div>
-                <div class="right">
-                  <div class="bj_module_item_icon">
-                    <img src="./img/alarm.png"
-                         alt="">
-                  </div>
-                  <div class="bj_module_item_num">21</div>
-                </div>
-              </li>
-              <li class="bj_module_item even">
-                <div class="left">
-                  <div class="bj_module_item_id id6">06</div>
-                  <div class="bj_module_item_name">恒隆广场</div>
-                  <div class="bj_module_item_category">（高层建筑）</div>
-                </div>
-                <div class="right">
-                  <div class="bj_module_item_icon">
-                    <img src="./img/alarm.png"
-                         alt="">
-                  </div>
-                  <div class="bj_module_item_num">17</div>
-                </div>
-              </li>
-            </ul>
-          </vue-seamless-scroll>
+
+            </vue-seamless-scroll>
+          </ul>
 
           <!-- <line-chart class="line_area"
                       graphNameId="wl"
@@ -399,13 +340,13 @@ export default {
     defaultOption () {
       return {
         step: 0.2, // 数值越大速度滚动越快
-        limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
+        limitMoveNum: 3, // 开始无缝滚动的数据量 this.dataList.length
         hoverStop: true, // 是否开启鼠标悬停stop
         direction: 1, // 0向下 1向上 2向左 3向右
         openWatch: true, // 开启数据实时监控刷新dom
         singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
         singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
-        waitTime: 1000 // 单步运动停止的时间(默认值1000ms)
+        waitTime: 1500 // 单步运动停止的时间(默认值1000ms)
       }
     }
 
@@ -419,7 +360,15 @@ export default {
       loading: false,
       info: {
 
-      }
+      },
+      unitList: [
+        { id: '01', name: '万象城', des: '（一般单位）', num: 78 },
+        { id: '02', name: '万达广场', des: '（重点单位）', num: 78 },
+        { id: '03', name: '家乐福', des: '（高层建筑）', num: 78 },
+        { id: '04', name: '人民医院', des: '（一般单位）', num: 78 },
+        { id: '05', name: '华润万象', des: '（一般单位）', num: 78 },
+        { id: '06', name: '恒隆广场', des: '（一般单位）', num: 78 },
+      ]
     }
   },
   methods: {
@@ -695,7 +644,10 @@ export default {
           }
         ]
       };
-      barProChart.setOption(options);
+      this.$nextTick(() => {
+        barProChart.setOption(options);
+      })
+
       window.addEventListener('resize', function () {
         //宽度自适应
         barProChart.resize();
@@ -841,7 +793,10 @@ export default {
           }
         ]
       };
-      bjline_ChartPro.setOption(options);
+      this.$nextTick(() => {
+        bjline_ChartPro.setOption(options);
+      })
+
       window.addEventListener('resize', function () {
         //宽度自适应
         bjline_ChartPro.resize();
@@ -979,7 +934,10 @@ export default {
           },
         ]
       };
-      GDTotalPie.setOption(options);
+      this.$nextTick(() => {
+        GDTotalPie.setOption(options);
+      })
+
       window.addEventListener('resize', function () {
         //宽度自适应
         GDTotalPie.resize();
@@ -1081,7 +1039,9 @@ export default {
           }]
         }]
       }
-      GDCompletionPie.setOption(options);
+      this.$nextTick(() => {
+        GDCompletionPie.setOption(options);
+      })
       window.addEventListener('resize', function () {
         //宽度自适应
         GDCompletionPie.resize();
@@ -1094,37 +1054,22 @@ export default {
     //   this.show = true
     // }, 2000)
     this.getData();
-    // new Swiper('.swiper-container', {
-    //   //direction: 'vertical', // 垂直切换选项
-    //   //mousewheel: true, //滚轮
-    //   autoplay: { //自动开始
-    //     delay: 2500, //时间间隔
-    //     disableOnInteraction: false, //*手动操作轮播图后不会暂停*
-    //   },
-    //   loop: true, // 循环模式选项
-
-    //   // 如果需要分页器
-    //   pagination: {
-    //     el: '.swiper-pagination',
-    //     clickable: true, // 分页器可以点击
-    //   },
-    // })
     this.$nextTick(() => {
       new Swiper('.swiper-container', {
-      //direction: 'vertical', // 垂直切换选项
-      //mousewheel: true, //滚轮
-      autoplay: { //自动开始
-        delay: 2500, //时间间隔
-        disableOnInteraction: false, //*手动操作轮播图后不会暂停*
-      },
-      // loop: true, // 循环模式选项
+        //direction: 'vertical', // 垂直切换选项
+        //mousewheel: true, //滚轮
+        autoplay: { //自动开始
+          delay: 2500, //时间间隔
+          disableOnInteraction: false, //*手动操作轮播图后不会暂停*
+        },
+        // loop: true, // 循环模式选项
 
-      // 如果需要分页器
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true, // 分页器可以点击
-      },
-    })
+        // 如果需要分页器
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true, // 分页器可以点击
+        },
+      })
     })
 
   },
