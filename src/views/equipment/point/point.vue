@@ -146,15 +146,17 @@ export default {
       this.dialogVisible = false;
     },
     getDevList() {
-      this.devList = [];
       this.$post("/v1/dr/device-list-custom", {
-        dr_unit_id: this.dr_unit_id,
+        dr_device_name: this.keyword,
+        page:this.page
       }).then((res) => {
-        this.all_dev = [...res.data]
+        this.devList = [];
+        this.total = res.data.count;
+        this.all_dev = [...res.data.list];
         let ids = this.all_ponit.map((it) => {
           return it.dr_device_id;
         });
-        res.data.map((it) => {
+        res.data.list.map((it) => {
           if (ids.indexOf(it.dr_device_id) === -1) {
             this.devList.push(it);
           }
