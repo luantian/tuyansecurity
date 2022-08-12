@@ -4206,7 +4206,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: hsla(0, 0%, 100%, 0.4);
+    background: #000000;
+    opacity: 0.5;
   }
   .el-popup-parent--hidden {
     overflow: hidden;
@@ -14589,10 +14590,12 @@
     }
   }
   .h-img-preview--light.v-modal {
-    background: hsla(0, 0%, 100%, 0.9);
+    // background: hsla(0, 0%, 100%, 0.9);
+    background-color: rgba(0,0,0,0.5);
   }
   .h-img-preview--dark.v-modal {
-    background: rgba(26, 26, 26, 0.9);
+    // background: rgba(26, 26, 26, 0.9);
+    background-color: rgba(0,0,0,0.5);
   }
   .h-img-preview--dark.v-modal-enter,
   .h-img-preview--light.v-modal-enter {

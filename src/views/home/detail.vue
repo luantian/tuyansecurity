@@ -1,18 +1,33 @@
 <template>
-  <div class="black flex alarm-detail">
-    <div class="video-box" v-if="nowUnit.dr_camera_url||nowUnit.dr_notice_point">
+  <div class="black flex alarm-detail new-alarm-detail">
+    <div class="video-box"
+         v-if="nowUnit.dr_camera_url||nowUnit.dr_notice_point">
       <div v-if="nowUnit.dr_camera_url">
         <div class="title">
           <div>
             <span style="margin-right: 15px">视频监控</span>
           </div>
         </div>
-        <video ref="v101" class="video-js video" style="margin-bottom:5px"></video>
+        <video ref="v101"
+               class="video-js video"
+               style="margin-bottom:5px"></video>
         <div class="center">
-          <el-button type="primary" size="mini" @mousedown.native="setVideo(2)" @mouseup.native="endVideo()">向左</el-button>
-          <el-button type="primary" size="mini" @mousedown.native="setVideo(3)" @mouseup.native="endVideo()">向右</el-button>
-          <el-button type="primary" size="mini" @mousedown.native="setVideo(0)" @mouseup.native="endVideo()">向上</el-button>
-          <el-button type="primary" size="mini" @mousedown.native="setVideo(1)" @mouseup.native="endVideo()">向下</el-button>
+          <el-button type="primary"
+                     size="mini"
+                     @mousedown.native="setVideo(2)"
+                     @mouseup.native="endVideo()">向左</el-button>
+          <el-button type="primary"
+                     size="mini"
+                     @mousedown.native="setVideo(3)"
+                     @mouseup.native="endVideo()">向右</el-button>
+          <el-button type="primary"
+                     size="mini"
+                     @mousedown.native="setVideo(0)"
+                     @mouseup.native="endVideo()">向上</el-button>
+          <el-button type="primary"
+                     size="mini"
+                     @mousedown.native="setVideo(1)"
+                     @mouseup.native="endVideo()">向下</el-button>
           <!-- <el-button type="primary" size="mini" @mousedown.native="setVideo(8)" @mouseup.native="endVideo()">放大</el-button>
           <el-button type="primary" size="mini" @mousedown.native="setVideo(9)" @mouseup.native="endVideo()">缩小</el-button> -->
         </div>
@@ -23,16 +38,20 @@
             <span style="margin-right: 15px">点位图</span>
           </div>
         </div>
-        <div class="point-wrap alert-point" ref="wrap">
-          <img class="bim" :src="nowUnit.dr_notice_point.dr_building_pic" />
-          <div
-            class="point-marker"
-            v-for="(item, index) in nowUnit.dr_notice_point.dr_building_point"
-            :key="index"
-            :style="`left:${item.x};top:${item.y}`"
-          >
-            <el-tooltip class="item" effect="dark" :content="item.dr_device_name" placement="top">
-              <img :src="item.dr_icon" :class="nowUnit.dr_device_id==item.dr_device_id?'blink':''"/>
+        <div class="point-wrap alert-point"
+             ref="wrap">
+          <img class="bim"
+               :src="nowUnit.dr_notice_point.dr_building_pic" />
+          <div class="point-marker"
+               v-for="(item, index) in nowUnit.dr_notice_point.dr_building_point"
+               :key="index"
+               :style="`left:${item.x};top:${item.y}`">
+            <el-tooltip class="item"
+                        effect="dark"
+                        :content="item.dr_device_name"
+                        placement="top">
+              <img :src="item.dr_icon"
+                   :class="nowUnit.dr_device_id==item.dr_device_id?'blink':''" />
             </el-tooltip>
           </div>
         </div>
@@ -126,20 +145,34 @@
             <!-- <el-radio v-model="form.dr_notice_status" :label="1"
               >核实中</el-radio
             >-->
-            <el-radio v-model="form.dr_notice_status" :label="2">误报</el-radio>
-            <el-radio v-model="form.dr_notice_status" :label="3">报警</el-radio>
-            <el-radio class="mt10" v-model="form.dr_notice_status" :label="4">真实火警</el-radio>
-            <el-radio class="mt10" v-model="form.dr_notice_status" :label="5">测试</el-radio>
+            <el-radio v-model="form.dr_notice_status"
+                      :label="2">误报</el-radio>
+            <el-radio v-model="form.dr_notice_status"
+                      :label="3">报警</el-radio>
+            <el-radio class="mt10"
+                      v-model="form.dr_notice_status"
+                      :label="4">真实火警</el-radio>
+            <el-radio class="mt10"
+                      v-model="form.dr_notice_status"
+                      :label="5">测试</el-radio>
           </div>
           <div class="mt20">
-            <el-input v-model="form.dr_handel_suggest" placeholder="请填写处理意见" size="small" clearable></el-input>
+            <el-input v-model="form.dr_handel_suggest"
+                      placeholder="请填写处理意见"
+                      size="small"
+                      clearable></el-input>
           </div>
           <div class="mt20">
-            <el-input v-model="form.dr_user_name" placeholder="请填写确认人" size="small" clearable></el-input>
+            <el-input v-model="form.dr_user_name"
+                      placeholder="请填写确认人"
+                      size="small"
+                      clearable></el-input>
           </div>
         </div>
         <div class="mt20">
-          <el-button type="primary" class="big-btn" @click="save">确定</el-button>
+          <el-button type="primary"
+                     class="big-btn"
+                     @click="save">确定</el-button>
         </div>
       </div>
     </div>
@@ -150,13 +183,13 @@
 import axios from 'axios'
 export default {
   props: ["nowUnit"],
-  data() {
+  data () {
     return {
       form: {
         dr_notice_status: 2,
         type: 1,
         dr_handel_suggest: "",
-        dr_user_name:'',
+        dr_user_name: '',
       },
       heshi: 0,
       video: null,
@@ -185,50 +218,50 @@ export default {
       }
     };
   },
-  mounted() {
+  mounted () {
     if (this.nowUnit.dr_camera_url) {
       this.options.src = this.nowUnit.dr_camera_url;
       this.options.sources[0].src = this.nowUnit.dr_camera_url;
       this.video = this.$video(
         this.$refs.v101,
         this.options,
-        function onPlayerReady() {
+        function onPlayerReady () {
           //it.player = this
         }
       );
     }
-    if(this.nowUnit.dr_notice_point){
+    if (this.nowUnit.dr_notice_point) {
       this.nowUnit.dr_notice_point.dr_building_point =
         JSON.parse(this.nowUnit.dr_notice_point.dr_building_point || "[]") || [];
     }
   },
   methods: {
-    setVideo(direction) {
+    setVideo (direction) {
       let formData = new FormData();
-      formData.append('accessToken',this.nowUnit.dr_device_token);
-      formData.append('deviceSerial',this.nowUnit.dr_device_serial);
-      formData.append('channelNo',this.nowUnit.dr_channel_num);
-      formData.append('direction',direction);
-      formData.append('speed',1);
+      formData.append('accessToken', this.nowUnit.dr_device_token);
+      formData.append('deviceSerial', this.nowUnit.dr_device_serial);
+      formData.append('channelNo', this.nowUnit.dr_channel_num);
+      formData.append('direction', direction);
+      formData.append('speed', 1);
 
       axios({
         method: 'post',
         url: 'https://open.ys7.com/api/lapp/device/ptz/start',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
         data: formData
-      }).then(res=>{
-        if(res.data.code != 200){
+      }).then(res => {
+        if (res.data.code != 200) {
           this.$message.warning(res.data.msg)
         }
       })
     },
-    endVideo(){
+    endVideo () {
       let formData = new FormData();
-      formData.append('accessToken',this.nowUnit.dr_device_token);
-      formData.append('deviceSerial',this.nowUnit.dr_device_serial);
-      formData.append('channelNo',this.nowUnit.dr_channel_num);
+      formData.append('accessToken', this.nowUnit.dr_device_token);
+      formData.append('deviceSerial', this.nowUnit.dr_device_serial);
+      formData.append('channelNo', this.nowUnit.dr_channel_num);
       // formData.append('direction',direction);
       // formData.append('speed',1);
 
@@ -236,14 +269,15 @@ export default {
         method: 'post',
         url: 'https://open.ys7.com/api/lapp/device/ptz/stop',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
         data: formData
       });
     },
-    save() {
-      if(!this.form.dr_user_name){
+    save () {
+      if (!this.form.dr_user_name) {
         return this.$message.warning('请填写确认人！')
+        // return this.$message({type: 'error', message: '请填写确认人！', duration: 300000})
       }
       this.form.dr_device = this.nowUnit.dr_device_serial;
       this.form.dr_notice_uuid = this.nowUnit.dr_notice_uuid;
@@ -291,10 +325,9 @@ export default {
     }
   }
 
-  .blink{
+  .blink {
     animation: bli 0.5s infinite alternate;
   }
-
 }
 
 .alarm-detail {
@@ -326,9 +359,10 @@ export default {
   .title {
     margin-bottom: 10px;
     font-size: 16px;
-    color: hsla(0, 0%, 100%, 0.7);
+    // color: hsla(0, 0%, 100%, 0.7);
     display: flex;
     align-items: center;
+    background-color: #011018;
     justify-content: space-between;
   }
 
@@ -352,7 +386,8 @@ export default {
         width: 100px;
         display: flex;
         justify-content: flex-end;
-        background: rgba(54, 61, 93, 0.6);
+        // background: rgba(54, 61, 93, 0.6);
+        background-color: #011018;
         padding-right: 8px;
         color: hsla(0, 0%, 100%, 0.4);
       }
@@ -365,7 +400,8 @@ export default {
         -ms-flex: 1;
         flex: 1;
         padding: 0 18px;
-        background: rgba(54, 61, 93, 0.6);
+        // background: rgba(54, 61, 93, 0.6);
+        background-color: #011018;
         display: flex;
         align-items: center;
 
@@ -376,6 +412,37 @@ export default {
         }
       }
     }
+  }
+}
+#dark {
+  #gss {
+    .el-dialog__body {
+      background: #011018 !important;
+    }
+  }
+  .new-alarm-detail {
+    background: #011018 !important;
+    .right-box {
+      background: #011018 !important;
+      .name {
+        color: #fff;
+      }
+      .info {
+        color: #fff;
+      }
+    }
+    .el-button {
+      max-width: 100%;
+    }
+  }
+}
+.el-message {
+  background: inherit !important;
+  &.el-message--success {
+    background: #F0F9EB !important;
+  }
+  &.el-message--error {
+    background: #FEF0F0 !important;
   }
 }
 </style>

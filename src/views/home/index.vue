@@ -57,7 +57,7 @@
           <el-scrollbar style="height:100%">
             <template v-for="item in $bus.warnInfo">
               <div class="list_item"
-                   @click="getPosition(item)"
+                   @click="showDetail(item)"
                    :key="item.dr_unit_id">
                 <div class="list_item_top">
                   <div class="time">
@@ -111,9 +111,9 @@
       </div>
       <!-- 底部提示 end -->
     </div>
-    <!-- <el-dialog :close-on-click-modal="false" title="报警详情" :visible.sync="showDia" v-if="showDia" :width="(nowUnit.dr_camera_url||nowUnit.dr_notice_point)?'1000px':'500px'" top="9vh" @close="$refs.detail.video.dispose()">
+    <el-dialog :close-on-click-modal="false" title="报警详情" :visible.sync="showDia" v-if="showDia" :width="(nowUnit.dr_camera_url||nowUnit.dr_notice_point)?'1000px':'500px'" top="9vh" @close="$refs.detail.video.dispose()">
     <aDetail :nowUnit="nowUnit" @finish="handled" ref="detail"></aDetail>
-  </el-dialog> -->
+  </el-dialog>
   </div>
 </template>
 
