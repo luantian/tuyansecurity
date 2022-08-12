@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-13 00:05:24
+ * @LastEditTime: 2022-08-13 00:26:58
  * @LastEditors: your name
  * @Description: 
 -->
@@ -1117,7 +1117,7 @@ export default {
         delay: 2500, //时间间隔
         disableOnInteraction: false, //*手动操作轮播图后不会暂停*
       },
-      loop: true, // 循环模式选项
+      // loop: true, // 循环模式选项
 
       // 如果需要分页器
       pagination: {
@@ -1147,8 +1147,12 @@ export default {
   }
   .swiper-pagination {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -9px;
+    right: 40px;
+    text-align: right;
+    &.swiper-pagination-bullets {
+      width: unset;
+    }
     .swiper-pagination-bullet {
       background: #fff;
     }
