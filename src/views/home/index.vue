@@ -2,7 +2,9 @@
   <div class="home-root"
        id="gss">
     <div class="home_main">
-      <cmap ref="map" @warn="newWarn" @showDetail="showDetail"></cmap>
+      <cmap ref="map"
+            @warn="newWarn"
+            @showDetail="showDetail"></cmap>
       <!-- 头部提示 start-->
       <div class="home_main_top">
         <div class="today_warring top_item">
@@ -57,7 +59,7 @@
           <el-scrollbar style="height:100%">
             <template v-for="item in $bus.warnInfo">
               <div class="list_item"
-                   @click="showDetail(item)"
+                   @click="showDetail(item, false)"
                    :key="item.dr_unit_id">
                 <div class="list_item_top">
                   <div class="time">
@@ -111,9 +113,17 @@
       </div>
       <!-- 底部提示 end -->
     </div>
-    <el-dialog :close-on-click-modal="false" title="报警详情" :visible.sync="showDia" v-if="showDia" :width="(nowUnit.dr_camera_url||nowUnit.dr_notice_point)?'1000px':'500px'" top="9vh" @close="$refs.detail.video.dispose()">
-    <aDetail :nowUnit="nowUnit" @finish="handled" ref="detail"></aDetail>
-  </el-dialog>
+    <el-dialog :close-on-click-modal="false"
+               title="报警详情"
+               :visible.sync="showDia"
+               v-if="showDia"
+               :width="(nowUnit.dr_camera_url||nowUnit.dr_notice_point)?'1000px':'500px'"
+               top="9vh"
+               @close="$refs.detail.video.dispose()">
+      <aDetail :nowUnit="nowUnit"
+               @finish="handled"
+               ref="detail"></aDetail>
+    </el-dialog>
   </div>
 </template>
 
@@ -255,7 +265,7 @@ export default {
       this.getAlarmList();
       this.getCount()
       // this.$refs.map.handle()
-      
+
     },
     goMapUnit (it) {
       this.$refs.map.goUnit(it)
@@ -297,6 +307,7 @@ export default {
         })
     },
     newWarn (data) {
+      console.log(data)
       this.getInfo()
     },
     getAlarmList () {
@@ -307,15 +318,31 @@ export default {
       }).then(res => {
         console.log('res', res.data.list, res.data.list.length)
         this.$bus.warnInfo = res.data.list;
-        // this.$bus.warnInfo = res.data.list.slice(0, 4);
+        // this.$bus.warnInfo = res.data.list.slice(0, 2);
         console.log(this.$bus.warnInfo.length)
       })
     },
-    showDetail (it) {
-      this.nowUnit = {
-        ...it
+    // showDetail (it) {
+    //   this.nowUnit = {
+    //     ...it
+    //   }
+    //   this.showDia = true
+    // },
+    showDetail (it, flag = true) {
+      if (flag) {
+        this.nowUnit = {
+          ...it
+        }
+        this.showDia = true
+      } else {
+        this.$get(`/v1/dr/get-notice-detail-in-map/${it.dr_device_serial}/${it.dr_notice_uuid}`).then(resp => {
+          this.nowUnit = {
+            ...resp.data,
+            ...resp.data.dr_notice_unit_detail
+          }
+          this.showDia = true
+        })
       }
-      this.showDia = true
     },
     /**
      * 设备饼状图

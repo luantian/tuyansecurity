@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-12 15:05:02
+ * @LastEditTime: 2022-08-12 16:39:54
  * @LastEditors: your name
  * @Description: 
 -->
@@ -142,9 +142,6 @@
       <!-- 地图 start -->
       <div class="screen_map">
         <centerMap></centerMap>
-        <!-- <el-amap id="mapContainer" class="amap-container" ref="map" :events="map.events" vid="amap" :zoom="map.zoom" :resizeEnable="true" :center="map.position" :mapStyle="map.mapStyle">
-
-          </el-amap> -->
         <!-- <el-amap class="amap-box"
                  v-show="show"
                  :center="[123.472188,41.706918]"
