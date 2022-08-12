@@ -252,8 +252,10 @@ export default {
     },
     handled () {
       this.showDia = false;
-      this.$refs.map.handle()
-      this.getAlarmList()
+      this.getAlarmList();
+      this.getCount()
+      // this.$refs.map.handle()
+      
     },
     goMapUnit (it) {
       this.$refs.map.goUnit(it)
