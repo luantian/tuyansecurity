@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-12 16:39:54
+ * @LastEditTime: 2022-08-12 20:28:04
  * @LastEditors: your name
  * @Description: 
 -->
@@ -78,7 +78,7 @@
           <!-- <line-chart class="line_area"
                       graphNameId="wl"
                       title="近30天物联接入趋势"></line-chart> -->
-          <div id="wl_line" ></div>
+          <div id="wl_line"></div>
         </div>
         <div class="screen_left_bottom screen_left_item">
           <div class="screen_little_title">
@@ -142,30 +142,6 @@
       <!-- 地图 start -->
       <div class="screen_map">
         <centerMap></centerMap>
-        <!-- <el-amap class="amap-box"
-                 v-show="show"
-                 :center="[123.472188,41.706918]"
-                 :position="[123.472188,41.706918]"
-                 :vid="'amap-vue'"
-                 zoom="18"
-                 :mapStyle="'amap://styles/darkblue'">
-          <el-amap-marker vid="component-marker"
-                          :position="[123.472188,41.7069185]"
-                          :icon="icon"
-                          :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
-          <el-amap-marker vid="component-marker"
-                          :position="[123.472188,41.708]"
-                          :icon="icon"
-                          :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
-          <el-amap-marker vid="component-marker"
-                          :position="[123.462188,41.71]"
-                          :icon="icon"
-                          :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
-          <el-amap-marker vid="component-marker"
-                          :position="[123.483,41.71]"
-                          :icon="icon"
-                          :animation="'AMAP_ANIMATION_BOUNCE'"></el-amap-marker>
-        </el-amap> -->
       </div>
       <!-- 地图 end -->
 
@@ -274,7 +250,8 @@
           <div class="screen_little_title">
             巡查统计
           </div>
-          <div class="screen_right_bottom_item">
+          <div class="screen_right_bottom_item"
+               v-if="vshow">
             <!-- 柱状图 -->
             <div class="zjt"
                  id="zjt">
@@ -309,6 +286,36 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="screen_right_bottom_item"
+               v-else>
+               <div class="screen_right_bottom_title">
+                工作效率（近30天）
+               </div>
+            <!-- 工单 -->
+            <div class="gd_area">
+              <div class="gdTotalPie"
+                   id="gdTotalPie"
+                   >
+              </div>
+              <div class="gdcompletionPie"
+                   id="gdcompletionPie"
+                   >
+              </div>
+
+            </div>
+            <div class="wb_area">
+              <div class="wb_area_item">
+                <img src="./img/weibao.png" />
+                <div class="wb_area_item_title">维保完成数</div>
+                <div class="wb_area_item_num">352</div>
+              </div>
+              <div class="wb_area_item">
+                <img src="./img/xunjian.png" />
+                <div class="wb_area_item_title">巡检异常数</div>
+                <div class="wb_area_item_num">57</div>
               </div>
             </div>
           </div>
@@ -350,6 +357,7 @@ export default {
   },
   data () {
     return {
+      vshow: false,
       height: document.body.clientHeight / 1080,
       icon: icon,
       show: true,
@@ -360,6 +368,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * 运维饼状图
+     */
     setywPie () {
       var data = [
         '电气火灾监控系统',
@@ -503,15 +514,20 @@ export default {
         this.setywPie();
         this.setwulianLine();
         this.setbaojingLine();
-        this.setBar()
+        // this.setBar()
+        this.setGDTotalPie();
+        this.setGDcompletionPie()
         this.loading = false
 
       }).catch(err => {
         console.log(err);
-        this.$$message.info(err);
-        this.loading = fail
+        this.$message.info(err);
+        this.loading = false
       })
     },
+    /**
+     * 统计柱状图
+     */
     setBar () {
       let barProChart = this.$echarts.init(document.getElementById(`zjt`));
       let options = {
@@ -629,6 +645,9 @@ export default {
         barProChart.resize();
       });
     },
+    /**
+     * 物联折线
+     */
     setwulianLine () {
       var line_ChartPro = this.$echarts.init(document.getElementById(`wl_line`));
       let options = {
@@ -699,6 +718,9 @@ export default {
         line_ChartPro.resize();
       });
     },
+    /**
+     * 报警折线
+     */
     setbaojingLine () {
       let bjline_ChartPro = this.$echarts.init(document.getElementById(`baojingLine`));
       let options = {
@@ -769,130 +791,245 @@ export default {
         bjline_ChartPro.resize();
       });
     },
-    lineChart (data, name, unit) {
-      let serve = {
-        name: '',
-        type: 'line',
-        areaStyle: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              {
-                offset: 0,
-                color: 'red',
-              },
-              {
-                offset: 1,
-                color: 'blue',
-              },
-            ],
-          },
-        },
-        areaStyle: {
-          color: new this.$echarts['graphic'].LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            ecolor[1]
-          ),
-        },
+    /**
+     * 工单总数饼图
+     */
+    setGDTotalPie () {
+      let GDTotalPie = this.$echarts.init(document.getElementById(`gdTotalPie`));
+      let dataing = [{
+        "name": "已完成",
+        "value": 95,
         itemStyle: {
           normal: {
-            color: color[0],
-            lineStyle: {
-              color: color[0],
+            color: {
+              colorStops: [
+                {
+                  offset: 0.8,
+                  color: '#00D7DF' // 0% 处的颜色
+                }, {
+                  offset: 1,
+                  color: '#1AFFD1' // 100% 处的颜色
+                }]
             },
-          },
-        },
-        data: [],
-        smooth: !0,
-      };
-      let servers = [];
-      data.y.map((it) => {
-        let obj = { ...serve };
-        obj.name = it.name;
-        obj.data = it.data;
-        servers.push(obj);
-      });
-      let option = {
-        tooltip: {
-          trigger: 'axis',
-          backgroundColor: 'rgba(0,0,0,0.7)',
-          borderWidth: '0',
-          axisPointer: {
-            type: 'shadow',
-          },
-          textStyle: {
-            fontSize: 14,
-            color: 'rgba(255,255,255,0.80)',
-          },
-        },
-        legend: {
-          show: false,
-          icon: 'rect',
-          orient: 'horizontal',
-          right: 0,
-          itemWidth: 8,
-          itemHeight: 8,
-          textStyle: {
-            color: 'rgba(255,255,255,0.70)',
-          },
-        },
-        grid: {
-          x: 20,
-          x2: 20,
-          y: 20,
-          y2: 10,
-          containLabel: true,
-        },
-        xAxis: {
-          type: 'category',
-          data: data.x,
-          axisLabel: {
-            show: !0,
-            //interval: 13,
-            fontSize: 12,
-            color: 'rgba(255,255,255,0.40)',
-          },
-        },
-        yAxis: [
-          {
-            type: 'value',
-            minInterval: 1,
-            min: 0,
-            axisTick: {
-              lineStyle: {
-                width: 0,
-              },
-            },
-            axisLine: {
-              lineStyle: {
-                width: 0,
-              },
-            },
-            splitLine: {
-              lineStyle: {
-                width: 0,
-              },
-            },
-            axisLabel: {
-              formatter: '{value}' + unit,
-              color: 'rgba(255,255,255,0.40)',
-              interval: 2,
-            },
-          },
-        ],
-        series: servers,
-        color: color,
-      };
+          }
+        }
+      }, {
+        "name": "逾期",
+        "value": 5,
+        itemStyle: {
+          normal: {
+            // borderWidth: -10,
+            // borderColor: '#D06200',
+            color: '#D06200',
+            opacity: 0,
 
-      this.chart = this.$echarts.init(document.getElementById('lineChart'));
-      this.chart.setOption(option, !0);
+          }
+        }
+      }]
+      let dataing1 = [{
+        "name": "已完成",
+        "value": 95,
+        itemStyle: {
+          normal: {
+          }
+        }
+      }, {
+        "name": "逾期",
+        "value": 5,
+        itemStyle: {
+          normal: {
+            borderWidth: 4,
+            borderColor: '#D06200',
+            color: '#D06200'
+          }
+        }
+      }]
+      let options = {
+        color: ['#00D7DF', "transparent"],
+        title: {
+          text: '工单总数',
+          subtext: '12431',
+          textStyle: {
+            color: '#c4cfd2',
+            // fontSize: 20,
+            fontSize: 13,
+            align: 'center',
+            verticalAlign: 'top',
+            fontFamily: 'PingFang SC',
+            top: '50%'
+          },
+          subtextStyle: {
+            fontSize: 20,
+            color: ['#c4cfd2'],
+            align: 'center'
+          },
+          left: 'center',
+          top: '38%',
+          itemGap: 3
+        },
+        series: [
+          // // 主要展示层的
+          {
+            clockWise: false,
+            // radius: ['40%', '45%'],
+            radius: [40, 53],
+            center: ['50%', '50%'],
+            type: 'pie',
+            hoverAnimation: false,
+            label: {
+              normal: {
+                show: false,
+                // formatter: "{a}\n{b}",
+                textStyle: {
+                  fontSize: 13,
+                },
+                position: 'outside'
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            labelLine: {
+              normal: {
+                show: false,
+                length: 30,
+                length2: 55
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            // name: "在用运输车",
+            data: dataing,
+          },
+          {
+            type: 'pie',
+            clockWise: false, //顺时加载
+            hoverAnimation: false, //鼠标移入变大
+            center: ['50%', '50%'],
+            radius: [40, 41],
+            label: {
+              normal: {
+                show: true,
+                // formatter: "{b}",
+                textStyle: {
+                  color: '#ffffff',
+                  fontSize: 13,
+                },
+                position: 'outside'
+              }
+            },
+            data: dataing1,
+          },
+        ]
+      };
+      GDTotalPie.setOption(options);
+      window.addEventListener('resize', function () {
+        //宽度自适应
+        GDTotalPie.resize();
+      });
+    },
+    /**
+     * 工单完成率
+     */
+    setGDcompletionPie () {
+      let GDCompletionPie = this.$echarts.init(document.getElementById(`gdcompletionPie`));
+      var bgColor = '#10286B';
+      var shadowColor = '#374b86';
+      let value = 76.2;
+      let options = {
+        title: {
+          text: `工单完成率`,
+          subtext: `${value}%`,
+          left: 'center',
+          top: '38%', //top待调整
+          textStyle: {
+            color: '#c4cfd2',
+            fontSize: 13,
+            fontFamily: 'PingFang SC',
+            align: 'center',
+            verticalAlign: 'top',
+          },
+          subtextStyle: {
+            color: '#fff',
+            fontSize: 18,
+            fontFamily: 'PingFang SC',
+            top: 'center'
+          },
+          itemGap: 5 //主副标题间距
+        },
+        series: [{
+          name: 'pie1',
+          type: 'pie',
+          clockWise: true,
+          radius: [48, 53],
+          itemStyle: {
+            normal: {
+              label: {
+                show: false
+              },
+              labelLine: {
+                show: false
+              }
+            }
+          },
+          hoverAnimation: false,
+          data: [{
+            value: value,
+            name: '已完成',
+            itemStyle: {
+              normal: {
+                borderWidth: 5,
+                borderColor: {
+                  colorStops: [{
+                    offset: 0,
+                    color: '#1986F5' // 0% 处的颜色
+                  }, {
+                    offset: 1,
+                    color: '#1986F5' // 100% 处的颜色
+                  }]
+                },
+                color: { // 完成的圆环的颜色
+                  colorStops: [{
+                    offset: 0,
+                    color: '#1986F5' // 0% 处的颜色
+                  }, {
+                    offset: 1,
+                    color: '#1986F5' // 100% 处的颜色
+                  }]
+                },
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              }
+            }
+          }, {
+            name: '未完成',
+            value: 100 - value,
+            itemStyle: {
+              normal: {
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                },
+                color: '#072943',
+                borderColor: '#072943',
+                borderWidth: 5
+              }
+            }
+          }]
+        }]
+      }
+      GDCompletionPie.setOption(options);
+      window.addEventListener('resize', function () {
+        //宽度自适应
+        GDCompletionPie.resize();
+      });
     }
   },
   mounted () {
