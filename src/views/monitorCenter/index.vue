@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-13 01:35:11
+ * @LastEditTime: 2022-08-13 09:11:35
  * @LastEditors: your name
  * @Description: 
 -->
@@ -139,7 +139,9 @@
                   离线设备
                 </div>
               </div>
-              <div class="right"></div>
+              <div class="right">
+                 <precent-pie-chart-vue :pieId="'pie1'" :data="0.75"></precent-pie-chart-vue>
+              </div>
             </div>
             <div class="yw_module_item item2">
               <div class="left">
@@ -150,7 +152,9 @@
                   故障设备
                 </div>
               </div>
-              <div class="right"></div>
+              <div class="right">
+                <precent-pie-chart-vue :pieId="'pie2'" :data="0.25"></precent-pie-chart-vue>
+              </div>
             </div>
             <div class="yw_module_item item3">
               <div class="left">
@@ -160,10 +164,14 @@
                 <div class="yw_module_item_title">
                   低电量设备
                 </div>
-                <div class="right"></div>
+
+              </div>
+              <div class="right">
+                 <precent-pie-chart-vue :pieId="'pie3'" :data="0.35"></precent-pie-chart-vue>
               </div>
             </div>
-            <div class="yw_module_item item4">
+            <div class="yw_module_item item4"
+                 style="position:relative">
               <div class="left">
                 <div class="yw_module_item_num">
                   671
@@ -171,7 +179,10 @@
                 <div class="yw_module_item_title">
                   待续费设备
                 </div>
-                <div class="right"></div>
+
+              </div>
+              <div class="right">
+                 <precent-pie-chart-vue :pieId="'pie4'" :data="0.6"></precent-pie-chart-vue>
               </div>
             </div>
           </div>
@@ -326,6 +337,7 @@
 <script>
 import centerMap from "./map";
 import lineChart from "./lineChart.vue";
+import precentPieChartVue from "./precentPieChart.vue";
 import PieChart from "./PieChart";
 import icon from './img/lvdian.png'
 import vueSeamlessScroll from 'vue-seamless-scroll';
@@ -338,7 +350,8 @@ export default {
     lineChart,
     PieChart,
     vueSeamlessScroll,
-    Swiper
+    Swiper,
+    precentPieChartVue
   },
   computed: {
     defaultOption () {
@@ -376,6 +389,12 @@ export default {
     }
   },
   methods: {
+    /**
+     * 运维状态环形饼图
+     */
+    setPieLittle () {
+      
+    },
     /**
      * 运维饼状图
      */
@@ -525,7 +544,8 @@ export default {
         this.setbaojingLine();
         this.setBar()
         this.setGDTotalPie();
-        this.setGDcompletionPie()
+        this.setGDcompletionPie();
+        this.setPieLittle()
         this.loading = false
 
       }).catch(err => {

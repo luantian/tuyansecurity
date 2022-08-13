@@ -204,6 +204,7 @@
             background-repeat: no-repeat;
             background-size: contain;
             margin-bottom: 20px;
+            flex-shrink: 0;
 
             &.item1 {
               background-image: url('./img//bg141.png');
@@ -250,6 +251,12 @@
               right: 0;
               top: 50%;
               transform: translate(0%, -50%);
+              width: 45px;
+              height: 45px;
+              .pie {
+                width: 100%;
+                height: 100%;
+              }
             }
           }
         }
