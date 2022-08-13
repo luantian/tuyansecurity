@@ -244,8 +244,11 @@ export default {
     getList () {
       this.showVideo = false;
       this.$post('/v1/dr/device-list-custom', this.params).then((res) => {
-        let arr = res.data;
-
+        let arr = res.data.list;
+        this.v1 = [],
+        this.v4 = [],
+        this.v9 = [],
+        
         this.showVideo = true;
         this.$nextTick(() => {
           this.v1 = [
