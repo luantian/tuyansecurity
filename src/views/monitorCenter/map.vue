@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-12 14:10:14
- * @LastEditTime: 2022-08-12 17:28:48
+ * @LastEditTime: 2022-08-13 09:24:41
  * @LastEditors: your name
  * @Description: 
 -->
@@ -30,7 +30,7 @@
         </div>
       </el-amap-marker>
     </el-amap>
-    <div class="map-bottom"></div>
+    <!-- <div class="map-bottom"></div> -->
   </div>
 
 </div>
