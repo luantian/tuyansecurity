@@ -821,13 +821,14 @@ export default {
   .home_main_bottom {
     position: absolute;
     left: 144px;
+    right: 360px;
     bottom: 0px;
-    width: 1062px;
+    // width: 1062px;
     height: 166px;
     display: flex;
     background-image: url('../../assets/home-image/bottom_area.png');
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
     z-index: 1;
     .home_main_bottom_item {
       flex: 1;
