@@ -709,6 +709,9 @@ export default {
 
       this.chart = this.$echarts.init(document.getElementById('lineChart'));
       this.chart.setOption(option, !0);
+      window.addEventListener('resize', () => {
+        this.chart.resize()
+      })
     },
   },
 };
@@ -732,8 +735,11 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: auto;
     .right_top {
       display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
       .right_top_item {
         flex-shrink: 0;
         .item_title {
@@ -844,6 +850,7 @@ export default {
       }
     }
     .right_bottom {
+      flex-shrink: 0;
       position: relative;
       height: 300px;
       width: 100%;

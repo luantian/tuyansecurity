@@ -156,7 +156,7 @@ export default {
     //this.init();
   },
   methods: {
-      lineChartPro () {
+    lineChartPro () {
       var line_ChartPro = this.$echarts.init(document.getElementById(`lineChart`));
       let options = {
         xAxis: {
@@ -238,7 +238,7 @@ export default {
         if (it.sy) {
           this.getHFCChart(
             {
-              id:  index,
+              id: index,
               data: {
                 currentValue: it.sy.dr_value,
                 analogdown: 0,
@@ -335,7 +335,7 @@ export default {
         ],
       };
       // ==============压力值 ==============
-       let option1 = {
+      let option1 = {
         color: ["#37A2DA", "#32C5E9", "#67E0E3"],
         title: {
           text: `${data.currentValue}A`,
@@ -552,6 +552,9 @@ export default {
 
       this.chart = this.$echarts.init(document.getElementById("lineChart"));
       this.chart.setOption(option, !0);
+      window.addEventListener('resize', () => {
+        this.chart.resize()
+      })
     },
   },
 };
@@ -575,10 +578,16 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: auto;
     .right_top {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      padding-bottom: 20px;
+      // &::after {
+      //   flex: auto;
+      //   content: '';
+      // }
       .right_top_item {
         // margin-right: 25px;
         // margin-bottom: 25px;
@@ -656,6 +665,7 @@ export default {
       }
     }
     .right_bottom {
+      flex-shrink: 0;
       position: relative;
       height: 300px;
       width: 100%;
