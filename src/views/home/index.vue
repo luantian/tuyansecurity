@@ -649,6 +649,7 @@ export default {
   height: 100%;
   .home_main_top {
     position: absolute;
+    background-position: center;
     left: 135px;
     top: 38px;
     width: 1086px;
@@ -715,6 +716,46 @@ export default {
       &.xiaofang_totalnum {
         width: 224px;
         padding-left: 21px;
+      }
+    }
+  }
+  @media screen and (max-width: '1700px') {
+    .home_main_top {
+      left: 55px;
+      width: 930px;
+      background-position: center;
+      .top_item {
+        height: 60px;
+        img {
+        width: 50px;
+        height: 46px;
+        margin-right: 10px;
+      }
+        &.today_warring {
+          padding-left: 40px;
+          width: 195px;
+          border-right: 1px solid #1e323f;
+        }
+        &.today_yinhuan {
+          padding-left: 27px;
+          // width: 228px;
+          flex: 1;
+        }
+        &.lianwang_unitnum {
+          padding-left: 27px;
+          // width: 228px;
+          flex: 1;
+        }
+        &.jiankong_num {
+          width: 170px;
+          padding-left: 25px;
+          border-right: 1px solid #1e323f;
+          border-left: 1px solid #1e323f;
+        }
+        &.xiaofang_totalnum {
+          width: 210px;
+          padding-left: 21px;
+        }
       }
     }
   }
