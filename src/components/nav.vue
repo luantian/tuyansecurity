@@ -1,39 +1,56 @@
 <template>
-  <el-aside width="220px"
-            style="height:100%"
-            class="animate__animated animate__fadeInLeft"
-            v-if="!noAccess">
-    <el-menu :default-openeds="open"
-             class="nav-wrap el-menu--dark">
-      <el-scrollbar style="height:100%"
-                    class="el-scroll">
-        <template v-for="(item,index) in navList">
-          <el-submenu :index="item.dr_self_key"
-                      :key="index"
-                      v-if="item.dr_son&&item.dr_son.length"
-                      :default-openeds="openeds">
-            <template slot="title"><i :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"></i>{{ item.dr_power_name }}</template>
+  <el-aside
+    width="220px"
+    style="height: 100%"
+    class="animate__animated animate__fadeInLeft"
+    v-if="!noAccess"
+  >
+    <el-menu :default-openeds="open" class="nav-wrap el-menu--dark">
+      <el-scrollbar style="height: 100%" class="el-scroll">
+        <template v-for="(item, index) in navList">
+          <el-submenu
+            :index="item.dr_self_key"
+            :key="index"
+            v-if="item.dr_son && item.dr_son.length"
+            :default-openeds="openeds"
+          >
+            <template slot="title"
+              ><i
+                :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"
+              ></i
+              >{{ item.dr_power_name }}</template
+            >
             <el-menu-item-group>
               <template v-for="child in item.dr_son">
-                <router-link :to="child.dr_power_href||''"
-                             target="_blank"
-                             :key="child.dr_power_name"
-                             v-if="child.dr_power_href">
-                  <el-menu-item :index="child.dr_power_name">{{ child.dr_power_name }}</el-menu-item>
-                </router-link>
+                <a
+                  v-if="child.dr_power_href"
+                  @click="to(child)"
+                >
+                  <el-menu-item :index="child.dr_power_name">{{
+                    child.dr_power_name
+                  }}</el-menu-item>
+                </a>
               </template>
-
             </el-menu-item-group>
           </el-submenu>
-          <router-link :key="index"
-                       target="_blank"
-                       :to="item.dr_power_href||''"
-                       v-if="!item.dr_son||!item.dr_son.length">
+          <a
+            v-if="!item.dr_son || !item.dr_son.length"
+            @click="to(item)"
+          >
             <el-menu-item :index="item.dr_power_href">
-              <i :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"></i>
-              <span slot="title">{{ item.dr_power_name }}</span>
+              <i
+                :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"
+              ></i>
+              <span slot="title">{{
+                item.dr_power_name
+              }}</span>
             </el-menu-item>
-          </router-link>
+          </a>
+          <a
+            v-if="!item.dr_son || !item.dr_son.length"
+            @click="to(item)"
+          >
+          </a>
         </template>
         <!-- <router-link tag="a"
                      target="_blank"
@@ -50,10 +67,10 @@
 <script>
 export default {
   components: {},
-  data () {
+  data() {
     return {
       isCollapse: false,
-      menuActive: '',
+      menuActive: "",
       openeds: [],
       navList: [],
       key: 1, //this.$local.get('user').key,
@@ -66,80 +83,90 @@ export default {
     };
   },
 
-  mounted () {
+  mounted() {
     this.getMenu();
     this.noAccess = false;
   },
   methods: {
-    menuSelect (index) {
-      console.log(index, 'indexindex');
+    to(item) {
+      const currentPage = this.$route.path
+      if (currentPage === '/home') {
+        window.open(window.location.origin + item.dr_power_href, '_blank');
+      } else {
+        this.$router.push({
+          path: item.dr_power_href
+        })
+      }
     },
-    getMenu () {
+    menuSelect(index) {
+      console.log(index, "indexindex");
+    },
+    getMenu() {
       this.navList = [
         {
           dr_level: 1,
-          dr_parent_key: '',
-          dr_power_href: '/home',
-          dr_power_icon: 'home',
-          dr_power_name: '首页',
-          dr_self_key: '3fa19b14fc224206bc123ab64c368017',
+          dr_parent_key: "",
+          dr_power_href: "/home",
+          dr_power_icon: "home",
+          dr_power_name: "首页",
+          dr_self_key: "3fa19b14fc224206bc123ab64c368017",
           dr_son: [],
           dr_sort: 1,
         },
         {
           dr_level: 1,
-          dr_parent_key: '',
-          dr_power_href: '/hazardousGoods',
-          dr_power_icon: 'explosive',
-          dr_power_name: '易燃易爆品管理',
-          dr_self_key: '3fa19b14fc224206bc123ab64c368097',
+          dr_parent_key: "",
+          dr_power_href: "/hazardousGoods",
+          dr_power_icon: "explosive",
+          dr_power_name: "易燃易爆品管理",
+          dr_self_key: "3fa19b14fc224206bc123ab64c368097",
           dr_son: [],
           dr_sort: 20,
         },
         {
           dr_level: 1,
-          dr_parent_key: '',
-          dr_power_icon: 'dataTest',
-          dr_power_name: '数据检测',
-          dr_self_key: '3fa19b14fc224206bc123ab64c368017',
+          dr_parent_key: "",
+          dr_power_icon: "dataTest",
+          dr_power_name: "数据检测",
+          dr_self_key: "3fa19b14fc224206bc123ab64c368017",
           dr_son: [
             {
               dr_level: 2,
-              dr_parent_key: '',
-              dr_power_href: '/alarm',
+              dr_parent_key: "",
+              dr_power_href: "/alarm",
               // dr_power_icon: "el-icon-notebook-2",
-              dr_power_name: '报警系统',
-              dr_self_key: '3fa19b14fc224206bc123ab64c368318',
+              dr_power_name: "报警系统",
+              dr_self_key: "3fa19b14fc224206bc123ab64c368318",
               dr_son: [],
               dr_sort: 4,
             },
             {
               dr_level: 2,
-              dr_parent_key: '',
-              dr_power_href: '/electricity',
+              dr_parent_key: "",
+              dr_power_href: "/electricity",
               // dr_power_icon: "el-icon-notebook-2",
-              dr_power_name: '智慧用电',
-              dr_self_key: '3fa19b14fc224206bc123ab64c368317',
+              dr_power_name: "智慧用电",
+              dr_self_key: "3fa19b14fc224206bc123ab64c368317",
               dr_son: [],
               dr_sort: 4,
             },
             {
               dr_level: 2,
-              dr_parent_key: '',
-              dr_power_href: '/water',
+              dr_parent_key: "",
+              dr_power_href: "/water",
               // dr_power_icon: "el-icon-notebook-2",
-              dr_power_name: '消防水系统',
-              dr_self_key: '3fa19b14fc224206bc123ab64c368317',
+              dr_power_name: "消防水系统",
+              dr_self_key: "3fa19b14fc224206bc123ab64c368317",
               dr_son: [],
               dr_sort: 4,
             },
             {
               dr_level: 2,
-              dr_parent_key: '',
-              dr_power_href: '/video',
+              dr_parent_key: "",
+              dr_power_href: "/video",
               // dr_power_icon: "el-icon-notebook-2",
-              dr_power_name: '视频监控',
-              dr_self_key: '3fa19b14fc224206bc123ab64c368317',
+              dr_power_name: "视频监控",
+              dr_self_key: "3fa19b14fc224206bc123ab64c368317",
               dr_son: [],
               dr_sort: 4,
             },
@@ -148,28 +175,28 @@ export default {
         },
         {
           dr_level: 1,
-          dr_parent_key: '',
-          dr_power_href: '/check',
-          dr_power_icon: 'dailyTest',
-          dr_power_name: '日常检查',
-          dr_self_key: '3fa19b14fc224206bc123ab64c368317',
+          dr_parent_key: "",
+          dr_power_href: "/check",
+          dr_power_icon: "dailyTest",
+          dr_power_name: "日常检查",
+          dr_self_key: "3fa19b14fc224206bc123ab64c368317",
           dr_son: [],
           dr_sort: 4,
         },
         {
           dr_level: 1,
-          dr_parent_key: '',
-          dr_power_href: '/area/areaManagement',
-          dr_power_icon: 'company',
-          dr_power_name: '单位管理',
-          dr_self_key: '3fa19b14fc224206bc123ab64c3680b7',
+          dr_parent_key: "",
+          dr_power_href: "/area/areaManagement",
+          dr_power_icon: "company",
+          dr_power_name: "单位管理",
+          dr_self_key: "3fa19b14fc224206bc123ab64c3680b7",
           dr_son: [],
           dr_sort: 5,
         },
       ];
-      this.$get('/v1/dr/get-menu')
+      this.$get("/v1/dr/get-menu")
         .then((res) => {
-          console.log('res');
+          console.log("res");
           console.log(res);
           this.menu = res.data;
           this.setMenu();
@@ -181,7 +208,7 @@ export default {
           this.noAccess = true;
         });
     },
-    setMenu () {
+    setMenu() {
       let dr_menu = this.menu;
 
       for (let key in dr_menu) {
@@ -197,7 +224,7 @@ export default {
           this.navList[key].dr_son.forEach((menu) => {
             //log(menu.dr_power_href)
             if (menu.dr_power_href) {
-              this.menuList.push(menu.dr_power_href.split('?')[0]);
+              this.menuList.push(menu.dr_power_href.split("?")[0]);
             }
 
             if (menu.dr_power_href == this.$route.path) {
@@ -231,12 +258,12 @@ export default {
       } else {
       }
     },
-    steps () {
+    steps() {
       this.driver = new this.$driver({
-        closeBtnText: '关闭',
-        doneBtnText: '完成', //结束按钮的文字
-        nextBtnText: '下一步', //下一步按钮的文字
-        prevBtnText: '上一步', //上一步按钮的文字
+        closeBtnText: "关闭",
+        doneBtnText: "完成", //结束按钮的文字
+        nextBtnText: "下一步", //下一步按钮的文字
+        prevBtnText: "上一步", //上一步按钮的文字
         overlayClickNext: true,
         onDeselected: () => {
           //console.log(111)
@@ -247,11 +274,11 @@ export default {
       });
       this.driver.defineSteps([
         {
-          element: '.nav-shenpi',
+          element: ".nav-shenpi",
           popover: {
-            title: '提示',
-            description: '请先在审批列表中添加审批流程',
-            position: 'right',
+            title: "提示",
+            description: "请先在审批列表中添加审批流程",
+            position: "right",
           },
         },
       ]);
@@ -259,12 +286,12 @@ export default {
         this.driver.start();
       }, 500);
     },
-    checkRouter (val) {
+    checkRouter(val) {
       return;
     },
   },
   watch: {
-    '$route.path' (val, old) {
+    "$route.path"(val, old) {
       if (this.menuList.length > 1) {
         this.checkRouter(val);
       }

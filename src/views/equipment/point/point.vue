@@ -33,7 +33,7 @@
         </ul>
         <el-pagination class="home_pagination" v-show="devList.length > 0" small :pager-count="5" :page-size="20" layout="prev, pager, next" :total="total" @current-change="getDevList"></el-pagination>
       </div>
-      <div class="point_wrap_box" @click.stop="setPoint($event)" ref="wrap">
+      <div class="point_wrap_box">
         <div v-drag class="point-wrap" @click.stop="setPoint($event)" ref="wrap">
           <img :src="info.dr_building_pic" alt="" style="width:100%" draggable="false" />
           <div

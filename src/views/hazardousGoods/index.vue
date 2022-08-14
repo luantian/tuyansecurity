@@ -161,7 +161,7 @@
                            label="名称"
                            align="center"
                            show-overflow-tooltip />
-          <el-table-column prop="dr_category_name"
+          <el-table-column prop="dr_big_category_name"
                            label="分类名称"
                            align="center"
                            show-overflow-tooltip>
@@ -175,7 +175,7 @@
             </template> -->
           </el-table-column>
           <el-table-column prop="dr_desc"
-                           label="详情"
+                           label="描述"
                            align="center"
                            show-overflow-tooltip>
           </el-table-column>

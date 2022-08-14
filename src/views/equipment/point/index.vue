@@ -1,5 +1,5 @@
 <template>
-<div class="dashboard-container">
+<div class="dashboard-container point_content">
   <el-row :gutter="20" type="flex">
     <el-col :span="6" style="width:220px">
       <AreaSelect @handleSelect="handleSelectArea" @ready="handleSelectArea" ref="areaTree"></AreaSelect>
@@ -133,4 +133,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.point_content::v-deep {
+  .el-dialog__body{
+    height: calc(100vh - 95px);
+    max-height: unset;
+  }
+}
 </style>
