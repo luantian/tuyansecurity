@@ -747,7 +747,7 @@ export default {
       // }
       .right_top_item {
         flex-shrink: 0;
-        flex: 1;
+        flex: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;

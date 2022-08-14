@@ -582,7 +582,7 @@ export default {
     .right_top {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: space-around;
       padding-bottom: 20px;
 
       gap: 25px;
@@ -595,7 +595,7 @@ export default {
         // margin-right: 25px;
         // margin-bottom: 25px;
         flex-shrink: 0;
-        flex: 1;
+        flex: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
