@@ -111,31 +111,31 @@
                  @click="onSearch">查询
             </div>
           </el-form>
-          <ul class="alarm-list">
-            <li class="alarm-item "
-                v-for="item in list"
-                :key="item.dr_notice_uuid">
-              <div class="top"></div>
-              <div class=" ch f14 ml20">
-                <div class="info-tx">
-                  <div class="cfff">{{ item.dr_device_name }} <span class="tag">异常</span></div>
-                  <div class="text">
-                    <i class="iconfont icon-time"></i>
-                    {{
+        </div>
+        <ul class="alarm-list">
+          <li class="alarm-item "
+              v-for="item in list"
+              :key="item.dr_notice_uuid">
+            <div class="top"></div>
+            <div class=" ch f14 ml20">
+              <div class="info-tx">
+                <div class="cfff">{{ item.dr_device_name }} <span class="tag">异常</span></div>
+                <div class="text">
+                  <i class="iconfont icon-time"></i>
+                  {{
                       new Date(item.dr_create_time * 1000).Format(
                         'yy-MM-dd hh:mm:ss'
                       )
                     }}
-                  </div>
-                </div>
-                <div class="text"><i class="iconfont icon-address"></i>{{ item.dr_unit_name }}</div>
-                <div class="text"> <i class="iconfont icon-listNumber"></i>{{ item.dr_device_serial }}发生报警
-                  <span style="float:right"><span class="dot"></span>{{ options[item.dr_online_status] }} </span>
                 </div>
               </div>
-            </li>
-          </ul>
-        </div>
+              <div class="text"><i class="iconfont icon-address"></i>{{ item.dr_unit_name }}</div>
+              <div class="text"> <i class="iconfont icon-listNumber"></i>{{ item.dr_device_serial }}发生报警
+                <span style="float:right"><span class="dot"></span>{{ options[item.dr_online_status] }} </span>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -596,7 +596,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style  lang="scss">
 @import './index.css';
 
 .pagination-wrapper {
@@ -654,89 +654,6 @@ export default {
       }
     }
   }
-  .alarm-list {
-    display: flex;
-    flex-wrap: wrap;
-    height: 720px;
-    overflow-y: scroll;
-    padding: 24px 33px 0px 33px;
-    // justify-content: space-between;
-    gap: 21px;
-    align-content: flex-start;
-    .alarm-item {
-      position: relative;
-      width: 376px;
-      height: 172px;
-      background: #011c2d;
-      border: 1px solid #004a70;
-      box-shadow: inset -2px -2px 4px 0px #004a70, inset 2px 2px 4px 0px #004a70;
-      border-radius: 3px;
-      flex-shrink: 0;
-      padding: 23px;
-      .top {
-        position: absolute;
-        left: 50%;
-        top: -1px;
-        margin-left: -72px;
-        width: 143px;
-        height: 4px;
-        background: #43c6d9;
-      }
-      .dot {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background: #15e3c4;
-        border-radius: 50%;
-        margin-right: 5px;
-      }
-    }
-
-    .info-tx {
-      justify-content: space-between;
-      line-height: 26px;
-    }
-
-    .cfff {
-      font-size: 16px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      color: #ffffff;
-      margin-bottom: 5px;
-    }
-    .text {
-      i {
-        color: #129ce0;
-        opacity: 0.64;
-      }
-      margin-top: 16px;
-      font-size: 13px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      color: #ffffff;
-      opacity: 0.8;
-    }
-
-    .ch {
-      color: #888d9f;
-    }
-
-    .tag {
-      display: inline-block;
-      width: 40px;
-      height: 20px;
-      line-height: 20px;
-      text-align: center;
-      background: #fd5042;
-      border-radius: 10px;
-      font-size: 14px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      color: #010101;
-      margin-top: 2px;
-      float: right;
-    }
-  }
 
   .el-button.el-button--text {
     color: hsla(0, 0%, 100%, 0.7);
@@ -761,59 +678,6 @@ export default {
     font-weight: 500;
   }
 
-  .search_box {
-    background: #1f263c;
-    label {
-      padding: 0px 8px 0px 30px;
-    }
-    .iner {
-      width: 180px !important;
-      height: 32px;
-      background: #00080b;
-      border: 1px solid #145677;
-      border-radius: 2px;
-      &.el-input--small {
-        .el-input__inner {
-        // background: #000c12 !important;
-        background: transparent !important; 
-       border: 1px solid #145677 !important;
-      }
-      }
-    }
-    .el-form-item {
-      margin-bottom: 0;
-      margin-right: 0px !important;
-      // width: 19%;
-    }
-
-    .btn_box {
-      display: inline-block;
-      text-align: center;
-      line-height: 32px;
-      width: 78px;
-      height: 32px;
-      background: linear-gradient(90deg, #1b81b5, #43a6d9);
-      border-radius: 2px;
-      margin-left: 22px;
-      cursor: pointer;
-    }
-
-    .el-form-item__label {
-      color: rgba(0, 0, 0, 0.65);
-    }
-
-    .el-button--default {
-      border-color: hsla(0, 0%, 100%, 0.3);
-      background-color: hsla(0, 0%, 100%, 0.06);
-      color: hsla(0, 0%, 100%, 0.7);
-    }
-
-    .el-input__inner {
-      border: none !important;
-      // background-color: #30374b !important;
-      border-radius: 2px;
-    }
-  }
   .content {
     width: 100%;
     display: flex;
@@ -881,14 +745,166 @@ export default {
       box-shadow: inset -5px -5px 6px 0px #0f2937, inset 5px 6px 6px 0px #0f2937;
       opacity: 0.9;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
       .search_box {
         width: 100%;
-        height: 58px;
+        min-height: 58px;
         background: #00080b;
-        box-shadow: 0px 1px 0px 0px rgba(13, 98, 140, 0.38);
-        // border-bottom: ;
-        .alarm-list {
-          overflow: auto;
+        box-shadow: inset -5px 0px 6px 0px #0f2937,
+          inset 5px 6px 6px 0px #0f2937;
+        border-bottom: 1px solid #101b24;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        label {
+          // display: inline-block;
+          padding: 0px 8px 0px 30px;
+          // min-width: 90px;
+        }
+        .el-form {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .el-form--inline {
+          padding: 10px 0px;
+        }
+        .iner {
+          width: 180px !important;
+          height: 32px;
+          background: #00080b;
+          border: 1px solid #145677;
+          border-radius: 2px;
+          &.el-input--small {
+            .el-input__inner {
+              // background: #000c12 !important;
+              background: transparent !important;
+              //  border: 1px solid #145677 !important;
+            }
+          }
+        }
+        .el-form-item {
+          margin-bottom: 0 !important;
+          margin-right: 0px !important;
+          // width: 19%;
+        }
+
+        .btn_box {
+          display: inline-block;
+          text-align: center;
+          line-height: 32px;
+          width: 78px;
+          height: 32px;
+          background: linear-gradient(90deg, #1b81b5, #43a6d9);
+          border-radius: 2px;
+          margin-left: 22px;
+          cursor: pointer;
+        }
+
+        .el-form-item__label {
+          color: rgba(0, 0, 0, 0.65);
+        }
+
+        .el-button--default {
+          border-color: hsla(0, 0%, 100%, 0.3);
+          background-color: hsla(0, 0%, 100%, 0.06);
+          color: hsla(0, 0%, 100%, 0.7);
+        }
+
+        .el-input__inner {
+          border: none !important;
+          // background-color: #30374b !important;
+          border-radius: 2px;
+        }
+      }
+      .alarm-list {
+        flex: 1;
+        overflow: auto;
+        display: flex;
+        flex-wrap: wrap;
+        height: 720px;
+        overflow-y: scroll;
+        margin-top: 24px;
+        padding: 0px 33px 0px 33px;
+        // justify-content: space-between;
+        gap: 21px;
+        align-content: flex-start;
+        .alarm-item {
+          position: relative;
+          width: 376px;
+          height: 172px;
+          background: #011c2d;
+          border: 1px solid #004a70;
+          box-shadow: inset -2px -2px 4px 0px #004a70,
+            inset 2px 2px 4px 0px #004a70;
+          border-radius: 3px;
+          flex-shrink: 0;
+          padding: 23px;
+          .top {
+            position: absolute;
+            left: 50%;
+            top: -1px;
+            margin-left: -72px;
+            width: 143px;
+            height: 4px;
+            background: #43c6d9;
+          }
+          .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #15e3c4;
+            border-radius: 50%;
+            margin-right: 5px;
+          }
+        }
+
+        .info-tx {
+          justify-content: space-between;
+          line-height: 26px;
+        }
+
+        .cfff {
+          font-size: 16px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          color: #ffffff;
+          margin-bottom: 5px;
+          display: flex;
+          justify-content: space-between;
+        }
+        .text {
+          i {
+            color: #129ce0;
+            opacity: 0.64;
+          }
+          margin-top: 16px;
+          font-size: 13px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          color: #ffffff;
+          opacity: 0.8;
+        }
+
+        .ch {
+          color: #888d9f;
+        }
+
+        .tag {
+          display: inline-block;
+          width: 40px;
+          height: 20px;
+          line-height: 20px;
+          text-align: center;
+          background: #fd5042;
+          border-radius: 10px;
+          font-size: 14px;
+          font-family: PingFang SC;
+          font-weight: 400;
+          color: #010101;
+          margin-top: 2px;
+          // float: right;
         }
       }
     }
