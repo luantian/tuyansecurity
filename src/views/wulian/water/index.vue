@@ -582,14 +582,10 @@ export default {
     .right_top {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
+      // justify-content: space-around;
       padding-bottom: 20px;
 
       gap: 25px;
-      // &::after {
-      //   flex: auto;
-      //   content: '';
-      // }
       
       .right_top_item {
         // margin-right: 25px;

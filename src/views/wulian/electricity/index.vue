@@ -732,22 +732,25 @@ export default {
   .right {
     flex: 1;
     padding: 32px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: space-between;
     overflow: auto;
     .right_top {
+      margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
       margin-bottom: 20px;
       gap: 25px 20px;
-      justify-content: space-around;
-      // &:last-child {
-      //   justify-content: left;
-      // }
+      // justify-content: space-between;
+      &::after {
+        content: "";
+        width: 323px;
+      }
       .right_top_item {
         flex-shrink: 0;
         flex: 0;
+
         display: flex;
         flex-direction: column;
         justify-content: center;
