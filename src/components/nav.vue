@@ -91,7 +91,7 @@ export default {
     to(item) {
       const currentPage = this.$route.path
       if (currentPage === '/home') {
-        window.open(window.location.origin + item.dr_power_href, '_blank');
+        window.open(window.location.origin + '/#' +item.dr_power_href, '_blank');
       } else {
         this.$router.push({
           path: item.dr_power_href
