@@ -740,8 +740,18 @@ export default {
       display: flex;
       flex-wrap: wrap;
       margin-bottom: 20px;
+      gap: 25px 20px;
+      justify-content: space-around;
+      // &:last-child {
+      //   justify-content: left;
+      // }
       .right_top_item {
         flex-shrink: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         .item_title {
           text-align: center;
           font-size: 18px;
@@ -749,6 +759,7 @@ export default {
           font-weight: 400;
           color: #ffffff;
           margin-bottom: 12px;
+          width: 323px;
         }
         .item_content {
           position: relative;
@@ -760,11 +771,12 @@ export default {
           box-shadow: inset -2px -2px 4px 0px #004a70,
             inset 2px 2px 4px 0px #004a70;
           border-radius: 3px;
-          margin-right: 25px;
+          // margin-right: 25px;
           padding: 28px 16px 27px 22px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+
           .item_content_line {
             position: absolute;
             top: 0px;

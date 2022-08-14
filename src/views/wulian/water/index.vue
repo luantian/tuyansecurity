@@ -584,15 +584,22 @@ export default {
       flex-wrap: wrap;
       justify-content: space-between;
       padding-bottom: 20px;
+
+      gap: 25px;
       // &::after {
       //   flex: auto;
       //   content: '';
       // }
+      
       .right_top_item {
         // margin-right: 25px;
         // margin-bottom: 25px;
-        gap: 25px;
         flex-shrink: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         .item_title {
           text-align: center;
           font-size: 18px;
@@ -600,6 +607,7 @@ export default {
           font-weight: 400;
           color: #ffffff;
           margin-bottom: 12px;
+          width: 440px;
         }
         .item_content {
           position: relative;
