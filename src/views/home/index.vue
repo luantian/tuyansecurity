@@ -719,7 +719,12 @@ export default {
       }
     }
   }
-  @media screen and (max-width: '1700px') {
+  @media screen and (max-width:1800px) and (min-width: 1700px){
+    .home_main_top {
+      left: 55px;
+    }
+  }
+  @media screen and (max-width: 1700px) {
     .home_main_top {
       left: 55px;
       width: 930px;
