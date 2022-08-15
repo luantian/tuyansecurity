@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-13 09:11:35
+ * @LastEditTime: 2022-08-15 10:50:58
  * @LastEditors: your name
  * @Description: 
 -->
@@ -1083,7 +1083,7 @@ export default {
         //direction: 'vertical', // 垂直切换选项
         //mousewheel: true, //滚轮
         autoplay: { //自动开始
-          delay: 2500, //时间间隔
+          delay: 5000, //时间间隔
           disableOnInteraction: false, //*手动操作轮播图后不会暂停*
         },
         // loop: true, // 循环模式选项
