@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-07-26 21:40:37
- * @LastEditTime: 2022-08-15 10:50:58
+ * @LastEditTime: 2022-08-15 14:06:51
  * @LastEditors: your name
  * @Description: 
 -->
@@ -42,74 +42,18 @@
           </div>
           <div class="swiper-container">
             <div class="swiper-wrapper">
-              <div class="swiper-slide">
+              <div class="swiper-slide"
+                   v-for="(item, index) in wulianList"
+                   :key="index">
                 <div class="wl_module">
-                  <div class="wl_module_item">
+                  <div class="wl_module_item"
+                       v-for="(initem, inindex) in item"
+                       :key="inindex">
                     <div class="wl_module_item_title">
-                      电气火灾监控系统
+                      {{initem.drName}}
                     </div>
                     <div class="wl_module_item_num">
-                      68
-                    </div>
-                  </div>
-                  <div class="wl_module_item">
-                    <div class="wl_module_item_title">
-                      独立式烟感系统
-                    </div>
-                    <div class="wl_module_item_num">
-                      345
-                    </div>
-                  </div>
-                  <div class="wl_module_item">
-                    <div class="wl_module_item_title">
-                      独立式烟感系统
-                    </div>
-                    <div class="wl_module_item_num">
-                      78
-                    </div>
-                  </div>
-                  <div class="wl_module_item">
-                    <div class="wl_module_item_title">
-                      可燃气体系统
-                    </div>
-                    <div class="wl_module_item_num">
-                      61
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="wl_module">
-                  <div class="wl_module_item">
-                    <div class="wl_module_item_title">
-                      电气火灾监控系统
-                    </div>
-                    <div class="wl_module_item_num">
-                      68
-                    </div>
-                  </div>
-                  <div class="wl_module_item">
-                    <div class="wl_module_item_title">
-                      独立式烟感系统
-                    </div>
-                    <div class="wl_module_item_num">
-                      345
-                    </div>
-                  </div>
-                  <div class="wl_module_item">
-                    <div class="wl_module_item_title">
-                      独立式烟感系统
-                    </div>
-                    <div class="wl_module_item_num">
-                      78
-                    </div>
-                  </div>
-                  <div class="wl_module_item">
-                    <div class="wl_module_item_title">
-                      可燃气体系统
-                    </div>
-                    <div class="wl_module_item_num">
-                      61
+                      {{initem.drCount}}
                     </div>
                   </div>
                 </div>
@@ -133,33 +77,36 @@
             <div class="yw_module_item item1">
               <div class="left">
                 <div class="yw_module_item_num">
-                  23
+                  {{info['li-xian'] || 0}}
                 </div>
                 <div class="yw_module_item_title">
                   离线设备
                 </div>
               </div>
               <div class="right">
-                 <precent-pie-chart-vue :pieId="'pie1'" :data="0.75"></precent-pie-chart-vue>
+                <precent-pie-chart-vue :pieId="'pie1'"
+                                       :data="(info['li-xian-lv'] || 0)"></precent-pie-chart-vue>
               </div>
             </div>
             <div class="yw_module_item item2">
               <div class="left">
                 <div class="yw_module_item_num">
-                  115
+                  <!-- {{info['ge-xi-tong-gu-zhang-she-bei'] || 0}} -->
+                  0
                 </div>
                 <div class="yw_module_item_title">
                   故障设备
                 </div>
               </div>
               <div class="right">
-                <precent-pie-chart-vue :pieId="'pie2'" :data="0.25"></precent-pie-chart-vue>
+                <precent-pie-chart-vue :pieId="'pie2'"
+                                       :data="(info['ge-xi-tong-gu-zhang-she-bei-lv'] || 0)"></precent-pie-chart-vue>
               </div>
             </div>
             <div class="yw_module_item item3">
               <div class="left">
                 <div class="yw_module_item_num">
-                  217
+                  {{info['di-dian-liang'] || 0}}
                 </div>
                 <div class="yw_module_item_title">
                   低电量设备
@@ -167,14 +114,15 @@
 
               </div>
               <div class="right">
-                 <precent-pie-chart-vue :pieId="'pie3'" :data="0.35"></precent-pie-chart-vue>
+                <precent-pie-chart-vue :pieId="'pie3'"
+                                       :data="(info['di-dian-liang-lv'] || 0)"></precent-pie-chart-vue>
               </div>
             </div>
             <div class="yw_module_item item4"
                  style="position:relative">
               <div class="left">
                 <div class="yw_module_item_num">
-                  671
+                  {{info['dai-xu-fei'] || 0}}
                 </div>
                 <div class="yw_module_item_title">
                   待续费设备
@@ -182,7 +130,8 @@
 
               </div>
               <div class="right">
-                 <precent-pie-chart-vue :pieId="'pie4'" :data="0.6"></precent-pie-chart-vue>
+                <precent-pie-chart-vue :pieId="'pie4'"
+                                       :data="(info['dai-xu-fei-lv'] || 0)"></precent-pie-chart-vue>
               </div>
             </div>
           </div>
@@ -224,6 +173,8 @@
                        }">{{item.id}}</div>
                   <div class="bj_module_item_name">{{item.name}}</div>
                   <div class="bj_module_item_category">{{item.des}}</div>
+                  <!-- <div class="bj_module_item_name">{{item.drName}}</div>
+                  <div class="bj_module_item_category">{{formatDes(item.drUnitCategory)}}</div> -->
                 </div>
                 <div class="right">
                   <div class="bj_module_item_icon">
@@ -265,12 +216,12 @@
                         <div class="content">
                           <div class="title">语音</div>
                           <div class="num">
-                            <span class="num1">7/</span>
+                            <span class="num1">{{(info['phone-count'] || 0)}}/</span>
                             <span class="num2">5000</span>
                           </div>
                           <div class="pre">
                             <div class="pre_in"
-                                 :style="{'width': '10px'}"></div>
+                                 :style="{'width': `${(info['phone-count'] || 0)/5000}%`}"></div>
                           </div>
                         </div>
                       </div>
@@ -278,12 +229,12 @@
                         <div class="content">
                           <div class="title">短信</div>
                           <div class="num">
-                            <span class="num1">0/</span>
+                            <span class="num1">{{info['message-count']}}/</span>
                             <span class="num2">5000</span>
                           </div>
                           <div class="pre">
                             <div class="pre_in"
-                                 :style="{'width': '0px'}"></div>
+                                 :style="{'width': `${(info['message-count'] || 0)/5000}%`}"></div>
                           </div>
                         </div>
                       </div>
@@ -311,12 +262,12 @@
                     <div class="wb_area_item">
                       <img src="./img/weibao.png" />
                       <div class="wb_area_item_title">维保完成数</div>
-                      <div class="wb_area_item_num">352</div>
+                      <div class="wb_area_item_num">{{info['maintenance-count-finish']}}</div>
                     </div>
                     <div class="wb_area_item">
                       <img src="./img/xunjian.png" />
                       <div class="wb_area_item_title">巡检异常数</div>
-                      <div class="wb_area_item_num">57</div>
+                      <div class="wb_area_item_num">{{info['maintenance-count-abnormal'] || 0}}</div>
                     </div>
                   </div>
                 </div>
@@ -380,12 +331,13 @@ export default {
       },
       unitList: [
         { id: '01', name: '万象城', des: '（一般单位）', num: 78 },
-        { id: '02', name: '万达广场', des: '（重点单位）', num: 78 },
-        { id: '03', name: '家乐福', des: '（高层建筑）', num: 78 },
-        { id: '04', name: '人民医院', des: '（一般单位）', num: 78 },
-        { id: '05', name: '华润万象', des: '（一般单位）', num: 78 },
-        { id: '06', name: '恒隆广场', des: '（一般单位）', num: 78 },
-      ]
+        { id: '02', name: '万达广场', des: '（重点单位）', num: 65 },
+        { id: '03', name: '家乐福', des: '（高层建筑）', num: 47 },
+        { id: '04', name: '人民医院', des: '（一般单位）', num: 32 },
+        { id: '05', name: '华润万象', des: '（一般单位）', num: 19 },
+        { id: '06', name: '恒隆广场', des: '（一般单位）', num: 18 },
+      ],
+      wulianList: []
     }
   },
   methods: {
@@ -393,12 +345,12 @@ export default {
      * 运维状态环形饼图
      */
     setPieLittle () {
-      
+
     },
     /**
      * 运维饼状图
      */
-    setywPie () {
+    setywPie (count = 0) {
       var data = [
         '电气火灾监控系统',
         '独立式烟感系统',
@@ -413,7 +365,8 @@ export default {
       }]
       let option = {
         title: {
-          subtext: '5780',
+          // subtext: `${count}`,
+          subtext: `5894`,
           text: '   总数',
           left: '50%',
           top: '30%',
@@ -427,6 +380,7 @@ export default {
             fontSize: 28,
             fontWeight: 'normal',
             align: "center",
+            verticalAlign: 'middle',
             color: '#FFFFFF',
             fontFamily: 'Roboto Condensed'
           },
@@ -538,14 +492,33 @@ export default {
           for (let key in res.data) {
             this.$set(this.info, key, res.data[key])
           }
-        }
-        this.setywPie();
-        this.setwulianLine();
-        this.setbaojingLine();
-        this.setBar()
-        this.setGDTotalPie();
-        this.setGDcompletionPie();
-        this.setPieLittle()
+          // 物联接入
+          let ListIndex = 0;
+          let ListLenght = Math.ceil(res.data['wu-lian-jie-ru'].length / 4)
+          // let list = new Array(Math.ceil(res.data['wu-lian-jie-ru'].length / 4)).form([]);
+          let list = [];
+          for (let i = 0; i < ListLenght; i++) {
+            list.push([])
+          }
+          res.data['wu-lian-jie-ru'].forEach((item, index) => {
+            console.log(index)
+            ListIndex = Math.floor(index / 4);
+            console.log(ListIndex, list[ListIndex])
+            list[ListIndex].push(item)
+          });
+          // this.unitList = res.data['notice-count'] || []
+          console.log(list);
+          this.wulianList = list;
+          this.initSwiper();
+          this.setywPie(this.info['ge-xi-tong-gu-zhang-she-bei-zong-shu']);
+          this.setwulianLine();
+          this.setbaojingLine();
+          this.setBar()
+          this.setGDTotalPie();
+          this.setGDcompletionPie();
+          this.setPieLittle()
+        };
+
         this.loading = false
 
       }).catch(err => {
@@ -1070,7 +1043,36 @@ export default {
         //宽度自适应
         GDCompletionPie.resize();
       });
-    }
+    },
+    initSwiper () {
+      this.$nextTick(() => {
+        new Swiper('.swiper-container', {
+          //direction: 'vertical', // 垂直切换选项
+          //mousewheel: true, //滚轮
+          autoplay: { //自动开始
+            delay: 5000, //时间间隔
+            disableOnInteraction: false, //*手动操作轮播图后不会暂停*
+          },
+          // loop: true, // 循环模式选项
+
+          // 如果需要分页器
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true, // 分页器可以点击
+          },
+        })
+      })
+
+    },
+    /**
+     * 格式化机构级别
+     */
+    // formatDes (type) {
+    //   switch () {
+    //     case： '1',
+    //     return
+    //   }
+    // }
   },
   mounted () {
     console.log(icon);
@@ -1078,23 +1080,6 @@ export default {
     //   this.show = true
     // }, 2000)
     this.getData();
-    this.$nextTick(() => {
-      new Swiper('.swiper-container', {
-        //direction: 'vertical', // 垂直切换选项
-        //mousewheel: true, //滚轮
-        autoplay: { //自动开始
-          delay: 5000, //时间间隔
-          disableOnInteraction: false, //*手动操作轮播图后不会暂停*
-        },
-        // loop: true, // 循环模式选项
-
-        // 如果需要分页器
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true, // 分页器可以点击
-        },
-      })
-    })
 
   },
 }
@@ -1117,7 +1102,7 @@ export default {
   .swiper-pagination {
     position: absolute;
     top: -9px;
-    right: 40px;
+    right: 14px;
     text-align: right;
     &.swiper-pagination-bullets {
       width: unset;

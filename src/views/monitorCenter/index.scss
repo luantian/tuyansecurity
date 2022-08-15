@@ -145,7 +145,7 @@
       .screen_left_top {
         display: flex;
         flex-direction: column;
-        background: rgba(0, 0, 0, 0.8);
+        // background: rgba(0, 0, 0, 0.8);
         .wl_module {
           display: flex;
           flex-shrink: 0;
@@ -196,7 +196,7 @@
       .screen_left_bottom {
         display: flex;
         flex-direction: column;
-        background: rgba(0, 0, 0, 0.8);
+        // background: rgba(0, 0, 0, 0.8);
         .yw_module {
           margin-top: 36px;
           display: flex;
@@ -323,7 +323,7 @@
       .screen_right_top {
         display: flex;
         flex-direction: column;
-        background: rgba(0, 0, 0, 0.8);
+        // background: rgba(0, 0, 0, 0.8);
         .bj_module {
           margin-top: 15px;
           margin-bottom: 12px;
@@ -431,7 +431,7 @@
       .screen_right_bottom {
         display: flex;
         flex-direction: column;
-        background: rgba(0, 0, 0, 0.8);
+        // background: rgba(0, 0, 0, 0.8);
         .screen_right_bottom_item {
           flex: 1;
           display: flex;
