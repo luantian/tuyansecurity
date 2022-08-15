@@ -1,31 +1,22 @@
 <template>
-  <el-aside
-    width="220px"
-    style="height: 100%"
-    class="animate__animated animate__fadeInLeft"
-    v-if="!noAccess"
-  >
-    <el-menu :default-openeds="open" class="nav-wrap el-menu--dark">
-      <el-scrollbar style="height: 100%" class="el-scroll">
+  <el-aside width="220px"
+            style="height: 100%"
+            class="animate__animated animate__fadeInLeft"
+            v-if="!noAccess">
+    <el-menu :default-openeds="open"
+             class="nav-wrap el-menu--dark">
+      <el-scrollbar style="height: 100%"
+                    class="el-scroll">
         <template v-for="(item, index) in navList">
-          <el-submenu
-            :index="item.dr_self_key"
-            :key="index"
-            v-if="item.dr_son && item.dr_son.length"
-            :default-openeds="openeds"
-          >
-            <template slot="title"
-              ><i
-                :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"
-              ></i
-              >{{ item.dr_power_name }}</template
-            >
+          <el-submenu :index="item.dr_self_key"
+                      :key="index"
+                      v-if="item.dr_son && item.dr_son.length"
+                      :default-openeds="openeds">
+            <template slot="title"><i :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"></i>{{ item.dr_power_name }}</template>
             <el-menu-item-group>
               <template v-for="child in item.dr_son">
-                <a
-                  v-if="child.dr_power_href"
-                  @click="to(child)"
-                >
+                <a v-if="child.dr_power_href"
+                   @click="to(child)">
                   <el-menu-item :index="child.dr_power_name">{{
                     child.dr_power_name
                   }}</el-menu-item>
@@ -33,23 +24,17 @@
               </template>
             </el-menu-item-group>
           </el-submenu>
-          <a
-            v-if="!item.dr_son || !item.dr_son.length"
-            @click="to(item)"
-          >
+          <a v-if="!item.dr_son || !item.dr_son.length"
+             @click="to(item)">
             <el-menu-item :index="item.dr_power_href">
-              <i
-                :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"
-              ></i>
+              <i :class="`iconfont ${item.dr_power_icon} icon-${item.dr_power_icon}`"></i>
               <span slot="title">{{
                 item.dr_power_name
               }}</span>
             </el-menu-item>
           </a>
-          <a
-            v-if="!item.dr_son || !item.dr_son.length"
-            @click="to(item)"
-          >
+          <a v-if="!item.dr_son || !item.dr_son.length"
+             @click="to(item)">
           </a>
         </template>
         <!-- <router-link tag="a"
@@ -67,7 +52,7 @@
 <script>
 export default {
   components: {},
-  data() {
+  data () {
     return {
       isCollapse: false,
       menuActive: "",
@@ -83,25 +68,25 @@ export default {
     };
   },
 
-  mounted() {
+  mounted () {
     this.getMenu();
     this.noAccess = false;
   },
   methods: {
-    to(item) {
+    to (item) {
       const currentPage = this.$route.path
       if (currentPage === '/home') {
-        window.open(window.location.origin + '/#' +item.dr_power_href, '_blank');
+        window.open(window.location.origin + '/#' + item.dr_power_href, '_blank');
       } else {
         this.$router.push({
           path: item.dr_power_href
         })
       }
     },
-    menuSelect(index) {
+    menuSelect (index) {
       console.log(index, "indexindex");
     },
-    getMenu() {
+    getMenu () {
       this.navList = [
         {
           dr_level: 1,
@@ -112,16 +97,6 @@ export default {
           dr_self_key: "3fa19b14fc224206bc123ab64c368017",
           dr_son: [],
           dr_sort: 1,
-        },
-        {
-          dr_level: 1,
-          dr_parent_key: "",
-          dr_power_href: "/hazardousGoods",
-          dr_power_icon: "explosive",
-          dr_power_name: "易燃易爆品管理",
-          dr_self_key: "3fa19b14fc224206bc123ab64c368097",
-          dr_son: [],
-          dr_sort: 20,
         },
         {
           dr_level: 1,
@@ -198,7 +173,25 @@ export default {
         .then((res) => {
           console.log("res");
           console.log(res);
-          this.menu = res.data;
+          let list = [];
+          for (let key in res.data) {
+            list.push(res.data[key])
+            if (res.data[key].dr_power_href === '/equipment/fire') {
+              list.push({
+                dr_level: 1,
+                dr_parent_key: "",
+                dr_power_href: "/hazardousGoods",
+                dr_power_icon: "explosive",
+                dr_power_name: "易燃易爆品管理",
+                dr_self_key: "3fa19b14fc224206bc123ab64c368097",
+                dr_son: [],
+                dr_sort: 20,
+              })
+            }
+
+          }
+          console.log(list)
+          this.menu = list;
           this.setMenu();
           this.noAccess = false;
         })
@@ -208,11 +201,11 @@ export default {
           this.noAccess = true;
         });
     },
-    setMenu() {
+    setMenu () {
       let dr_menu = this.menu;
 
-      for (let key in dr_menu) {
-        this.navList.push(dr_menu[key]);
+      for (let i=0; i< dr_menu.length; i++) {
+        this.navList.push(dr_menu[i]);
       }
       console.log(this.navList);
       for (let key in this.navList) {
@@ -258,7 +251,7 @@ export default {
       } else {
       }
     },
-    steps() {
+    steps () {
       this.driver = new this.$driver({
         closeBtnText: "关闭",
         doneBtnText: "完成", //结束按钮的文字
@@ -286,12 +279,12 @@ export default {
         this.driver.start();
       }, 500);
     },
-    checkRouter(val) {
+    checkRouter (val) {
       return;
     },
   },
   watch: {
-    "$route.path"(val, old) {
+    "$route.path" (val, old) {
       if (this.menuList.length > 1) {
         this.checkRouter(val);
       }
