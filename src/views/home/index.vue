@@ -7,7 +7,8 @@
             @showDetail="showDetail"></cmap>
       <!-- 头部提示 start-->
       <div class="home_main_top">
-        <div class="today_warring top_item">
+        <div class="today_warring top_item"
+             @click="handleClickToCheck()">
           <img src="../../assets/home-image/jingbao.png"
                alt="">
           <div class="top_content">
@@ -15,7 +16,8 @@
             <div class="content_num">{{info && info.dr_today_notice_count || 0}}</div>
           </div>
         </div>
-        <div class="today_yinhuan top_item">
+        <div class="today_yinhuan top_item"
+             @click="handleClickToCheck()">
           <img src="../../assets/home-image/yinhuan.png"
                alt="">
           <div class="top_content">
@@ -23,7 +25,8 @@
             <div class="content_num">{{info && info.dr_hidden_danger || 0}}</div>
           </div>
         </div>
-        <div class="lianwang_unitnum top_item">
+        <div class="lianwang_unitnum top_item"
+             @click="handleClickToUnit()">
           <img src="../../assets/home-image/unit.png"
                alt="">
           <div class="top_content">
@@ -31,7 +34,8 @@
             <div class="content_num">{{info && info.dr_unit_count || 0}}</div>
           </div>
         </div>
-        <div class="jiankong_num top_item">
+        <div class="jiankong_num top_item"
+             @click="handleClickToUnit()">
           <img src="../../assets/home-image/jiankong.png"
                alt="">
           <div class="top_content">
@@ -39,7 +43,8 @@
             <div class="content_num">{{info && info.dr_unit_count || 0}}</div>
           </div>
         </div>
-        <div class="xiaofang_totalnum top_item">
+        <div class="xiaofang_totalnum top_item"
+             @click="handleClickToDevice()">
           <img src="../../assets/home-image/xiaofang.png"
                alt="">
           <div class="top_content">
@@ -105,10 +110,13 @@
       <!-- 底部提示 start -->
       <div class="home_main_bottom">
         <div class="home_main_bottom_item"
+             @click="handleClickToDevice()"
              id="devicePie"></div>
         <div class="home_main_bottom_item"
+             @click="handleClickToDevice()"
              id="errDevicePie"></div>
         <div class="home_main_bottom_item"
+             @click="handleClickToUnit()"
              id="monitorPointPie"></div>
       </div>
       <!-- 底部提示 end -->
@@ -181,6 +189,24 @@ export default {
     this.getInfo()
   },
   methods: {
+    /**
+     * 跳转日常检查
+     */
+    handleClickToCheck () {
+      window.open(window.location.origin + '/#/check', '_blank');
+    },
+    /**
+     * 跳转单位管理
+     */
+    handleClickToUnit () {
+      window.open(window.location.origin + '/#/area/areaManagement', '_blank');
+    },
+    /**
+     * 跳转设备管理
+     */
+    handleClickToDevice () {
+      window.open(window.location.origin + '/#/equipment/equipmentManagement', '_blank');
+    },
     goHistoryDetail () {
       this.$router.push({ path: '/equipment/noticeList' })
     },
@@ -664,6 +690,7 @@ export default {
       display: flex;
       height: 72px;
       align-items: center;
+      cursor: pointer;
       // justify-content: center;
       img {
         width: 50px;
@@ -719,7 +746,7 @@ export default {
       }
     }
   }
-  @media screen and (max-width:1800px) and (min-width: 1700px){
+  @media screen and (max-width: 1800px) and (min-width: 1700px) {
     .home_main_top {
       left: 55px;
     }
@@ -732,10 +759,10 @@ export default {
       .top_item {
         height: 60px;
         img {
-        width: 50px;
-        height: 46px;
-        margin-right: 10px;
-      }
+          width: 50px;
+          height: 46px;
+          margin-right: 10px;
+        }
         &.today_warring {
           padding-left: 40px;
           width: 195px;
@@ -879,6 +906,7 @@ export default {
     .home_main_bottom_item {
       flex: 1;
       padding-top: 15px;
+      cursor: pointer;
     }
   }
 }
