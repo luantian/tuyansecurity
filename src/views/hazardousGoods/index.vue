@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-10 16:11:00
- * @LastEditTime: 2022-08-12 01:05:44
+ * @LastEditTime: 2022-08-16 14:20:35
  * @LastEditors: your name
  * @Description: 
 -->
@@ -179,6 +179,11 @@
                            align="center"
                            show-overflow-tooltip>
           </el-table-column>
+          <el-table-column prop="dr_unit_name"
+                           label="所属单位"
+                           align="center"
+                           show-overflow-tooltip>
+          </el-table-column>
           <el-table-column prop="dr_notice_status"
                            label="创建时间"
                            align="center"
@@ -330,7 +335,7 @@
                       size="small"
                       clearable></el-input>
           </el-form-item>
-          <!-- <el-form-item label="部门"
+          <el-form-item label="所属单位"
                         label-width="130px">
             <el-cascader :options="units"
                          :props="{
@@ -342,7 +347,7 @@
                          clearable
                          v-model="addForm.dr_unit"
                          size="mini"></el-cascader>
-          </el-form-item> -->
+          </el-form-item>
         </el-form>
         <div class="center mt20">
           <el-button type="primary"
@@ -406,7 +411,7 @@
                       size="small"
                       clearable></el-input>
           </el-form-item>
-          <!-- <el-form-item label="部门"
+          <el-form-item label="部门"
                         label-width="130px">
             <el-cascader :options="units"
                          :props="{
@@ -418,7 +423,7 @@
                          clearable
                          v-model="editForm.dr_unit"
                          size="mini"></el-cascader>
-          </el-form-item> -->
+          </el-form-item>
         </el-form>
         <div class="center mt20">
           <el-button type="primary"
@@ -500,7 +505,7 @@ export default {
         dr_desc: "",
         dr_duty: "",
         dr_spu: "",
-        // dr_unit: "",
+        dr_unit: [],
         dr_pic: ""
       },
       editForm: {
@@ -512,7 +517,7 @@ export default {
         dr_desc: "",
         dr_duty: "",
         dr_spu: "",
-        // dr_unit: "",
+        dr_unit: [],
         dr_pic: ""
       },
       formRules: {
@@ -521,7 +526,7 @@ export default {
         dr_big_category: [{ required: true, message: '分类名称不能为空', trigger: 'blur' }],
         // dr_category: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
       },
-      // units: []
+      units: []
     }
   },
   components: {
@@ -530,11 +535,11 @@ export default {
   methods: {
     formatDate,
     formatDateTime,
-    // getUnits () {
-    //   this.$get("/v1/dr/unit-list").then((res) => {
-    //     this.units = forobj(res.data);
-    //   });
-    // },
+    getUnits () {
+      this.$get("/v1/dr/unit-list").then((res) => {
+        this.units = forobj(res.data);
+      });
+    },
     handleFilter () {
       this.filterBtn = !this.filterBtn;
       if (!this.filterBtn) {
@@ -712,7 +717,7 @@ export default {
         this.addForm.dr_desc = "",
         this.addForm.dr_duty = "",
         this.addForm.dr_spu = "",
-        this.addForm.dr_unit = "",
+        this.addForm.dr_unit = [],
         this.addForm.dr_pic = ""
       this.showAdd = true;
       this.$nextTick(() => {
@@ -722,8 +727,10 @@ export default {
     commitAddHazardousGood () {
       console.log(this.addForm)
       this.$refs.addForm.validate((valid) => {
+        let addForm = JSON.parse(JSON.stringify(this.addForm));
+        addForm.dr_unit.length && (addForm.dr_unit = addForm.dr_unit[addForm.dr_unit.length - 1])
         if (valid) {
-          this.$post('v1/dr/dangerous-add', this.addForm).then(res => {
+          this.$post('v1/dr/dangerous-add', addForm).then(res => {
             console.log(res);
             this.$message.success('新增分类成功！');
             this.showAdd = false;
@@ -744,7 +751,7 @@ export default {
         this.editForm.dr_category = item.dr_category,
         this.editForm.dr_desc = item.dr_desc,
         this.editForm.dr_spu = item.dr_spu,
-        // this.editForm.dr_unit = item.dr_unit,
+        this.editForm.dr_unit = [item.dr_unit],
         this.editForm.dr_duty = item.dr_duty,
         this.editForm.dr_status = item.dr_status,
         this.editForm.dr_pic = item.dr_pic
@@ -760,6 +767,8 @@ export default {
      */
     commitUpdateHazardousGood (isEdit) {
       this.$post('/v1/dr/dangerous-update', this.editForm).then(res => {
+        let editForm = JSON.parse(JSON.stringify(this.editForm));
+        editForm.dr_unit.length && (editForm.dr_unit = editForm.dr_unit[editForm.dr_unit.length - 1])
         this.$message.success('修改成功！')
         this.showEdit = false
         this.selectHazardousGood()
@@ -820,7 +829,7 @@ export default {
   },
   async mounted () {
     await this.getMapCode();
-    // this.getUnits();
+    this.getUnits();
     this.selectHazardousGoodType()
     this.selectHazardousGood();
   },
