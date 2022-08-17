@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-08-12 14:10:14
- * @LastEditTime: 2022-08-13 09:24:41
+ * @LastEditTime: 2022-08-17 09:34:24
  * @LastEditors: your name
  * @Description: 
 -->
@@ -43,8 +43,11 @@ export default {
   data() {
     return {
       showMap: false,
-      position: [120.381562, 36.155431],
-      position1:[120.355298,36.0999],
+      position: [126.614853, 45.728073],
+      // position: [45.728073, 126.614853],
+      // position: [120.381562, 36.155431],
+      // position1:[120.355298,36.0999],
+      position1: [126.639079, 45.727954],
       icon: icon,
       map: {
         events: {
@@ -62,7 +65,8 @@ export default {
         viewMode: "3D",
         expandZoomRange: true,
         zooms: [6, 19],
-        center: [120.355298,36.0999]
+        // center: [120.355298,36.0999]
+        center: [126.614853, 45.728073],
       }
     }
   },
