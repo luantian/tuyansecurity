@@ -53,7 +53,7 @@ Vue.prototype.$post = post;
 Vue.prototype.$down = down;
 
 Vue.prototype.$db = db;
-Vue.prototype.$bus = { user: db.get('user') || {}, baseUrl: process.env.VUE_APP_BASE_API, warnInfo: [] }
+Vue.prototype.$bus = Vue.observable({ user: db.get('user') || {}, baseUrl: process.env.VUE_APP_BASE_API, warnInfo: [] })
 
 Vue.config.productionTip = false
 
