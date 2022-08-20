@@ -1,126 +1,156 @@
 <template>
   <div class="dashboard-container">
-    <el-row :gutter="20"
-            type="flex">
+    <el-row :gutter="20" type="flex">
       <!-- <el-col :span="6" style="width: 220px;">
         <AreaSelect @handleSelect="handleSelectArea" ref="areaTree"></AreaSelect>
       </el-col> -->
-      <el-col :span="24"
-              style="flex: 1">
+      <el-col :span="24" style="flex: 1">
         <div class="btnBox">
           <!-- 按钮 -->
-          <el-button type="primary"
-                     size="small"
-                     icon="el-icon-plus"
-                     @click="handleAdd">添加</el-button>
-          <el-button type="primary"
-                     size="small"
-                     icon="el-icon-s-promotion"
-                     @click="handleExport">导出</el-button>
-          <el-upload ref="upload"
-                     class="upload-box"
-                     action="/v1/dr/device-import"
-                     accept=".xlsx,.xls"
-                     :headers="{ token: $bus.user.token }"
-                     :show-file-list="false"
-                     :on-success="handleSuccess"
-                     :file-list="fileList">
-            <el-button icon="el-icon-upload"
-                       size="small"
-                       type="primary">导入</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            icon="el-icon-plus"
+            @click="handleAdd"
+            >添加</el-button
+          >
+          <el-button
+            type="primary"
+            size="small"
+            icon="el-icon-s-promotion"
+            @click="handleExport"
+            >导出</el-button
+          >
+          <el-upload
+            ref="upload"
+            class="upload-box"
+            action="/v1/dr/device-import"
+            accept=".xlsx,.xls"
+            :headers="{ token: $bus.user.token }"
+            :show-file-list="false"
+            :on-success="handleSuccess"
+            :file-list="fileList"
+          >
+            <el-button icon="el-icon-upload" size="small" type="primary"
+              >导入</el-button
+            >
           </el-upload>
           <!-- <el-button type="primary" size="small" icon="el-icon-delete" :disabled="selective" @click="handleDelete">删除
           </el-button> -->
-          <el-button type="primary"
-                     size="small"
-                     @click="handleFilter"
-                     class="floatR">
-            <svg-icon icon-class="filter" /><i :class="!filterBtn ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"></i>
+          <el-button
+            type="primary"
+            size="small"
+            @click="handleFilter"
+            class="floatR"
+          >
+            <svg-icon icon-class="filter" /><i
+              :class="!filterBtn ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"
+            ></i>
           </el-button>
           <!-- 检索区域 -->
-          <div class="filterBox"
-               v-show="filterBtn">
-            <el-form ref="dataForm"
-                     class="formBox formBox100"
-                     :inline="true"
-                     :model="listQuery"
-                     label-position="right"
-                     label-width="100px">
+          <div class="filterBox" v-show="filterBtn">
+            <el-form
+              ref="dataForm"
+              class="formBox formBox100"
+              :inline="true"
+              :model="listQuery"
+              label-position="right"
+              label-width="100px"
+            >
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="设备地点">
-                    <el-input clearable
-                              size="small"
-                              v-model="listQuery.dr_device_name"
-                              placeholder="请输入" />
+                    <el-input
+                      clearable
+                      size="small"
+                      v-model="listQuery.dr_device_name"
+                      placeholder="请输入"
+                    />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="序列号">
-                    <el-input clearable
-                              size="small"
-                              v-model="listQuery.dr_device_serial"
-                              placeholder="请输入" />
+                    <el-input
+                      clearable
+                      size="small"
+                      v-model="listQuery.dr_device_serial"
+                      placeholder="请输入"
+                    />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="设备型号">
-                    <el-input clearable
-                              size="small"
-                              v-model="listQuery.dr_model"
-                              placeholder="请输入" />
+                    <el-input
+                      clearable
+                      size="small"
+                      v-model="listQuery.dr_model"
+                      placeholder="请输入"
+                    />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="设备类型">
-                    <v-select :id="42"
-                              :value.sync="listQuery.dr_model_type"></v-select>
+                    <v-select
+                      :id="42"
+                      :value.sync="listQuery.dr_model_type"
+                    ></v-select>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
                   <el-form-item label="在线状态">
-                    <el-select clearable
-                               size="small"
-                               v-model="listQuery.dr_online_status"
-                               placeholder="请选择">
-                      <el-option v-for="item in onlineStatus"
-                                 :key="item.value"
-                                 :label="item.label"
-                                 :value="item.value">
+                    <el-select
+                      clearable
+                      size="small"
+                      v-model="listQuery.dr_online_status"
+                      placeholder="请选择"
+                    >
+                      <el-option
+                        v-for="item in onlineStatus"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
                       </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="启停状态">
-                    <el-select clearable
-                               size="small"
-                               v-model="listQuery.dr_status"
-                               placeholder="请选择">
-                      <el-option v-for="item in statusOptions"
-                                 :key="item.value"
-                                 :label="item.label"
-                                 :value="item.value">
+                    <el-select
+                      clearable
+                      size="small"
+                      v-model="listQuery.dr_status"
+                      placeholder="请选择"
+                    >
+                      <el-option
+                        v-for="item in statusOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
                       </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="品牌">
-                    <el-input clearable
-                              size="small"
-                              v-model="listQuery.dr_branch"
-                              placeholder="请输入" />
+                    <el-input
+                      clearable
+                      size="small"
+                      v-model="listQuery.dr_branch"
+                      placeholder="请输入"
+                    />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label=" ">
-                    <el-button type="primary"
-                               size="small"
-                               @click="handleSearch">过滤</el-button>
-                    <el-button size="small"
-                               @click="handleReset">重置</el-button>
+                    <el-button type="primary" size="small" @click="handleSearch"
+                      >过滤</el-button
+                    >
+                    <el-button size="small" @click="handleReset"
+                      >重置</el-button
+                    >
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -128,265 +158,328 @@
           </div>
         </div>
         <!-- 表格 -->
-        <el-table :data="tableData"
-                  :height="tableHeight"
-                  size="small"
-                  v-loading="loading"
-                  :header-cell-style="{ background: '#f5f7fa', color: '#606266' }"
-                  highlight-current-row
-                  style="width: 100%"
-                  empty-text="暂无数据"
-                  @selection-change="handleSelectionChange"
-                  :row-class-name="tableRowClassName">
-
-          <el-table-column prop="dr_device_name"
-                           label="设备地点"
-                           align="center"
-                           show-overflow-tooltip>
+        <el-table
+          :data="tableData"
+          :height="tableHeight"
+          size="small"
+          v-loading="loading"
+          :header-cell-style="{ background: '#f5f7fa', color: '#606266' }"
+          highlight-current-row
+          style="width: 100%"
+          empty-text="暂无数据"
+          @selection-change="handleSelectionChange"
+          :row-class-name="tableRowClassName"
+        >
+          <el-table-column
+            prop="dr_device_name"
+            label="设备地点"
+            align="center"
+            show-overflow-tooltip
+          >
             <template slot-scope="scope">
-              <el-button type="text"
-                         size="small"
-                         title="点击修改"
-                         @click="edit(scope.row)">{{ scope.row.dr_device_name }}</el-button>
+              <el-button
+                type="text"
+                size="small"
+                title="点击修改"
+                @click="edit(scope.row)"
+                >{{ scope.row.dr_device_name }}</el-button
+              >
             </template>
           </el-table-column>
-          <el-table-column prop="dr_device_serial"
-                           label="序列号"
-                           align="center"
-                           show-overflow-tooltip />
-          <el-table-column prop="dr_model"
-                           label="设备型号"
-                           align="center"
-                           show-overflow-tooltip />
-          <el-table-column prop="dr_model_type"
-                           label="设备类型"
-                           align="center"
-                           show-overflow-tooltip>
+          <el-table-column
+            prop="dr_device_serial"
+            label="序列号"
+            align="center"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="dr_model"
+            label="设备型号"
+            align="center"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="dr_model_type"
+            label="设备类型"
+            align="center"
+            show-overflow-tooltip
+          >
             <template slot-scope="scope">
-              <span v-if="d_type.length">{{ d_type.filter(it=>{return it.dr_desc==scope.row.dr_model_type})[0].dr_name }}</span>
+              <span v-if="d_type.length">{{
+                d_type.filter((it) => {
+                  return it.dr_desc == scope.row.dr_model_type;
+                })[0].dr_name
+              }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="dr_unit_name"
-                           label="所属单位"
-                           align="center"
-                           show-overflow-tooltip />
-          <el-table-column prop="dr_bind_device_name"
-                           label="绑定设备"
-                           align="center"
-                           show-overflow-tooltip />
-          <el-table-column prop="address"
-                           label="在线状态"
-                           align="center"
-                           width="100"
-                           show-overflow-tooltip>
+          <el-table-column
+            prop="dr_unit_name"
+            label="所属单位"
+            align="center"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="dr_bind_device_name"
+            label="绑定设备"
+            align="center"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="address"
+            label="在线状态"
+            align="center"
+            width="100"
+            show-overflow-tooltip
+          >
             <template slot-scope="scope">
-              <span v-if="scope.row.dr_online_status"
-                    class="normal">在线</span>
-              <span v-else
-                    class="deactivate">不在线</span>
+              <span v-if="scope.row.dr_online_status" class="normal">在线</span>
+              <span v-else class="deactivate">不在线</span>
             </template>
           </el-table-column>
-          <el-table-column prop="address"
-                           label="启停状态"
-                           align="center"
-                           width="100"
-                           show-overflow-tooltip>
+          <el-table-column
+            prop="address"
+            label="启停状态"
+            align="center"
+            width="100"
+            show-overflow-tooltip
+          >
             <template slot-scope="scope">
-              <span v-if="scope.row.dr_status"
-                    class="normal">启用</span>
-              <span v-else
-                    class="deactivate">停用</span>
+              <span v-if="scope.row.dr_status" class="normal">启用</span>
+              <span v-else class="deactivate">停用</span>
             </template>
           </el-table-column>
-          <el-table-column fixed="right"
-                           label="操作"
-                           width="260"
-                           align="center">
+          <el-table-column
+            fixed="right"
+            label="操作"
+            width="260"
+            align="center"
+          >
             <template slot-scope="scope">
-              <el-button type="text"
-                         style="color:#4AC3FF"
-                         v-if="
-                  scope.row.dr_model_type === 'yc'
-                "
-                         @click="check(scope.row)">查岗</el-button>
-              <el-button type="text"
-                         style="color:#4AC3FF"
-                         v-if="
+              <el-button
+                type="text"
+                style="color: #4ac3ff"
+                v-if="scope.row.dr_model_type === 'yc'"
+                @click="check(scope.row)"
+                >查岗</el-button
+              >
+              <el-button
+                type="text"
+                style="color: #4ac3ff"
+                v-if="
                   scope.row.dr_model_type !== 'camera' && !scope.row.dr_slave_id
                 "
-                         @click="bind(scope.row)">联动绑定</el-button>
-              <el-button type="text"
-                         style="color:#4AC3FF"
-                         v-if="
+                @click="bind(scope.row)"
+                >联动绑定</el-button
+              >
+              <el-button
+                type="text"
+                style="color: #4ac3ff"
+                v-if="
                   scope.row.dr_model_type !== 'camera' && scope.row.dr_slave_id
                 "
-                         @click="unbind(scope.row)">设备解绑</el-button>
-              <el-button type="text"
-                         style="color:#4AC3FF"
-                         v-if="scope.row.dr_model_type == 'camera'"
-                         @click="play(scope.row)">监控播放</el-button>
-              <el-button type="text"
-                         style="color:#4AC3FF"
-                         @click="handleDelete(scope.row)">删除</el-button>
+                @click="unbind(scope.row)"
+                >设备解绑</el-button
+              >
+              <el-button
+                type="text"
+                style="color: #4ac3ff"
+                v-if="scope.row.dr_model_type == 'camera'"
+                @click="play(scope.row)"
+                >监控播放</el-button
+              >
+              <el-button
+                type="text"
+                style="color: #4ac3ff"
+                @click="handleDelete(scope.row)"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
-        <pagination v-show="total > 0"
-                    :total="total"
-                    :page.sync="listQuery.page"
-                    :limit.sync="listQuery.PageSize"
-                    @pagination="getList" />
+        <pagination
+          v-show="total > 0"
+          :total="total"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.PageSize"
+          @pagination="getList"
+        />
       </el-col>
     </el-row>
     <!-- 新增 -->
-    <el-dialog :close-on-click-modal="false"
-               :title="isEdit ? '编辑设备' : '添加设备'"
-               :visible.sync="dialogVisible"
-               width="520px">
-      <el-form :model="ruleForm"
-               :rules="rules"
-               ref="ruleForm"
-               label-width="120px"
-               class="demo-ruleForm">
-        <el-form-item label="设备地点"
-                      prop="dr_device_name">
-          <el-input clearable
-                    size="small"
-                    v-model="ruleForm.dr_device_name"></el-input>
+    <el-dialog
+      :close-on-click-modal="false"
+      :title="isEdit ? '编辑设备' : '添加设备'"
+      :visible.sync="dialogVisible"
+      width="520px"
+    >
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="120px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="设备地点" prop="dr_device_name">
+          <el-input
+            clearable
+            size="small"
+            v-model="ruleForm.dr_device_name"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="设备序列号"
-                      prop="dr_device_serial">
-          <el-input clearable
-                    size="small"
-                    v-model="ruleForm.dr_device_serial"></el-input>
+        <el-form-item label="设备序列号" prop="dr_device_serial">
+          <el-input
+            clearable
+            size="small"
+            v-model="ruleForm.dr_device_serial"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="设备品牌"
-                      prop="dr_branch">
-          <v-select :id="1"
-                    :value.sync="ruleForm.dr_branch"></v-select>
+        <el-form-item label="设备品牌" prop="dr_branch">
+          <v-select :id="1" :value.sync="ruleForm.dr_branch"></v-select>
         </el-form-item>
-        <el-form-item label="设备平台"
-                      prop="dr_platform">
-          <v-select :id="4"
-                    :value.sync="ruleForm.dr_platform"></v-select>
+        <el-form-item label="设备平台" prop="dr_platform">
+          <v-select :id="4" :value.sync="ruleForm.dr_platform"></v-select>
         </el-form-item>
-         <el-form-item label="平台设备号" prop="dr_device_id">
+        <el-form-item label="平台设备号" prop="dr_device_id">
           <el-input
             clearable
             size="small"
             v-model="ruleForm.dr_device_id"
           ></el-input>
         </el-form-item>
-        <el-form-item label="设备验证码"
-                      prop="dr_validate_code"
-                      v-if="ruleForm.dr_platform == 5">
-          <el-input clearable
-                    size="small"
-                    v-model="ruleForm.dr_validate_code"></el-input>
+        <el-form-item
+          label="设备验证码"
+          prop="dr_validate_code"
+          v-if="ruleForm.dr_platform == 5"
+        >
+          <el-input
+            clearable
+            size="small"
+            v-model="ruleForm.dr_validate_code"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="所属单位"
-                      prop="dr_unit_id">
-          <el-cascader :options="units"
-                       :props="{
+        <el-form-item label="所属单位" prop="dr_unit_id">
+          <el-cascader
+            :options="units"
+            :props="{
               checkStrictly: true,
               value: 'dr_unit_id',
               label: 'dr_unit_name',
               children: 'dr_son',
             }"
-                       clearable
-                       v-model="ruleForm.dr_unit_id"
-                       size="small"></el-cascader>
+            clearable
+            filterable
+            v-model="ruleForm.dr_unit_id"
+            size="small"
+          ></el-cascader>
         </el-form-item>
-        <el-form-item label="设备型号"
-                      prop="dr_model">
-          <el-input clearable
-                    size="small"
-                    v-model="ruleForm.dr_model"></el-input>
+        <el-form-item label="设备型号" prop="dr_model">
+          <el-input
+            clearable
+            size="small"
+            v-model="ruleForm.dr_model"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="设备型号类型"
-                      prop="dr_model_type">
-          <v-select :id="42"
-                    key_name="dr_desc"
-                    :value.sync="ruleForm.dr_model_type"></v-select>
+        <el-form-item label="设备型号类型" prop="dr_model_type">
+          <v-select
+            :id="42"
+            key_name="dr_desc"
+            :value.sync="ruleForm.dr_model_type"
+          ></v-select>
         </el-form-item>
-        <el-form-item label="设备详细位置"
-                      prop="dr_address">
-          <el-input clearable
-                    size="small"
-                    v-model="ruleForm.dr_address"></el-input>
+        <el-form-item label="设备详细位置" prop="dr_address">
+          <el-input
+            clearable
+            size="small"
+            v-model="ruleForm.dr_address"
+          ></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer"
-            class="dialog-footer">
+      <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
       </span>
     </el-dialog>
     <!-- 播放视频 -->
-    <el-dialog :close-on-click-modal="false"
-               title="播放视频"
-               :visible.sync="showEdit"
-               width="624px"
-               @close="closeVideo"
-               :destroy-on-close="true">
-      <video ref="video"
-             class="video-js video"></video>
+    <el-dialog
+      :close-on-click-modal="false"
+      title="播放视频"
+      :visible.sync="showEdit"
+      width="624px"
+      @close="closeVideo"
+      :destroy-on-close="true"
+    >
+      <video ref="video" class="video-js video"></video>
       <div class="mt20 center">
-        <el-button type="primary"
-                   size="mini"
-                   @mousedown.native="setVideo(2)"
-                   @mouseup.native="endVideo()">向左</el-button>
-        <el-button type="primary"
-                   size="mini"
-                   @mousedown.native="setVideo(3)"
-                   @mouseup.native="endVideo()">向右</el-button>
-        <el-button type="primary"
-                   size="mini"
-                   @mousedown.native="setVideo(0)"
-                   @mouseup.native="endVideo()">向上</el-button>
-        <el-button type="primary"
-                   size="mini"
-                   @mousedown.native="setVideo(1)"
-                   @mouseup.native="endVideo()">向下</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @mousedown.native="setVideo(2)"
+          @mouseup.native="endVideo()"
+          >向左</el-button
+        >
+        <el-button
+          type="primary"
+          size="mini"
+          @mousedown.native="setVideo(3)"
+          @mouseup.native="endVideo()"
+          >向右</el-button
+        >
+        <el-button
+          type="primary"
+          size="mini"
+          @mousedown.native="setVideo(0)"
+          @mouseup.native="endVideo()"
+          >向上</el-button
+        >
+        <el-button
+          type="primary"
+          size="mini"
+          @mousedown.native="setVideo(1)"
+          @mouseup.native="endVideo()"
+          >向下</el-button
+        >
         <!-- <el-button type="primary" size="mini" @mousedown.native="setVideo(8)" @mouseup.native="endVideo()">放大</el-button>
         <el-button type="primary" size="mini" @mousedown.native="setVideo(9)" @mouseup.native="endVideo()">缩小</el-button> -->
       </div>
-      <span slot="footer"
-            class="dialog-footer">
+      <span slot="footer" class="dialog-footer">
         <el-button @click="showEdit = false">关 闭</el-button>
       </span>
     </el-dialog>
     <!-- 绑定设备 -->
-    <el-dialog :close-on-click-modal="false"
-               title="绑定设备"
-               :visible.sync="showBind"
-               width="624px"
-               v-if="showBind">
-      <el-form :model="bindForm"
-               :rules="rules"
-               ref="bindForm"
-               label-width="120px"
-               class="demo-ruleForm">
-        <el-form-item label="摄像头选择"
-                      prop="dr_slave_id">
-          <el-select v-model="bindForm.dr_slave_id"
-                     size="small"
-                     placeholder="请选择"
-                     style="width: 100%">
-            <el-option v-for="item in cameraList"
-                       :key="item.dr_id"
-                       :label="item.dr_device_name"
-                       :value="item.dr_id">
+    <el-dialog
+      :close-on-click-modal="false"
+      title="绑定设备"
+      :visible.sync="showBind"
+      width="624px"
+      v-if="showBind"
+    >
+      <el-form
+        :model="bindForm"
+        :rules="rules"
+        ref="bindForm"
+        label-width="120px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="摄像头选择" prop="dr_slave_id">
+          <el-select
+            v-model="bindForm.dr_slave_id"
+            size="small"
+            placeholder="请选择"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="item in cameraList"
+              :key="item.dr_id"
+              :label="item.dr_device_name"
+              :value="item.dr_id"
+            >
             </el-option>
           </el-select>
         </el-form-item>
       </el-form>
-      <span slot="footer"
-            class="dialog-footer">
+      <span slot="footer" class="dialog-footer">
         <el-button @click="showBind = false">关 闭</el-button>
-        <el-button type="primary"
-                   @click="bindSubmit">确 定</el-button>
+        <el-button type="primary" @click="bindSubmit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -408,7 +501,7 @@ import {
   delDevice,
 } from "@/api/device";
 import AreaSelect from "@/components/AreaSelect";
-import axios from 'axios';
+import axios from "axios";
 // import { log } from '_video.js@7.14.3@video.js';
 
 export default {
@@ -419,16 +512,16 @@ export default {
   },
   computed: {
     ...mapGetters(["name"]),
-    selective () {
+    selective() {
       return this.multipleSelection.length === 0;
     },
   },
   watch: {
-    filterText (val) {
+    filterText(val) {
       this.$refs.tree.filter(val);
     },
   },
-  data () {
+  data() {
     return {
       stripe: true,
       nowVideo: {},
@@ -510,14 +603,14 @@ export default {
             required: true,
             message: "不能为空",
             trigger: "blur",
-          }
+          },
         ],
         dr_device_parent: [
           {
             required: true,
             message: "不能为空",
             trigger: "blur",
-          }
+          },
         ],
         dr_validate_code: [
           {
@@ -608,64 +701,66 @@ export default {
       showBind: false,
     };
   },
-  created () {
+  created() {
     this.tableHeight = document.body.clientHeight - 250 - 54 - 42;
     this.getList();
     this.$get("/v1/dr/unit-list").then((res) => {
       this.units = forobj(res.data);
-      //console.log(this.units)
+      console.log(this.units);
     });
-    this.$get('/v1/dr/mapcode-list/42').then(res => {
-      this.d_type = res.data
-    })
+    this.$get("/v1/dr/mapcode-list/42").then((res) => {
+      this.d_type = res.data;
+    });
   },
   methods: {
     formatDate,
     formatDateTime,
-    setVideo (direction) {
+    setVideo(direction) {
       let formData = new FormData();
-      formData.append('accessToken', this.nowVideo.dr_device_token);
-      formData.append('deviceSerial', this.nowVideo.dr_device_serial);
-      formData.append('channelNo', this.nowVideo.dr_channel_num);
-      formData.append('direction', direction);
-      formData.append('speed', 1);
+      formData.append("accessToken", this.nowVideo.dr_device_token);
+      formData.append("deviceSerial", this.nowVideo.dr_device_serial);
+      formData.append("channelNo", this.nowVideo.dr_channel_num);
+      formData.append("direction", direction);
+      formData.append("speed", 1);
 
       axios({
-        method: 'post',
-        url: 'https://open.ys7.com/api/lapp/device/ptz/start',
+        method: "post",
+        url: "https://open.ys7.com/api/lapp/device/ptz/start",
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        data: formData
-      }).then(res => {
+        data: formData,
+      }).then((res) => {
         if (res.data.code != 200) {
-          this.$message.warning(res.data.msg)
+          this.$message.warning(res.data.msg);
         }
-      })
+      });
     },
-    endVideo () {
+    endVideo() {
       let formData = new FormData();
-      formData.append('accessToken', this.nowVideo.dr_device_token);
-      formData.append('deviceSerial', this.nowVideo.dr_device_serial);
-      formData.append('channelNo', this.nowVideo.dr_channel_num);
+      formData.append("accessToken", this.nowVideo.dr_device_token);
+      formData.append("deviceSerial", this.nowVideo.dr_device_serial);
+      formData.append("channelNo", this.nowVideo.dr_channel_num);
       // formData.append('direction',direction);
       // formData.append('speed',1);
 
       axios({
-        method: 'post',
-        url: 'https://open.ys7.com/api/lapp/device/ptz/stop',
+        method: "post",
+        url: "https://open.ys7.com/api/lapp/device/ptz/stop",
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        data: formData
+        data: formData,
       });
     },
-    check (row) {
-      this.$post('/v1/dr/monitor-yc', { dr_sn_list: [row.dr_device_serial] }).then(res => {
-        this.$message.success('查岗成功！')
-      })
+    check(row) {
+      this.$post("/v1/dr/monitor-yc", {
+        dr_sn_list: [row.dr_device_serial],
+      }).then((res) => {
+        this.$message.success("查岗成功！");
+      });
     },
-    bind (it) {
+    bind(it) {
       this.bindForm = {
         dr_master_id: "",
         dr_slave_id: "",
@@ -677,7 +772,7 @@ export default {
         this.cameraList = res.data;
       });
     },
-    unbind (it) {
+    unbind(it) {
       this.$confirm("确定要解绑吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -692,9 +787,9 @@ export default {
             this.getList();
           });
         })
-        .catch(() => { });
+        .catch(() => {});
     },
-    bindSubmit () {
+    bindSubmit() {
       if (!this.bindForm.dr_slave_id) {
         return this.$message.error("请选择摄像头");
       }
@@ -704,28 +799,28 @@ export default {
         this.getList();
       });
     },
-    play (it) {
+    play(it) {
       this.showEdit = true;
-      this.nowVideo = {}
+      this.nowVideo = {};
       getDeviceDetail(it.dr_id).then((res) => {
-        this.nowVideo = res.data
+        this.nowVideo = res.data;
         this.$nextTick(() => {
           this.options.src = res.data.dr_camera_url;
           this.options.sources[0].src = res.data.dr_camera_url;
           this.video = this.$video(
             this.$refs.video,
             this.options,
-            function onPlayerReady () {
+            function onPlayerReady() {
               //it.player = this
             }
           );
         });
       });
     },
-    closeVideo () {
-      this.video.dispose()
+    closeVideo() {
+      this.video.dispose();
     },
-    upSuccess (response, file, fileList) {
+    upSuccess(response, file, fileList) {
       //log(response)
       if (response.code == 200) {
         this.$message.success(response.msg);
@@ -733,10 +828,10 @@ export default {
         this.$message.error(response.msg);
       }
     },
-    upError (err, file, fileList) {
+    upError(err, file, fileList) {
       this.$message.error("上传失败");
     },
-    switch_ (data, status) {
+    switch_(data, status) {
       this.loading = true;
       switch_({
         dr_device_serial: data.dr_device_serial,
@@ -752,14 +847,14 @@ export default {
           this.loading = false;
         });
     },
-    editSubmit () {
+    editSubmit() {
       updateDevice(this.ruleForm).then((res) => {
         this.$message.success("修改成功");
         this.dialogVisible = false;
         this.handleReset();
       });
     },
-    edit (data) {
+    edit(data) {
       this.dialogVisible = true;
       this.ruleForm = {};
       this.isEdit = true;
@@ -770,22 +865,22 @@ export default {
         this.ruleForm = res.data;
       });
     },
-    areaS (val) {
+    areaS(val) {
       this.ruleForm.dr_org_id = val.id;
       this.$set(this.ruleForm, "areaName", val.name);
     },
-    handleSelectArea (data) {
+    handleSelectArea(data) {
       this.listQuery.dr_org_id = data.id;
       this.ruleForm.dr_org_id = this.$refs.areaTree.checked.id;
 
       this.listQuery.page = 1;
       this.getList();
     },
-    filterNode (value, data) {
+    filterNode(value, data) {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
-    handleFilter () {
+    handleFilter() {
       this.filterBtn = !this.filterBtn;
       if (!this.filterBtn) {
         this.tableHeight = document.body.clientHeight - 250 - 54 - 42;
@@ -793,18 +888,18 @@ export default {
         this.tableHeight = document.body.clientHeight - 250 - 150 - 54;
       }
     },
-    handleSearch () {
+    handleSearch() {
       this.listQuery.page = 1;
       this.getList();
     },
-    handleReset () {
+    handleReset() {
       this.listQuery = {
         page: 1,
         //dr_device_nature: 2
       };
       this.getList();
     },
-    getList () {
+    getList() {
       this.loading = true;
       getDevice(this.listQuery)
         .then((res) => {
@@ -816,13 +911,13 @@ export default {
           this.loading = false;
         });
     },
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    resetFormData () {
+    resetFormData() {
       this.ruleForm = {};
     },
-    handleAdd () {
+    handleAdd() {
       this.resetFormData();
       this.isEdit = false;
       this.dialogVisible = true;
@@ -830,9 +925,11 @@ export default {
         this.$refs["ruleForm"].clearValidate(); // 清除校验
       });
     },
-    submitForm () {
+    submitForm() {
       //this.ruleForm.dr_device_nature = 2
       //this.ruleForm.dr_org_id = this.$refs.areaTree.checked.id
+
+      console.log("this.ruleForm", this.ruleForm);
 
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
@@ -857,7 +954,7 @@ export default {
         }
       });
     },
-    changeDevice (data) {
+    changeDevice(data) {
       if (!data.dr_delete) {
         data.dr_ids = this.multipleSelection.map((it) => {
           return it.dr_id;
@@ -869,7 +966,7 @@ export default {
       });
     },
     // 启用
-    handleEnable () {
+    handleEnable() {
       this.$confirm("确定要启用设备吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -888,7 +985,7 @@ export default {
         });
     },
     // 停用
-    handleDeactivate () {
+    handleDeactivate() {
       this.$confirm("确定要停用设备吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -907,7 +1004,7 @@ export default {
         });
     },
     // 删除
-    handleDelete (it) {
+    handleDelete(it) {
       this.$confirm("确定要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -921,9 +1018,9 @@ export default {
             this.getList();
           });
         })
-        .catch(() => { });
+        .catch(() => {});
     },
-    handleImport () {
+    handleImport() {
       this.uploadInfo = {
         title: "批量导入",
         url: `${this.$bus.baseUrl}v1/dr/device-import`,
@@ -933,15 +1030,15 @@ export default {
       this.fileList = [];
       this.dialogVisibleUpload = true;
     },
-  handleSuccess(res){
-      if(res.code == 200){
+    handleSuccess(res) {
+      if (res.code == 200) {
         this.$message.success(res.msg);
-        this.handleSearch()
-      }else{
+        this.handleSearch();
+      } else {
         this.$message.error(res.msg);
       }
     },
-    handleDown (res) {
+    handleDown(res) {
       let link = document.createElement("a");
       link.style.display = "none";
       link.href = res.FilePath;
@@ -952,7 +1049,7 @@ export default {
       document.body.removeChild(link); //下载完成移除元素
     },
     // 批量导出
-    handleExport () {
+    handleExport() {
       this.$confirm(
         "最多导出3W设备的数据，设备较多时请分区域导出。",
         "导出设备列表",
@@ -963,11 +1060,11 @@ export default {
         }
       )
         .then(() => {
-          this.$down("/v1/dr/device-export", "设备列表").then((res) => { });
+          this.$down("/v1/dr/device-export", "设备列表").then((res) => {});
         })
-        .catch(() => { });
+        .catch(() => {});
     },
-    submitUploadForm () {
+    submitUploadForm() {
       // this.$refs.uploadGrouping.submit();
       this.handleReset();
       this.uploadInfo = {
@@ -979,7 +1076,7 @@ export default {
       this.fileList = [];
       this.dialogVisibleUpload = false;
     },
-    tableRowClassName ({ row, rowIndex }) {
+    tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 === 0) {
         return "stripe1-row";
       } else {
@@ -1004,7 +1101,7 @@ export default {
 // .stripe2-row {
 //   background: #011F2F !important;
 // }
-.upload-box{
+.upload-box {
   display: inline-block;
   margin-left: 8px;
 }

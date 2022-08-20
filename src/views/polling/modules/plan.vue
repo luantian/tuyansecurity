@@ -204,6 +204,7 @@
               children: 'dr_son',
             }"
                        clearable
+                       filterable
                        v-model="ruleForm.drPatrolPlanUnit"
                        size="small"></el-cascader>
         </el-form-item>

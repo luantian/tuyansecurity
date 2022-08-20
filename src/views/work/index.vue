@@ -224,6 +224,7 @@
               children: 'dr_son',
             }"
             clearable
+            filterable
             v-model="ruleForm.dr_unit"
             size="small"
           ></el-cascader>
@@ -297,7 +298,7 @@
               show-overflow-tooltip
             >
               <template slot-scope="scope">
-                {{ scope.row.dr_device_serial ? '设备' : '设施' }}
+                {{ scope.row.dr_device_serial ? "设备" : "设施" }}
               </template>
             </el-table-column>
             <el-table-column
@@ -352,20 +353,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { formatDate, formatDateTime } from '@/utils'
-import Pagination from '@/components/Pagination' // 分页
-import Check from './check/index.vue'
+import { mapGetters } from "vuex";
+import { formatDate, formatDateTime } from "@/utils";
+import Pagination from "@/components/Pagination"; // 分页
+import Check from "./check/index.vue";
 export default {
-  name: 'efire',
+  name: "efire",
   components: {
     Pagination,
     Check,
   },
   computed: {
-    ...mapGetters(['name']),
+    ...mapGetters(["name"]),
     selective() {
-      return this.multipleSelection.length === 0
+      return this.multipleSelection.length === 0;
     },
   },
   data() {
@@ -373,20 +374,20 @@ export default {
       row: null,
       pickerBeginDateBefore: {
         disabledDate(time) {
-          return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
+          return time.getTime() < Date.now() - 24 * 60 * 60 * 1000;
         },
       },
       getRowKeys(row) {
-        return row.dr_id
+        return row.dr_id;
       },
       drPatrolPlanTypes: [
-        { value: 1, label: '每天' },
-        { value: 2, label: '每月' },
-        { value: 3, label: '随机' },
-        { value: 4, label: '定时' },
+        { value: 1, label: "每天" },
+        { value: 2, label: "每月" },
+        { value: 3, label: "随机" },
+        { value: 4, label: "定时" },
       ],
-      tableHeight: '',
-      filterText: '',
+      tableHeight: "",
+      filterText: "",
       dialogVisible: false,
       dialogVisibleMove: false,
       dialogVisibleRenamed: false,
@@ -403,43 +404,43 @@ export default {
       },
       ruleForm: {
         dr_log_id: [],
-        dr_unit: '',
-        dr_order_duty: '',
+        dr_unit: "",
+        dr_order_duty: "",
       },
       rules: {
         dr_order_name: [
           {
             required: true,
-            message: '不能为空',
-            trigger: 'blur',
+            message: "不能为空",
+            trigger: "blur",
           },
         ],
         dr_unit: [
           {
             required: true,
-            message: '不能为空',
-            trigger: 'blur',
+            message: "不能为空",
+            trigger: "blur",
           },
         ],
         drPatrolPlanType: [
           {
             required: true,
-            message: '不能为空',
-            trigger: 'blur',
+            message: "不能为空",
+            trigger: "blur",
           },
         ],
         dr_order_duty: [
           {
             required: true,
-            message: '不能为空',
-            trigger: 'blur',
+            message: "不能为空",
+            trigger: "blur",
           },
         ],
         dr_log_id: [
           {
             required: true,
-            message: '不能为空',
-            trigger: 'blur',
+            message: "不能为空",
+            trigger: "blur",
           },
         ],
       },
@@ -456,28 +457,28 @@ export default {
       f_list: [],
       users: [],
       units: [],
-    }
+    };
   },
   created() {
-    this.tableHeight = document.body.clientHeight - 250 - 54 - 42
-    this.getList()
-    this.$get('/v1/dr/unit-list').then((res) => {
-      this.units = forobj(res.data)
-    })
+    this.tableHeight = document.body.clientHeight - 250 - 54 - 42;
+    this.getList();
+    this.$get("/v1/dr/unit-list").then((res) => {
+      this.units = forobj(res.data);
+    });
   },
   methods: {
     formatDate,
     formatDateTime,
     async changeUnit(val) {
       if (!val) {
-        return
+        return;
       }
-      this.ruleForm.dr_order_duty = ''
-      let unit_id = ''
-      if (typeof val === 'object') {
-        unit_id = val[val.length - 1]
+      this.ruleForm.dr_order_duty = "";
+      let unit_id = "";
+      if (typeof val === "object") {
+        unit_id = val[val.length - 1];
       } else {
-        unit_id = val
+        unit_id = val;
       }
       // this.f_params.dr_unit_id = unit_id;
       // this.f_params.page = 1;
@@ -487,116 +488,116 @@ export default {
           this.$get(`/v1/dr/get-user-list-unit/${res.data.dr_unit_key}`).then(
             (res) => {
               //获取人员
-              this.users = res.data
+              this.users = res.data;
             }
-          )
-        })
+          );
+        });
     },
     openSH(row) {
-      this.row = { ...row }
-      this.$refs.check.showDia = true
+      this.row = { ...row };
+      this.$refs.check.showDia = true;
     },
     getFacilities(callback) {
-      this.$post('/v1/dr/patrol-abnormal-list', this.f_params).then((res) => {
-        this.f_total = res.data.count
-        this.f_list = res.data.list
-        if (typeof callback == 'function') {
-          callback()
+      this.$post("/v1/dr/patrol-abnormal-list", this.f_params).then((res) => {
+        this.f_total = res.data.count;
+        this.f_list = res.data.list;
+        if (typeof callback == "function") {
+          callback();
         } else {
-          this.setCk()
+          this.setCk();
         }
-      })
+      });
     },
     setCk() {
       this.$nextTick(() => {
-        this.$refs.multipleTable.clearSelection()
+        this.$refs.multipleTable.clearSelection();
         this.f_list.map((it) => {
           if (this.ruleForm.dr_log_id.indexOf(it.dr_id) !== -1) {
-            this.$refs.multipleTable.toggleRowSelection(it, true)
+            this.$refs.multipleTable.toggleRowSelection(it, true);
           }
-        })
-      })
+        });
+      });
     },
     editSubmit() {
-      delete this.ruleForm.drUnitPatrolList
-      delete this.ruleForm.dr_order_status
-      let form = { ...this.ruleForm }
+      delete this.ruleForm.drUnitPatrolList;
+      delete this.ruleForm.dr_order_status;
+      let form = { ...this.ruleForm };
       if (form.dr_order_start) {
-        form.dr_order_start = form.dr_order_start / 1000 + ''
+        form.dr_order_start = form.dr_order_start / 1000 + "";
       }
       if (form.dr_order_end) {
-        form.dr_order_end = form.dr_order_end / 1000 + ''
+        form.dr_order_end = form.dr_order_end / 1000 + "";
       }
-      form.drPatrolPlanType = form.drPatrolPlanType + ''
-      this.$post('/v1/dr/patrol-plan-update', form).then((res) => {
-        this.$message.success('修改成功')
-        this.dialogVisible = false
-        this.handleReset()
-      })
+      form.drPatrolPlanType = form.drPatrolPlanType + "";
+      this.$post("/v1/dr/patrol-plan-update", form).then((res) => {
+        this.$message.success("修改成功");
+        this.dialogVisible = false;
+        this.handleReset();
+      });
     },
     async edit(data) {
-      this.dialogVisible = true
+      this.dialogVisible = true;
       this.ruleForm = {
         dr_log_id: [],
-        dr_unit: '',
-        dr_order_duty: '',
-      }
-      this.multipleSelection = []
-      this.isEdit = true
+        dr_unit: "",
+        dr_order_duty: "",
+      };
+      this.multipleSelection = [];
+      this.isEdit = true;
       this.$nextTick(() => {
-        this.$refs['ruleForm'].clearValidate() // 清除校验
-      })
-      this.f_params.dr_page = 1
+        this.$refs["ruleForm"].clearValidate(); // 清除校验
+      });
+      this.f_params.dr_page = 1;
 
       this.$get(`/v1/dr/patrol-plan-detail/${data.drPatrolPlanUuid}`).then(
         async (res) => {
           //this.ruleForm = res.data;
-          await this.getFacilities()
-          this.ruleForm = res.data
+          await this.getFacilities();
+          this.ruleForm = res.data;
           if (this.ruleForm.dr_order_start) {
             this.ruleForm.dr_order_start = parseInt(
               this.ruleForm.dr_order_start * 1000
-            )
+            );
           }
           if (this.ruleForm.dr_order_end) {
             this.ruleForm.dr_order_end = parseInt(
               this.ruleForm.dr_order_end * 1000
-            )
+            );
           }
-          this.setCk()
+          this.setCk();
         }
-      )
+      );
     },
     handleFilter() {
-      this.filterBtn = !this.filterBtn
+      this.filterBtn = !this.filterBtn;
       if (!this.filterBtn) {
-        this.tableHeight = document.body.clientHeight - 250 - 54 - 42
+        this.tableHeight = document.body.clientHeight - 250 - 54 - 42;
       } else {
-        this.tableHeight = document.body.clientHeight - 250 - 150 - 54
+        this.tableHeight = document.body.clientHeight - 250 - 150 - 54;
       }
     },
     handleSearch() {
-      this.listQuery.dr_page = 1
-      this.getList()
+      this.listQuery.dr_page = 1;
+      this.getList();
     },
     handleReset() {
       this.listQuery = {
         dr_page: 1,
         // dr_patrol_status: 0,
-      }
-      this.getList()
+      };
+      this.getList();
     },
     getList() {
-      this.loading = true
-      this.$post('/v1/dr/get-work-order-list', this.listQuery)
+      this.loading = true;
+      this.$post("/v1/dr/get-work-order-list", this.listQuery)
         .then((res) => {
-          this.loading = false
-          this.total = res.data.count
-          this.tableData = res.data.list
+          this.loading = false;
+          this.total = res.data.count;
+          this.tableData = res.data.list;
         })
         .catch((error) => {
-          this.loading = false
-        })
+          this.loading = false;
+        });
     },
     selectAll(val) {
       if (!val.length) {
@@ -606,113 +607,112 @@ export default {
             this.ruleForm.dr_log_id.splice(
               this.ruleForm.dr_log_id.indexOf(it.dr_id),
               1
-            )
+            );
           }
-        })
+        });
       }
     },
     handleSelectionChange(val) {
       let new_data = val.map((it) => {
-        return it.dr_id
-      })
+        return it.dr_id;
+      });
       let old_data = this.multipleSelection.map((it) => {
-        return it.dr_id
-      })
+        return it.dr_id;
+      });
       if (this.multipleSelection.length - val.length == 1) {
         //减少
         if (
           this.f_list
             .map((it) => {
-              return it.dr_id
+              return it.dr_id;
             })
             .indexOf(old_data[0]) !== -1
         ) {
-          let del_id = ''
+          let del_id = "";
           old_data.map((it) => {
             if (new_data.indexOf(it) === -1) {
-              del_id = it
+              del_id = it;
             }
-          })
+          });
           this.ruleForm.dr_log_id.splice(
             this.ruleForm.dr_log_id.indexOf(del_id),
             1
-          )
+          );
         }
       } else {
-        this.ruleForm.dr_log_id.push(...new_data)
-        this.ruleForm.dr_log_id = [...new Set(this.ruleForm.dr_log_id)]
+        this.ruleForm.dr_log_id.push(...new_data);
+        this.ruleForm.dr_log_id = [...new Set(this.ruleForm.dr_log_id)];
       }
-      this.multipleSelection = val
+      this.multipleSelection = val;
     },
     resetFormData() {
       this.ruleForm = {
         dr_log_id: [],
-        dr_order_duty: '',
-        dr_unit: '',
-      }
-      this.multipleSelection = []
+        dr_order_duty: "",
+        dr_unit: "",
+      };
+      this.multipleSelection = [];
     },
     handleAdd() {
-      this.resetFormData()
-      this.isEdit = false
-      this.dialogVisible = true
+      this.resetFormData();
+      this.isEdit = false;
+      this.dialogVisible = true;
       this.$nextTick(() => {
-        this.$refs['ruleForm'].clearValidate() // 清除校验
-      })
-      this.f_params.dr_page = 1
-      this.getFacilities()
+        this.$refs["ruleForm"].clearValidate(); // 清除校验
+      });
+      this.f_params.dr_page = 1;
+      this.getFacilities();
     },
     submitForm() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          this.dialogVisible = false
-          if (typeof this.ruleForm.dr_unit === 'object') {
+          this.dialogVisible = false;
+          if (typeof this.ruleForm.dr_unit === "object") {
             this.ruleForm.dr_unit =
-              this.ruleForm.dr_unit[this.ruleForm.dr_unit.length - 1]
+              this.ruleForm.dr_unit[this.ruleForm.dr_unit.length - 1];
           }
           if (this.isEdit) {
-            this.editSubmit()
+            this.editSubmit();
           } else {
-            let form = { ...this.ruleForm }
+            let form = { ...this.ruleForm };
             if (form.dr_order_start) {
-              form.dr_order_start = parseInt(form.dr_order_start / 1000) + ''
+              form.dr_order_start = parseInt(form.dr_order_start / 1000) + "";
             }
             if (form.dr_order_end) {
-              form.dr_order_end = parseInt(form.dr_order_end / 1000) + ''
+              form.dr_order_end = parseInt(form.dr_order_end / 1000) + "";
             }
 
-            this.$post('/v1/dr/create-work-order', form).then((res) => {
-              this.$message.success('添加成功')
-              this.handleReset()
-            })
+            this.$post("/v1/dr/create-work-order", form).then((res) => {
+              this.$message.success("添加成功");
+              this.handleReset();
+            });
           }
         } else {
-          console.log('error submit!!')
-          this.$message.error('请检查将表单填写完整！')
-          return false
+          console.log("error submit!!");
+          this.$message.error("请检查将表单填写完整！");
+          return false;
         }
-      })
+      });
     },
     // 删除
     handleDelete(it) {
-      this.$confirm(`确定要${'删除'}吗?`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
+      this.$confirm(`确定要${"删除"}吗?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
       })
         .then(() => {
-          this.$post('/v1/dr/delete-work-order-operate', {
+          this.$post("/v1/dr/delete-work-order-operate", {
             dr_num: it.dr_order_uuid,
           }).then((res) => {
-            this.$message.success('操作成功')
-            this.handleReset()
-          })
+            this.$message.success("操作成功");
+            this.handleReset();
+          });
         })
-        .catch(() => {})
+        .catch(() => {});
     },
   },
-}
+};
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
